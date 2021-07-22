@@ -10,7 +10,7 @@ The MonoGame.Extended.Animations library contains classes useful for animating 2
 
 [MonoGame.Extended.Animations](https://www.nuget.org/packages/MonoGame.Extended.Animations) is distributed via a NuGet package. You can add the NuGet package to your C# project through your IDE of choice (Visual Studio, Xamarin Studio, Rider, etc) or through the Command Line Interface (CLI) using the dotnet command.
 ```
-dotnet add MonoGame.Extended.Animations
+dotnet add package MonoGame.Extended.Animations
 ```
 
 
