@@ -10,7 +10,7 @@ The Entities package is a modern high performance Artemis based Entity Component
 
 [MonoGame.Extended.Entities](https://www.nuget.org/packages/MonoGame.Extended.Entities) is distributed via a NuGet package. You can add the NuGet package to your C# project through your IDE of choice (Visual Studio, Xamarin Studio, Rider, etc) or through the Command Line Interface (CLI) using the dotnet command.
 ```
-dotnet add MonoGame.Extended.Entities
+dotnet add package MonoGame.Extended.Entities
 ```
 
 ## What is an ECS?
