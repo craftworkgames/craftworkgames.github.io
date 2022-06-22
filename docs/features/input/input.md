@@ -17,11 +17,11 @@ dotnet add MonoGame.Extended.Input
 
 ### MouseExtended
 
-`MouseExtended` is an extension of the `Mouse` class. The `MouseStateExtended` struct, obtained with `MouseExtended.GetState()` provides useful utilities such as `WasButtonJustDown()` and `WasButtonJustUp()` by keeping track of the previous `MouseState`.
+`MouseExtended` is an extension of the `Mouse` class. The `MouseStateExtended` struct, obtained with `MouseExtended.GetState()` provides useful utilities such as `WasButtonJustDown()` and `WasButtonJustUp()` by keeping track of the previous `MouseState`. Don't forget to call `MouseExtended.Refresh()` every game tick before your `GetState()` calls.
 
 ### KeyboardExtended
 
-`KeyboardExtended` is an extension of the `Keyboard` class. The `KeyboardStateExtended` struct, obtained with `KeyboardExtended.GetState()` provides useful utilities such as `WasAnyKeyJustDown()`, `WasKeyJustDown()` and `WasKeyJustUp()` by keeping track of the previous `KeyboardState`.
+`KeyboardExtended` is an extension of the `Keyboard` class. The `KeyboardStateExtended` struct, obtained with `KeyboardExtended.GetState()` provides useful utilities such as `WasAnyKeyJustDown()`, `WasKeyJustDown()` and `WasKeyJustUp()` by keeping track of the previous `KeyboardState`. Don't forget to call `KeyboardExtended.Refresh()` every game tick before your `GetState()` calls.
 
 ## InputListeners
 
