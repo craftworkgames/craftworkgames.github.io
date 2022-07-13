@@ -10,7 +10,7 @@ The `MonoGame.Extended.Input` provides extensions on top of the normal input cla
 
 [MonoGame.Extended.Input](https://www.nuget.org/packages/MonoGame.Extended.Input) is distributed via a NuGet package. You can add the NuGet package to your C# project through your IDE of choice (Visual Studio, Xamarin Studio, Rider, etc) or through the Command Line Interface (CLI) using the dotnet command.
 ```
-dotnet add MonoGame.Extended.Input
+dotnet add package MonoGame.Extended.Input
 ```
 
 ## Usage

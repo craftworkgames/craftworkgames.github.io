@@ -9,7 +9,7 @@ The MonoGame.Extended.Collisions library contains a 2D grid-based collision syst
 
 [MonoGame.Extended.Collisions](https://www.nuget.org/packages/MonoGame.Extended.Collisions) is distributed via a NuGet package. You can add the NuGet package to your C# project through your IDE of choice (Visual Studio, Xamarin Studio, Rider, etc) or through the Command Line Interface (CLI) using the dotnet command.
 ```
-dotnet add MonoGame.Extended.Collisions
+dotnet add package MonoGame.Extended.Collisions
 ```
 
 ## Usage

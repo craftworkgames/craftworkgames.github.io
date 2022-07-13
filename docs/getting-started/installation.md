@@ -10,7 +10,7 @@ These are instructions on to get `Extended` installed and setup with `MonoGame`.
 
 - [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/dotnet-core/3.1)
 - [DirectX June 2010 runtime](https://www.microsoft.com/en-us/download/details.aspx?id=8109) (Only if working with DirectX on Windows)
-- [A `MonoGame` project](https://docs.monogame.net/articles/introduction/create_project.html)
+- [A `MonoGame` project](https://docs.monogame.net/articles/getting_started/0_getting_started.html#creating-a-new-project)
 
 ## NuGet packages
 

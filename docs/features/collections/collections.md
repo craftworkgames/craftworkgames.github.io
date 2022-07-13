@@ -10,7 +10,7 @@ sidebar_label: Collections
 
 `Collections` is part of [MonoGame.Extended](https://www.nuget.org/packages/MonoGame.Extended) and is distributed via a NuGet package. You can add the NuGet package to your C# project through your IDE of choice (Visual Studio, Xamarin Studio, Rider, etc) or through the Command Line Interface (CLI) using the dotnet command.
 ```
-dotnet add MonoGame.Extended
+dotnet add package MonoGame.Extended
 ```
 
 ## Bag
