@@ -43,7 +43,7 @@ private readonly KeyboardListener _keyboardListener;
 private readonly MouseListener _mouseListener;
 ```
 
-You can manually call the `Update` method of the `Listeners`, but you can also use `InputListenerComponent` this this.
+You can manually call the `Update` method of the `Listeners`, but you can also use `InputListenerComponent` like this.
 
 ```cs
 _keyboardListener = new KeyboardListener();
