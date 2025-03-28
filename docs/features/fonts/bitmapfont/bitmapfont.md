@@ -82,19 +82,24 @@ Now that you have the `.fnt` file and textures generated, you can use them in yo
 Both methods are described in the sections below.
 
 ### Loading From File At Runtime
-To load the `BitmapFont` at runtime, ensure that the `.fnt` file and the texture files associated with it are in the same directory. They must be in the same directory; otherwise, loading will fail when attempting to load the textures. Then you can load them using the `BitmapFont.FromFile` or `BitmapFont.FromStream` methods.
+To load the `BitmapFont` at runtime, ensure that the `.fnt` file and the texture files associated with it are in the same directory. They must be in the same directory; otherwise, loading will fail when attempting to load the textures. Then you can load them using the `BitmapFont.FromFile` or `BitmapFont.FromStream` methods. 
+
+:::caution
+1. Files need to be in the built output directory.  Don't forget to set the "Copy to Output Directory" to Copy If Newer under properties on each file (`.fnt` and `.tga`).
+2. 
+:::
 
 **From File Example**
 
 ```cs
-BitmapFont bmfont = BitmapFont.FromFile("path/to/my-font.fnt");
+BitmapFont bmfont = BitmapFont.FromFile(GraphicsDevice, "path/to/my-font.fnt");
 ```
 
 **From Stream Example**
 ```cs
-using(var stream = TitleContainer.OpenStream("Content/my-font.fnt"))
+using(var stream = TitleContainer.OpenStream(GraphicsDevice, "Content/my-font.fnt"))
 {
-    BitmapFont bmfont = BitmapFont.FromStream(stream);
+    BitmapFont bmfont = BitmapFont.FromStream(GraphicsDevice, stream, "Content/my-font.fnt");
 }
 ```
 
