@@ -32,15 +32,14 @@ Gum Forms uses the following objects for initialization, updating, and drawing:
 The following code shows a single Gum Forms button in an otherwise empty Game1 class:
 
 ```cs
+
+using MonoGameGum;
+
 public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
 
-    // Gum renders and updates using a hierarchy. At least
-    // one object must have its AddToManagers method called.
-    // If not loading from-file, then the easiest way to do this
-    // is to create a ContainerRuntime and add it to the managers.
-    ContainerRuntime Root;
+    GumService Gum => GumService.Default;
 
     public Game1()
     {
@@ -52,19 +51,12 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        var gumProject = MonoGameGum.GumService.Default.Initialize(
-            this.GraphicsDevice);
-
-        Root = new ContainerRuntime();
-        Root.Width = 0;
-        Root.Height = 0;
-        Root.WidthUnits = Gum.DataTypes.DimensionUnitType.RelativeToContainer;
-        Root.HeightUnits = Gum.DataTypes.DimensionUnitType.RelativeToContainer;
-        Root.AddToManagers(SystemManagers.Default, null);
-
+        // If loading a Gum project (gumx), pass that
+        // parameter as the 2nd argument
+        var gumProject = Gum.Initialize(this);
 
         var button = new Button();
-        Root.Children.Add(button.Visual);
+        button.AddToRoot();
         button.X = 50;
         button.Y = 50;
         button.Width = 200;
@@ -81,14 +73,14 @@ public class Game1 : Game
 
     protected override void Update(GameTime gameTime)
     {
-        MonoGameGum.GumService.Default.Update(this, gameTime, Root);
+        Gum.Update(gameTime);
         base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
-        MonoGameGum.GumService.Default.Draw();
+        Gum.Draw();
         base.Draw(gameTime);
     }
 }
@@ -105,7 +97,6 @@ The following code adds a button which increments every time it is clicked:
 
 ```cs
 var button = new Button();
-Root.Children.Add(button.Visual);
 button.X = 0;
 button.Y = 0;
 button.Width = 200;
@@ -127,7 +118,6 @@ The following code creates a CheckBox which outputs text whenever it is checked 
 
 ```cs
 var checkBox = new CheckBox();
-Root.Children.Add(checkBox.Visual);
 checkBox.X = 50;
 checkBox.Y = 50;
 checkBox.Text = "Checkbox";
@@ -143,7 +133,6 @@ The following code adds items to a ListBox when a button is clicked. When an ite
 
 ```cs
 var listBox = new ListBox();
-this.Root.Children.Add(listBox.Visual);
 listBox.X = 50;
 listBox.Y = 50;
 listBox.Width = 400;
@@ -172,7 +161,6 @@ The following code creates a Slider which allows the user to select a value betw
 
 ```cs
 var slider = new Slider();
-this.Root.Children.Add(slider.Visual);
 slider.X = 50;
 slider.Y = 50;
 slider.Minimum = 0;
@@ -194,7 +182,6 @@ The following code creates two TextBoxes which can be used to test copy/paste.
 
 ```cs
 var textBox = new TextBox();
-this.Root.Children.Add(textBox.Visual);
 textBox.X = 50;
 textBox.Y = 50;
 textBox.Width = 200;
