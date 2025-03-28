@@ -85,8 +85,7 @@ Both methods are described in the sections below.
 To load the `BitmapFont` at runtime, ensure that the `.fnt` file and the texture files associated with it are in the same directory. They must be in the same directory; otherwise, loading will fail when attempting to load the textures. Then you can load them using the `BitmapFont.FromFile` or `BitmapFont.FromStream` methods. 
 
 :::caution
-1. Files need to be in the built output directory.  Don't forget to set the "Copy to Output Directory" to Copy If Newer under properties on each file (`.fnt` and `.tga`).
-2. 
+Files need to be in the built output directory.  Don't forget to set the "Copy to Output Directory" to Copy If Newer under properties on each file (`.fnt` and `.tga`).
 :::
 
 **From File Example**
