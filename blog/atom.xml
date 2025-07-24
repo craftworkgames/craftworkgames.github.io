@@ -2,11 +2,60 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.monogameextended.net/blog/</id>
     <title>MonoGame.Extended Blog</title>
-    <updated>2024-07-09T00:00:00.000Z</updated>
+    <updated>2025-07-24T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://www.monogameextended.net/blog/"/>
     <subtitle>MonoGame.Extended Blog</subtitle>
     <icon>https://www.monogameextended.net/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[The Next Chapter for MonoGame Extended]]></title>
+        <id>https://www.monogameextended.net/blog/the-next-chapter-for-monogame-extended/</id>
+        <link href="https://www.monogameextended.net/blog/the-next-chapter-for-monogame-extended/"/>
+        <updated>2025-07-24T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Hi everyone,]]></summary>
+        <content type="html"><![CDATA[<p>Hi everyone,</p>
+<p>It's been nearly a year since my last update, and I wanted to reach out to the community with some important news about the future of <strong>MonoGame.Extended</strong>. But before I get to the main announcement, I need to address a few things and share some updates on what's been happening behind the scenes.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="catching-up-and-apologies">Catching Up and Apologies<a class="hash-link" aria-label="Direct link to Catching Up and Apologies" title="Direct link to Catching Up and Apologies" href="https://www.monogameextended.net/blog/the-next-chapter-for-monogame-extended/#catching-up-and-apologies">​</a></h2>
+<p>First, I owe everyone an apology for the delay in project updates and communication. I know many of you have been waiting for progress reports and wondering about the direction of <strong>MonoGame.Extended</strong>. The truth is, I've been deeply involved in other MonoGame community work that has taken significant time and focus.</p>
+<p>Over the past year, I've been working extensively on the <a href="https://docs.monogame.net/articles/tutorials/building_2d_games/" target="_blank" rel="noopener noreferrer">MonoGame 2D Onboarding Tutorial</a>, which is now available in the official MonoGame documentation. This comprehensive tutorial series was a major undertaking aimed at helping new developers get started with MonoGame, and while it meant less visible progress on <strong>MonoGame.Extended</strong>, I believe it serves the broader community that <strong>MonoGame.Extended</strong> is part of.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="whats-been-happening">What's Been Happening<a class="hash-link" aria-label="Direct link to What's Been Happening" title="Direct link to What's Been Happening" href="https://www.monogameextended.net/blog/the-next-chapter-for-monogame-extended/#whats-been-happening">​</a></h2>
+<p>Despite the quieter public presence, work on <strong>MonoGame.Extended</strong> has continued. I've been deep in the process of updating the particle system, which was one of the most requested and sponsored by a community member. This is more than just a simple update; it's a designed to be more performant, flexible, and easier to use.</p>
+<p>Along with the particle system refactor, I've been developing <strong>Ember</strong>, a new GUI editor specifically for creating and managing particle effects. This tool will make it dramatically easier for developers to create complex particle systems without having to hand-code everything.</p>
+<p><img decoding="async" loading="lazy" alt="Ember Preview" src="https://www.monogameextended.net/assets/images/ember-preview-f7f3614691db98cbee1b40868e1669cd.png" width="1920" height="1040" class="img_ev3q"></p>
+<p>I also want to take a moment to acknowledge and thank Jeremy (<a href="https://github.com/kaltinril" target="_blank" rel="noopener noreferrer">kaltinril</a>) for his incredible effort in updating and improving our documentation. Good documentation is crucial for any library's success, and Jeremy has been working tirelessly to make sure our docs are clear, comprehensive, and helpful for both new and experienced users. His contributions have made a real difference in the project's accessibility.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="a-new-official-home">A New Official Home<a class="hash-link" aria-label="Direct link to A New Official Home" title="Direct link to A New Official Home" href="https://www.monogameextended.net/blog/the-next-chapter-for-monogame-extended/#a-new-official-home">​</a></h2>
+<p>Now, for the main announcement. After careful consideration and valuable feedback from the community members I"ve reached out to,  I'm excited to announce that <strong>MonoGame.Extended</strong> has moved to a new official home:</p>
+<p>The repository has been transferred from the <code>craftworkgames</code> organization to a new dedicated organization called <a href="https://github.com/MonoGame-Extended/Monogame-Extended" target="_blank" rel="noopener noreferrer"><strong>MonoGame-Extended</strong></a> on GitHub.</p>
+<p><strong>Why this change makes sense:</strong></p>
+<ul>
+<li><strong>Clear identity and ownership</strong> - The new organization makes it immediately clear what the project is and creates an official presence in the ecosystem</li>
+<li><strong>Long-term sustainability</strong> - Rather than being tied to any individual maintainer, the project now has an organizational structure that can support leadership transitions and growth</li>
+<li><strong>Room for expansion</strong> - The organization provides space for additional repositories including samples, demos, templates, tools like Ember, and other <strong>MonoGame.Extended</strong> related projects</li>
+</ul>
+<p><strong>What this means for you:</strong></p>
+<ul>
+<li><strong>Everything transfers intact</strong> - All stars, forks, issues, pull requests, and the complete project history will move with the repository</li>
+<li><strong>Seamless transition</strong> - GitHub automatically handles URL redirects, so your existing bookmarks and links will continue to work</li>
+<li><strong>Continued commitment</strong> - The same dedication to quality and community that brought you version 4.0.0 and the ongoing improvements continues unchanged</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="acknowledging-our-foundation">Acknowledging Our Foundation<a class="hash-link" aria-label="Direct link to Acknowledging Our Foundation" title="Direct link to Acknowledging Our Foundation" href="https://www.monogameextended.net/blog/the-next-chapter-for-monogame-extended/#acknowledging-our-foundation">​</a></h2>
+<p>I want to take a moment to properly acknowledge the people who made <strong>MonoGame.Extended</strong> what it is today. Dylan (craftworkgames) created something truly special when he built the original <strong>MonoGame.Extended</strong>. His vision and foundational work created a library that has served countless developers and projects over the years. When Dylan was no longer able to maintain the project, Lucas (<a href="https://github.com/lithiumtoast" target="_blank" rel="noopener noreferrer">lithiumtoast</a>) stepped in, working to keep things moving when the project needed continuity.</p>
+<p>Both of their contributions and other community members laid the essential groundwork that made it possible for me to pick up the project and bring it back to active development. <strong>MonoGame.Extended</strong> stands on the shoulders of their efforts, and this new chapter is built upon the solid foundation they created.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="moving-forward">Moving Forward<a class="hash-link" aria-label="Direct link to Moving Forward" title="Direct link to Moving Forward" href="https://www.monogameextended.net/blog/the-next-chapter-for-monogame-extended/#moving-forward">​</a></h2>
+<p>This move represents the natural evolution of <strong>MonoGame.Extended</strong> as it enters a new phase of active development and community growth. With the particle system refactor and Ember nearing completion, improved documentation, and now an official organizational home, the project is positioned for continued success and expansion.</p>
+<p>The <strong>MonoGame.Extended</strong> community has been incredible throughout this journey. Your feedback, contributions, bug reports, and continued usage of the library have been invaluable in bringing the project back to life and pushing it forward. This new foundation ensures that community energy and contribution can continue to drive the project's growth.</p>
+<p>If you have any questions or concerns about this transition, please feel free to reach out in the comments below or find me on the <a href="https://discord.gg/FvZ8Z7EzPJ" target="_blank" rel="noopener noreferrer">MonoGame.Extended Discord</a>.</p>
+<p>Here's to the next chapter of <strong>MonoGame.Extended</strong>.</p>
+<p>Thanks everyone,</p>
+<p>- ❤️ Aris</p>]]></content>
+        <author>
+            <name>Christopher Whitley (AristurtleDev)</name>
+            <uri>https://github.com/aristurtledev</uri>
+        </author>
+        <category label="Updates" term="Updates"/>
+        <category label="organization" term="organization"/>
+        <category label="community" term="community"/>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Version 4.0.0 Initial Release]]></title>
         <id>https://www.monogameextended.net/blog/version-4-initial-release/</id>
