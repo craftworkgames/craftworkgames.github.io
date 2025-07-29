@@ -7,7 +7,7 @@ export default function GiscusComponent() {
 
   return (
     <Giscus    
-      repo="craftworkGames/MonoGame.Extended"
+      repo="monogame-extended/monogame-extended"
       repoId="MDEwOlJlcG9zaXRvcnkzODYxNTEzOA=="
       category="Announcements"
       categoryId="DIC_kwDOAk04Ys4Cf8Un"  

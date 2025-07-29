@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
 This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/craftworkgames/craftworkgames.github.io/issues).
 :::
 
-The following article details the steps necessary to get **MonoGame.Extended** installed and setup in your project.  **MonoGame.Extended** can be used with either [**MonoGame**](https://github.com/monogame/monogame), [**KNI**](https://github.com/kniEngine/kni), or [**FNA**](https://github.com/FNA-XNA/FNA).  This article wil detail how to setup and install **MonoGame.Extended** with an existing **MonoGame** project.
+The following article details the steps necessary to get **MonoGame.Extended** installed and set up in your project. **MonoGame.Extended** can be used with either [**MonoGame**](https://github.com/monogame/monogame), [**KNI**](https://github.com/kniEngine/kni), or [**FNA**](https://github.com/FNA-XNA/FNA).  This article will detail how to set up and install **MonoGame.Extended** with an existing **MonoGame** project.
 
 :::note
 - If you are using FNA, please see the [Installation (FNA)](./installation-fna.md) document.
@@ -21,7 +21,7 @@ The following article details the steps necessary to get **MonoGame.Extended** i
 ## Prerequisites
 The following prerequisites are required when using **MonoGame.Extended** with MonoGame.
 
-- Ensure your development environment is setup for MonoGame Development.
+- Ensure your development environment is set up for MonoGame Development.
   - [Visual Studio 2022 Setup (Windows Only)](https://docs.monogame.net/articles/getting_started/1_setting_up_your_development_environment_windows.html)
   - [Visual Studio Code Setup (Windows, Mac, and Linux)](https://docs.monogame.net/articles/getting_started/1_setting_up_your_development_environment_vscode.html?tabs=windows)
 
@@ -31,7 +31,7 @@ The following prerequisites are required when using **MonoGame.Extended** with M
 
 
 ## Installation
-**MonoGame.Extended** is distributed via a NuGet package.  You can add the NuGet pacakge to your C# project through your IDE (Visual Studio, Rider, etc) or through the Command Line Interface (CLI) using the `dotnet` commands
+**MonoGame.Extended** is distributed via a NuGet package.  You can add the NuGet package to your C# project through your IDE (Visual Studio, Rider, etc) or through the Command Line Interface (CLI) using the `dotnet` commands
 
 <Tabs>
   <TabItem value="net-cli" label=".NET Cli" default>
@@ -44,7 +44,7 @@ The following prerequisites are required when using **MonoGame.Extended** with M
     NuGet\Install-Package MonoGame.Extended -Version @mgeversion@
     ```
     <small>
-      This command is intended to be used within the Package Manager Console in Visual Studio, as it uses NuGet module's version of [Install-Package](https://docs.microsoft.com/nuget/reference/ps-reference/ps-ref-install-package)
+      This command is intended to be used within the Package Manager Console in Visual Studio, as it uses the version of [Install-Package](https://docs.microsoft.com/nuget/reference/ps-reference/ps-ref-install-package) provided by NuGet.
     </small>
   </TabItem>
   <TabItem value="package-reference" label="Package Reference" default>
@@ -58,11 +58,11 @@ The following prerequisites are required when using **MonoGame.Extended** with M
 </Tabs>
 
 :::caution
-**MonoGame.Extended** is currently being updated and prepped for version 4.0 release.  In the mean time, the current stable version is the **4.0.0** version shown above.   Please use this version for now even though it is marked prerelease until version 4.0 is released.  For more information, please see the [MonoGame.Extended is Back](/blog/mongame-extended-is-back) blog post.
+**MonoGame.Extended** is currently being updated and prepped for version 4.0 release.  In the meantime, the current stable version is the **4.0.0** version shown above.   Please use this version for now even though it is marked prerelease until version 4.0 is released.  For more information, please see the [MonoGame.Extended is Back](/blog/mongame-extended-is-back) blog post.
 :::
 
-## (Optional) Setup MGCB Editor
-**MonoGame.Extended** provides MonoGame Content Pipeline Extensions to extend the asset types that can be imported through the MonoGame Content Pipeline.  All asset preprocessing extensions provided as pipeline extensions can be used to load the assets at runtime from disk if you want, meaning that setting this up is optional and only needed if you are using the content pipeline for asset management in your game. 
+## (Optional) Set up MGCB Editor
+**MonoGame.Extended** provides MonoGame Content Pipeline Extensions to extend the asset types that can be imported through the MonoGame Content Pipeline.  While all asset preprocessing extensions provided as pipeline extensions can also be used to load assets directly from disk at runtime, setting this up is optional and only needed if you're managing assets through the content pipeline in your game. 
 
 ### Download Pipeline Nuget
 To get started first add the `MonoGame.Extended.Content.Pipeline` NuGet package to your MonoGame project
@@ -92,7 +92,7 @@ To get started first add the `MonoGame.Extended.Content.Pipeline` NuGet package 
 </Tabs>
 
 ### Add Reference to MGCB Editor
-In order for the MonoGame Content Builder (MGCB) Editor to make use of the extension provided by **MonoGame.Extended.Content.Pipeline** you will need to add a reference to the `MonoGame.Extended.Content.Pipeline.dll` assembly to the content project.  This assembly is downloaded as part of the **MonoGame.Extended.Content.Pipeline** NuGet you just installed, however the necessary files to reference do not get automatically copied to your project directory.  Additionally, when adding a reference to an assembly in the MGCB Editor, the path it creates in the Content.mgcb file is relative, meaning it will break if you move your project directory or change computers.
+In order for the MonoGame Content Builder (MGCB) Editor to make use of the extension provided by **MonoGame.Extended.Content.Pipeline** you will need to add a reference to the `MonoGame.Extended.Content.Pipeline.dll` assembly to the content project.  This assembly is downloaded as part of the **MonoGame.Extended.Content.Pipeline** NuGet you just installed, however the necessary files to reference do not get automatically copied to your project directory.  Additionally, when adding a reference to an assembly in the MGCB Editor, the path it creates in the Content.mgcb file is relative, which means it will break if you move your project directory or change computers.
 
 To resolve this, **MonoGame.Extended.Content.Pipeline** provides a unique method for users to ensure that the needed assembly references are copied locally to your project directory for easier referencing and so that the relative path in the Content.mgcb file doesn't break.  
 
@@ -104,14 +104,14 @@ To set this up, first open your game project's `.csproj` file and add the follow
 </PropertyGroup>
 ```
 
-This is the default recommended setting.  The value of the `MonoGameExtendedPipelineReferencePath` is the directory where the `MonoGame.Extended.Content.Pipeline.dll` and its necessary references will be copied when you do a project build.  You can adjust this value if you would prefer it be in a different directory.  **However, it is strongly recommended that you keep within your overall project directory**.
+This is the default recommended setting.  The value of the `MonoGameExtendedPipelineReferencePath` is the directory where the `MonoGame.Extended.Content.Pipeline.dll` and its necessary references will be copied when you build your project.  You can adjust this value if you would prefer it be in a different directory.  **However, it is strongly recommended that you keep within your overall project directory**.
 
-After adding the property group, do a build of your project and you shoudl now see the `MonoGame.Extended.Content.Pipeline.dll` inside the directory specified above.  Now we just need to add a reference to that dll in the MGCB Editor
+After adding the property group, do a build of your project and you should now see the `MonoGame.Extended.Content.Pipeline.dll` inside the directory specified above.  Now we just need to add a reference to that dll in the MGCB Editor
 
 1. Open you **Content.mgcb** file in the **MGCB Editor**
 
 :::tip
-When using Visual Studio, double clicking the **Content.mgcb** file in your project should open it for you using the **MGCB Editor** automatically if you have the MonoGame Visual Studio Extension installed.  If, for some reason, it opens it as a plain text file instead, you can right-click the **Content.mgcb** file, choose **Open With**, then set the default default application to open with as the **MGCB Editor**.  
+When using Visual Studio, double clicking the **Content.mgcb** file in your project should open it for you using the **MGCB Editor** automatically if you have the MonoGame Visual Studio Extension installed.  If, for some reason, it opens it as a plain text file instead, you can right-click the **Content.mgcb** file, choose **Open With**, then set the default application to open with as the **MGCB Editor**.  
 
 Alternatively, if you're not using Visual Studio, you can open it by using the following `dotnet` command in a command-line or terminal window from within your project directory
 
@@ -129,4 +129,4 @@ dotnet mgcb-editor ./Content/Content.mgcb
 You should now see the **MonoGame.Extended.Content.Pipeline.dll** in the **References** field of the **Property** panel.  
 
 ## Conclusion
-Setting up **MonoGame.Extended** with an existing **MonoGame** project is straight forward and only requires that you add the NuGet reference.  Once added, you can immediately start taking advantage of what **MonoGame.Extended** has to offer.
+Setting up **MonoGame.Extended** with an existing **MonoGame** project is straightforward and only requires adding the NuGet reference.  Once added, you can immediately start taking advantage of what **MonoGame.Extended** has to offer.
