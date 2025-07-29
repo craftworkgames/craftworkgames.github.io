@@ -17,16 +17,35 @@ An [Entity Component System (ECS)](https://www.gamedev.net/articles/programming/
 
 ### Components
 
-A component is simply a class that holds some state about the entity. Typically, components are lightweight and don't contain any game logic. It's common to have components with only a few properties or fields. Components can be more complex but inheritence is not encouraged.
+A component is a class that holds some _state_ about the entity. Typically, components are lightweight and don't contain any game logic. It's common to have components with only a few properties or fields. Components can be more complex but inheritence is not encouraged.
+
+__Examples of Components are:__
+
+|Component|Properties|
+|----|----|
+|Raindrop|**Vector2** Velocity, **float** Size|
+|Expiry|**float** TimeRemaining|
+|Transform2|**Vector2** position|
+|Sprite|**Texture2d** image|
+
+![Raindrop Component class with Vector2 Velocity and float Size](Raindrop.png) ![Expiry Component class with float TimeRemaining](Expiry.png) ![Transform2 Component Class with Vector2 position](Transform2.png) ![Srite Component Class with Texture2d image](Sprite.png)
 
 
 ### Entities
 
-An entity is a composition of components identified by an ID. Often you only need the ID of the entity to work with it. For performance reasons, and entity ID is only valid while the entity is alive. Once the entity is destroyed, it's ID may be recycled.
+An entity is a composition of components identified by an ID. Often you only need the ID of the entity to work with it. For performance reasons, and entity ID is only valid while the entity is alive. Once the entity is destroyed, it's ID may be recycled.  Entities are created for you when you call `CreateEntity` on the `World` instance.
 
 ### Systems
 
-A system is a class that will run during the game's `Update` or `Draw` calls. They usually contain the game logic about how to manage a filtered collection of entities and their components. 
+A system is a class that will run during the game's `Update` or `Draw` calls. They usually contain the game logic about how to manage a filtered collection of entities and their components. This is where the primary logic for functionality of an ECS lives.  
+
+__Examples of Systems are:__
+
+|System|Properties|
+|----|----|
+|ExpirySystem|Destroys an entity when the time has elapsed, using the Expiry Component assigned to that entity|
+|RenderSystem|Controls the drawing of all entities, utilizing their components|
+|PlayerSystem|Controls the updates to an entity, based on whatever components are part of that player entity|
 
 ## Creating the world
 
@@ -34,14 +53,21 @@ The `World` is the entry point to the ECS. It holds your entities and systems an
 
 To create the world you need to use the `WorldBuilder` and add your systems before building the `World` instance.
 
+Below is an example of how an ECS would be setup, each of the System classes would have to be written before calling AddSystem on them.
+
 ```csharp
+// Class level definition
+private World _world;
+
+// In your LoadContent method
 _world = new WorldBuilder()
     .AddSystem(new PlayerSystem())
     .AddSystem(new RenderSystem(GraphicsDevice))
     .Build();
 ```
-
-*Note:* Manually adding your systems this way might seem annoying at first, but it can be highly desireable to be able to control the order systems are added. It also allows you to constructor inject services as desired.
+:::note
+Manually adding your systems this way might seem annoying at first, but it can be highly desireable to be able to control the order systems are added. It also allows you to constructor inject services as desired.
+:::
 
 Once the world is created you need to call the `Update` and `Draw` methods. 
 
@@ -61,7 +87,9 @@ protected override void Draw(GameTime gameTime)
 }
 ```
 
-*Note:* The world also implements the `IGameComponent` interface, so if you prefer you can add it to the `GameComponentCollection` instead (not to be confused with ECS components).
+:::note
+The world also implements the `IGameComponent` interface, so if you prefer you can add it to the `GameComponentCollection` instead (not to be confused with ECS components).
+:::
 
 ## Creating entities
 
@@ -75,7 +103,9 @@ entity.Attach(new Sprite(textureRegion));
 
 Any standard class can be used as a component but typically you'll want to keep your components lightweight and specific.
 
-*Note:* An entity can only have one instance of each component type.
+:::note
+An entity can only have one instance of each component type.
+:::
 
 ## Destroying entities
 
@@ -87,7 +117,9 @@ _world.DestroyEntity(entity);
 
 It should be noted that the actual entity creation and removal is deferred until the next update. This allows for some performance optimizations and batches events so that they can be handled more gracefully by systems.
 
-*Note:* When you're inside an `EntitySystem` there are helper methods for creating destroying entities so that you don't need to access the `World` instance each time.
+:::note
+When you're inside an `EntitySystem` there are helper methods for creating destroying entities so that you don't need to access the `World` instance each time.
+:::
 
 ## Types of systems
 
@@ -140,7 +172,9 @@ public override void Draw(GameTime gameTime)
 }
 ```
 
-*Note:* Don't forget to add your system to the `WorldBuilder` when you're done.
+:::note
+Don't forget to add your system to the `WorldBuilder` when you're done.
+:::
 
 ## Accessing components
 
@@ -173,13 +207,15 @@ Component mappers can also be used to modify entities on the fly. For example, y
 _buffMapper.Put(entityId, buffComponent);
 ``` 
 
-*Note:* The `Put` method will replace an existing component of the same type if it already exists. There is no need to check if the entity already has the component.
+:::note
+The `Put` method will replace an existing component of the same type if it already exists. There is no need to check if the entity already has the component.
+:::
 
 You can also check if an entity `Has` a component or `Delete` a component with the mapper.
 
 ---
 
-For convienience it's also possible to access components on an entity *without* using component mappers. This can be useful for prototyping ideas or when performance isn't a primary concern.
+For convenience it's also possible to access components on an entity *without* using component mappers. This can be useful for prototyping ideas or when performance isn't a primary concern.
 
 ```csharp
 var entity = GetEntity(entityId);
@@ -187,7 +223,9 @@ var health = entity.Get<HealthComponent>();
 var transform = entity.Get<Transform2>();
 ```
 
-*Note:* This method of accessing components requires dictionary lookups of the component types each frame. This is still a fairly fast operation, and for some games it'll do just fine.
+:::note
+This method of accessing components requires dictionary lookups of the component types each frame. This is still a fairly fast operation, and for some games it'll do just fine.
+:::
 
 ## Filtering components
 
