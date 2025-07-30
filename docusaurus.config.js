@@ -29,6 +29,13 @@ const config = {
         rel: 'me',
         href: 'https://mastodon.gamedev.place/@monogameextended'
       }
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'fediverse:creator',
+        content: '@monogameextended@mastodon.gamedev.place',
+      },
     }
   ],
 
@@ -53,10 +60,10 @@ const config = {
   ],
 
   markdown: {
-    preprocessor: ({filePath, fileContent}) => {
+    preprocessor: ({ filePath, fileContent }) => {
       var key = '';
       var found = false;
-      for(key in globalVariables) {
+      for (key in globalVariables) {
         fileContent = fileContent.replaceAll(`@${key}@`, globalVariables[key]);
       }
       return fileContent;
@@ -119,7 +126,7 @@ const config = {
               {
                 label: 'Mastodon',
                 href: 'https://mastodon.gamedev.place/@monogameextended'
-                
+
               }
             ],
           },
