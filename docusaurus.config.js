@@ -97,6 +97,19 @@ const config = {
               {
                 label: 'Discord',
                 href: 'https://discord.gg/FvZ8Z7EzPJ',
+              },
+              {
+                label: 'Twitter',
+                href: 'https://twitter.com/MonoGameEx'
+              },
+              {
+                label: 'Bluesky',
+                href: 'https://bsky.app/profile/monogameextended.bsky.social'
+              },
+              {
+                label: 'Mastodon',
+                href: 'https://mastodon.gamedev.place/@monogameextended'
+                
               }
             ],
           },
