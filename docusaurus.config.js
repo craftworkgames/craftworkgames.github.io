@@ -126,7 +126,6 @@ const config = {
               {
                 label: 'Mastodon',
                 href: 'https://mastodon.gamedev.place/@monogameextended'
-
               }
             ],
           },
