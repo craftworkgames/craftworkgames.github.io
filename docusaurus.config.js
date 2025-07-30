@@ -22,6 +22,16 @@ const config = {
     locales: ['en'],
   },
 
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'me',
+        href: 'https://mastodon.gamedev.place/@monogameextended'
+      }
+    }
+  ],
+
   presets: [
     [
       'classic',
