@@ -33,13 +33,17 @@ The following code shows a single Gum Forms button in an otherwise empty Game1 c
 
 ```cs
 
+using Gum.Forms;
+using Gum.Forms.Controls;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGameGum;
 
 public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
 
-    GumService Gum => GumService.Default;
+    GumService GumUI => GumService.Default;
 
     public Game1()
     {
@@ -53,14 +57,12 @@ public class Game1 : Game
     {
         // If loading a Gum project (gumx), pass that
         // parameter as the 2nd argument
-        var gumProject = Gum.Initialize(this);
+        GumUI.Initialize(this, DefaultVisualsVersion.V2);
 
         var button = new Button();
         button.AddToRoot();
         button.X = 50;
         button.Y = 50;
-        button.Width = 200;
-        button.Height = 50;
         button.Text = "Hello MonoGame.Extended!";
         int clickCount = 0;
         button.Click += (_, _) =>
@@ -73,14 +75,14 @@ public class Game1 : Game
 
     protected override void Update(GameTime gameTime)
     {
-        Gum.Update(gameTime);
+        GumUI.Update(gameTime);
         base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
-        Gum.Draw();
+        GumUI.Draw();
         base.Draw(gameTime);
     }
 }
