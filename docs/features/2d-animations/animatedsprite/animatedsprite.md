@@ -248,7 +248,13 @@ Now, if we run our sample and press the `Enter` key, the attack animation will p
 
 Instead, we would like to tell it that when the animation completes, it should go back to the `idle` animation.  We can do this using the `IAnimationController.OnAnimationEvent` event.
 
-Modify the code to the following
+### Event Handler Management - Important Considerations
+
+Before we implement animation events, there's an important concept to understand about event handlers in C#. Each time you subscribe to an event using a lambda expression or anonymous method, you're creating a new delegate instance. If you subscribe multiple times without unsubscribing, you'll accumulate handlers that all execute when the event fires.
+
+This can lead to memory leaks and unexpected behavior where your code runs multiple times. For animation events, this means if a player pressed Enter multiple times, each press would add another handler, causing the idle animation to be set multiple times when any attack animation completes.
+
+Let's look at the proper way to handle this:
 
 ```cs
 protected override void Initialize()
@@ -258,8 +264,11 @@ protected override void Initialize()
     {
         if (eventArgs.Key == Keys.Enter && _adventurer.CurrentAnimation == "idle")
         {
+            // Store a reference to our handler so we can unregister it later
             // highlight-next-line
-            _adventurer.SetAnimation("attack").OnAnimationEvent += (sender, trigger) =>
+            AnimationEventHandler handler = null;
+            // highlight-next-line
+            handler = (animSender, trigger) =>
             // highlight-next-line
             {
                 // highlight-next-line
@@ -267,18 +276,33 @@ protected override void Initialize()
                 // highlight-next-line
                 {
                     // highlight-next-line
+                    // Important: Unregister the handler first to prevent accumulation
+                    // highlight-next-line
+                    _adventurer.OnAnimationEvent -= handler;
+                    // highlight-next-line
                     _adventurer.SetAnimation("idle");
                 // highlight-next-line
                 }
             // highlight-next-line
             };
+            
+            // highlight-next-line
+            // Subscribe to the event with our handler
+            // highlight-next-line
+            _adventurer.SetAnimation("attack").OnAnimationEvent += handler;
         }
     };
     base.Initialize();
 }
 ```
 
-If we run the sample now, when we press `Enter`, the attack animation will play.  Once the animation completes, it will trigger the animation event, which we're now checking for and change it back to using the `idle` animation.
+This approach creates a self-unregistering handler. The handler removes itself from the event after it executes, preventing accumulation of multiple handlers.
+
+:::warning[Event Handler Accumulation]
+Always be mindful when subscribing to events inside loops, conditional blocks, or repeated operations. Lambda expressions create new delegate instances each time they're evaluated. For temporary event subscriptions like animation completion handlers, always unregister when done to prevent memory leaks and unexpected behavior.
+:::
+
+If we run the sample now, when we press `Enter`, the attack animation will play. Once the animation completes, it will trigger the animation event, which we're now checking for and change it back to using the `idle` animation. Each press of Enter will work correctly without accumulating handlers.
 
 <figure>
     <img src={EventTrigger} style={{width: '100%', imageRendering: 'pixelated'}}/>
@@ -289,5 +313,118 @@ If we run the sample now, when we press `Enter`, the attack animation will play.
     </figcaption>
 </figure>
 
+## Alternative Patterns for Complex Animation Management
+
+For more complex scenarios with multiple animations and states, you might want to consider alternative patterns:
+
+### Persistent Event Handler Pattern
+
+Instead of creating handlers for each animation, use a single persistent handler:
+
+```cs
+private bool _isAttacking;
+
+protected override void Initialize()
+{
+    // Set up a single persistent animation event handler
+    _adventurer.OnAnimationEvent += OnAnimationEvent;
+    
+    _keyboardListener = new KeyboardListener();
+    _keyboardListener.KeyPressed += (sender, eventArgs) =>
+    {
+        if (eventArgs.Key == Keys.Enter && _adventurer.CurrentAnimation == "idle")
+        {
+            _isAttacking = true;
+            _adventurer.SetAnimation("attack");
+        }
+    };
+    base.Initialize();
+}
+
+private void OnAnimationEvent(object sender, AnimationEventTrigger trigger)
+{
+    if (_isAttacking && trigger == AnimationEventTrigger.AnimationCompleted)
+    {
+        _isAttacking = false;
+        _adventurer.SetAnimation("idle");
+    }
+}
+
+protected override void UnloadContent()
+{
+    // Clean up event handlers when disposing
+    if (_adventurer != null)
+    {
+        _adventurer.OnAnimationEvent -= OnAnimationEvent;
+    }
+    base.UnloadContent();
+}
+```
+
+### State Machine Pattern
+
+For even more complex character behavior, consider implementing a state machine:
+
+```cs
+private enum CharacterState
+{
+    Idle,
+    Attacking,
+    Running
+}
+
+private CharacterState _characterState = CharacterState.Idle;
+
+protected override void Initialize()
+{
+    _adventurer.OnAnimationEvent += OnAnimationEvent;
+    
+    _keyboardListener = new KeyboardListener();
+    _keyboardListener.KeyPressed += (sender, eventArgs) =>
+    {
+        if (eventArgs.Key == Keys.Enter && _characterState == CharacterState.Idle)
+        {
+            _characterState = CharacterState.Attacking;
+            _adventurer.SetAnimation("attack");
+        }
+    };
+    base.Initialize();
+}
+
+private void OnAnimationEvent(object sender, AnimationEventTrigger trigger)
+{
+    switch (_characterState)
+    {
+        case CharacterState.Attacking when trigger == AnimationEventTrigger.AnimationCompleted:
+            _characterState = CharacterState.Idle;
+            _adventurer.SetAnimation("idle");
+            break;
+        // Handle other state transitions...
+    }
+}
+```
+
+## Cleanup and Best Practices
+
+Remember to clean up event handlers when your game objects are disposed to prevent memory leaks:
+
+```cs
+protected override void UnloadContent()
+{
+    // Unsubscribe from events to prevent memory leaks
+    if (_adventurer != null)
+    {
+        // If using persistent handlers, unsubscribe them
+        _adventurer.OnAnimationEvent -= OnAnimationEvent;
+    }
+    
+    base.UnloadContent();
+}
+```
+
 ## Conclusion
-The `AnimatedSprite` class provides a way to manage multiple animations from a single `SpriteSheet`. By encapsulating the animation logic within the `AnimatedSprite`, it simplifies the process of updating, drawing, and controlling animations. This makes it easier to handle transitions and events within your animations. Using the `IAnimationController` interface and its event triggers, you can create animations that react to game events and user inputs.
+The `AnimatedSprite` class provides a powerful way to manage multiple animations from a single `SpriteSheet`. By encapsulating the animation logic within the `AnimatedSprite`, it simplifies the process of updating, drawing, and controlling animations. 
+
+When working with animation events, always be mindful of event handler management to prevent memory leaks and unexpected behavior. The self-unregistering handler pattern shown in this tutorial works well for simple scenarios, while persistent handlers or state machines provide better structure for complex animation systems.
+
+Using the `IAnimationController` interface and its event triggers thoughtfully, you can create robust animation systems that react to game events and user inputs while maintaining clean, maintainable code.
