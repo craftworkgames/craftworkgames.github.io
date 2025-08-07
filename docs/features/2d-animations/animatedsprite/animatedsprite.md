@@ -125,7 +125,7 @@ protected override void LoadContent()
 
     spriteSheet.DefineAnimation("attack", builder =>
     {
-        builder.IsLooping(true)
+        builder.IsLooping(false)
                .AddFrame(regionIndex: 0, duration: TimeSpan.FromSeconds(0.1))
                .AddFrame(1, TimeSpan.FromSeconds(0.1))
                .AddFrame(2, TimeSpan.FromSeconds(0.1))
