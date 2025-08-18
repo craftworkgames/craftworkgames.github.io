@@ -1,0 +1,105 @@
+{
+	"textures": [
+		{
+			"filename": "adventurer-texture.png",
+			"format": "RGBA8888",
+			"size": {"w":226,"h":64},
+			"frames": {
+				"adventurer-attack3-00":{
+					"frame": {"x":171,"y":32,"w":22,"h":28},
+					"size": {"w":50,"h":37},
+					"offset": {"x":18,"y":9}
+				},
+				"adventurer-attack3-01":{
+					"frame": {"x":179,"y":1,"w":22,"h":28},
+					"size": {"w":50,"h":37},
+					"offset": {"x":19,"y":9}
+				},
+				"adventurer-attack3-02":{
+					"frame": {"x":1,"y":1,"w":25,"h":49},
+					"rotated": 90,
+					"size": {"w":50,"h":37},
+					"offset": {"x":1,"y":12}
+				},
+				"adventurer-attack3-03":{
+					"frame": {"x":76,"y":1,"w":21,"h":33},
+					"rotated": 90,
+					"size": {"w":50,"h":37},
+					"offset": {"x":2,"y":16}
+				},
+				"adventurer-attack3-04":{
+					"frame": {"x":28,"y":1,"w":22,"h":35},
+					"rotated": 90,
+					"size": {"w":50,"h":37},
+					"offset": {"x":0,"y":15}
+				},
+				"adventurer-attack3-05":{
+					"frame": {"x":52,"y":1,"w":22,"h":35},
+					"rotated": 90,
+					"size": {"w":50,"h":37},
+					"offset": {"x":0,"y":15}
+				},
+				"adventurer-idle-2-00":{
+					"frame": {"x":60,"y":38,"w":29,"h":25},
+					"rotated": 90,
+					"size": {"w":50,"h":37},
+					"offset": {"x":9,"y":8}
+				},
+				"adventurer-idle-2-01":{
+					"frame": {"x":128,"y":1,"w":25,"h":29},
+					"size": {"w":50,"h":37},
+					"offset": {"x":9,"y":8}
+				},
+				"adventurer-idle-2-02":{
+					"frame": {"x":91,"y":36,"w":30,"h":27},
+					"rotated": 90,
+					"size": {"w":50,"h":37},
+					"offset": {"x":8,"y":7}
+				},
+				"adventurer-idle-2-03":{
+					"frame": {"x":99,"y":1,"w":27,"h":30},
+					"size": {"w":50,"h":37},
+					"offset": {"x":8,"y":7}
+				},
+				"adventurer-run-00":{
+					"frame": {"x":123,"y":33,"w":22,"h":30},
+					"size": {"w":50,"h":37},
+					"offset": {"x":16,"y":7}
+				},
+				"adventurer-run-01":{
+					"frame": {"x":147,"y":32,"w":22,"h":29},
+					"size": {"w":50,"h":37},
+					"offset": {"x":15,"y":8}
+				},
+				"adventurer-run-02":{
+					"frame": {"x":195,"y":31,"w":22,"h":27},
+					"size": {"w":50,"h":37},
+					"offset": {"x":15,"y":10}
+				},
+				"adventurer-run-03":{
+					"frame": {"x":28,"y":38,"w":30,"h":25},
+					"rotated": 90,
+					"size": {"w":50,"h":37},
+					"offset": {"x":16,"y":7}
+				},
+				"adventurer-run-04":{
+					"frame": {"x":155,"y":1,"w":22,"h":29},
+					"size": {"w":50,"h":37},
+					"offset": {"x":15,"y":8}
+				},
+				"adventurer-run-05":{
+					"frame": {"x":203,"y":1,"w":22,"h":27},
+					"size": {"w":50,"h":37},
+					"offset": {"x":15,"y":10}
+				}
+			}
+		}
+	],
+
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"dataformat": "monogame-extended",
+		"version": "1.2",
+		"smartupdate": "$TexturePacker:SmartUpdate:cb899ce6eeed1ad3c68979f1cd64f53a:bfd8ba5ed37cfe22b6eba13c9b7e5178:948cac0a3f1a563d2e5fdf10cc2a8ee8$"
+	}
+}

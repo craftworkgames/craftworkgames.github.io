@@ -5,7 +5,7 @@ title: Spritesheet
 description: A Spritesheet is a wrapper around a Texture2DAtlas with methods for defining frame based animations.
 ---
 
-import AdventurerSpriteSheet from './adventurer.png'
+import AdventurerSpriteSheet from './adventurer-texture.png'
 import AdventurerAttackFrames from './attack-frames.png'
 import AttackAnimation from './attack_animation.gif'
 
@@ -26,7 +26,8 @@ Take a look at the following example texture atlas of an adventurer character.
     </figcaption>
 </figure>
 
-We can see that this texture atlas has 16 separate regions, some of which can be grouped together to form an animation.  For instance, the first 6 regions can be grouped together to form an attack animation
+We can see that this texture atlas has 16 separate regions, some of which can be grouped together to form an animation.  For instance, the following 6 regions can be grouped together to form an attack animation.
+Their positions and region names are specified in a [JSON data file](./adventurer.json), as described [here](/docs/features/texture-handling/texture2datlas/texture2datlas.md#loading-tightly-packed-sprite-sheets).
 
 <figure>
     <img src={AdventurerAttackFrames} style={{width: '100%', imageRendering: 'pixelated'}}/>
@@ -40,7 +41,7 @@ We can see that this texture atlas has 16 separate regions, some of which can be
 Knowing the regions that represent our frames of animation, we can use a `SpriteSheet` to define the animations.
 
 ## Using `SpriteSheet`
-To create a `SpriteSheet` you first need to create a [Texture2DAtlas](/docs/features/texture-handling/texture2datlas/texture2datlas.md), then you use that in the constructor to create the `SpriteSheet`.
+To create a `SpriteSheet` you first need to load a [Texture2DAtlas](/docs/features/texture-handling/texture2datlas/texture2datlas.md), then you use that in the constructor to create the `SpriteSheet`.
 
 ```cs
 //highlight-next-line
@@ -48,16 +49,17 @@ private SpriteSheet _spriteSheet;
 
 protected override void LoadContent()
 {
+    _spriteBatch = new SpriteBatch(GraphicsDevice);
+
     //highlight-next-line
-    Texture2D adventurerTexture = Content.Load<Texture2D>("adventurer");
-    //highlight-next-line
-    Texture2DAtlas atlas = Texture2DAtlas.Create("Atlas/adventurer", adventurerTexture, 50, 37);
+    Texture2DAtlas atlas = Content.Load<Texture2DAtlas>("adventurer");
     //highlight-next-line
     _spriteSheet = new SpriteSheet("SpriteSheet/adventurer", atlas);
 }
 ```
 
-We created the `Texture2DAltas` using the `Texture2DAtlas.Create` method since all of the regions for each animation frame are uniform within the texture.  Now that we have the `SpriteSheet` created, we can define our animations using the `SpriteSheet.DefineAnimation` method
+We loaded the `Texture2DAtlas` by passing the base name of `adventurer.json`, which contains for each region name the corresponding location and rotation.
+Now that we have the `SpriteSheet` created, we can define our animations using the `SpriteSheet.DefineAnimation` method
 
 ```cs
 private SpriteSheet _spriteSheet;
@@ -66,30 +68,21 @@ protected override void LoadContent()
 {
     _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-    Texture2D adventurerTexture = Content.Load<Texture2D>("adventurer");
-    Texture2DAtlas atlas = Texture2DAtlas.Create("Atlas/adventurer", adventurerTexture, 50, 37);
+    Texture2DAtlas atlas = Content.Load<Texture2DAtlas>("adventurer");
     _spriteSheet = new SpriteSheet("SpriteSheet/adventurer", atlas);
 
-    //highlight-next-line
+    //highlight-start
     _spriteSheet.DefineAnimation("attack", builder =>
-    //highlight-next-line
     {
-        //highlight-next-line
         builder.IsLooping(true)
-                //highlight-next-line
-                .AddFrame(regionIndex: 0, duration: TimeSpan.FromSeconds(0.1))
-                //highlight-next-line
-                .AddFrame(1, TimeSpan.FromSeconds(0.1))
-                //highlight-next-line
-                .AddFrame(2, TimeSpan.FromSeconds(0.1))
-                //highlight-next-line
-                .AddFrame(3, TimeSpan.FromSeconds(0.1))
-                //highlight-next-line
-                .AddFrame(4, TimeSpan.FromSeconds(0.1))
-                //highlight-next-line
-                .AddFrame(5, TimeSpan.FromSeconds(0.1));
-    //highlight-next-line
+               .AddFrame("adventurer-attack3-00", TimeSpan.FromSeconds(0.1))
+               .AddFrame("adventurer-attack3-01", TimeSpan.FromSeconds(0.1))
+               .AddFrame("adventurer-attack3-02", TimeSpan.FromSeconds(0.1))
+               .AddFrame("adventurer-attack3-03", TimeSpan.FromSeconds(0.1))
+               .AddFrame("adventurer-attack3-04", TimeSpan.FromSeconds(0.1))
+               .AddFrame("adventurer-attack3-05", TimeSpan.FromSeconds(0.1));
     });
+    //highlight-end
 }
 ```
 
@@ -107,19 +100,18 @@ protected override void LoadContent()
 {
     _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-    Texture2D adventurerTexture = Content.Load<Texture2D>("adventurer");
-    Texture2DAtlas atlas = Texture2DAtlas.Create("Atlas/adventurer", adventurerTexture, 50, 37);
+    Texture2DAtlas atlas = Content.Load<Texture2DAtlas>("adventurer");
     _spriteSheet = new SpriteSheet("SpriteSheet/adventurer", atlas);
 
     _spriteSheet.DefineAnimation("attack", builder =>
     {
         builder.IsLooping(true)
-                .AddFrame(regionIndex: 0, duration: TimeSpan.FromSeconds(0.1))
-                .AddFrame(1, TimeSpan.FromSeconds(0.1))
-                .AddFrame(2, TimeSpan.FromSeconds(0.1))
-                .AddFrame(3, TimeSpan.FromSeconds(0.1))
-                .AddFrame(4, TimeSpan.FromSeconds(0.1))
-                .AddFrame(5, TimeSpan.FromSeconds(0.1));
+               .AddFrame("adventurer-attack3-00", TimeSpan.FromSeconds(0.1))
+               .AddFrame("adventurer-attack3-01", TimeSpan.FromSeconds(0.1))
+               .AddFrame("adventurer-attack3-02", TimeSpan.FromSeconds(0.1))
+               .AddFrame("adventurer-attack3-03", TimeSpan.FromSeconds(0.1))
+               .AddFrame("adventurer-attack3-04", TimeSpan.FromSeconds(0.1))
+               .AddFrame("adventurer-attack3-05", TimeSpan.FromSeconds(0.1));
     });
 
     //highlight-next-line
@@ -138,19 +130,18 @@ protected override void LoadContent()
 {
     _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-    Texture2D adventurerTexture = Content.Load<Texture2D>("adventurer");
-    Texture2DAtlas atlas = Texture2DAtlas.Create("Atlas/adventurer", adventurerTexture, 50, 37);
+    Texture2DAtlas atlas = Content.Load<Texture2DAtlas>("adventurer");
     _spriteSheet = new SpriteSheet("SpriteSheet/adventurer", atlas);
 
     _spriteSheet.DefineAnimation("attack", builder =>
     {
         builder.IsLooping(true)
-                .AddFrame(regionIndex: 0, duration: TimeSpan.FromSeconds(0.1))
-                .AddFrame(1, TimeSpan.FromSeconds(0.1))
-                .AddFrame(2, TimeSpan.FromSeconds(0.1))
-                .AddFrame(3, TimeSpan.FromSeconds(0.1))
-                .AddFrame(4, TimeSpan.FromSeconds(0.1))
-                .AddFrame(5, TimeSpan.FromSeconds(0.1));
+               .AddFrame("adventurer-attack3-00", TimeSpan.FromSeconds(0.1))
+               .AddFrame("adventurer-attack3-01", TimeSpan.FromSeconds(0.1))
+               .AddFrame("adventurer-attack3-02", TimeSpan.FromSeconds(0.1))
+               .AddFrame("adventurer-attack3-03", TimeSpan.FromSeconds(0.1))
+               .AddFrame("adventurer-attack3-04", TimeSpan.FromSeconds(0.1))
+               .AddFrame("adventurer-attack3-05", TimeSpan.FromSeconds(0.1));
     });
 
     SpriteSheetAnimation attackAnimation = _spriteSheet.GetAnimation("attack");
