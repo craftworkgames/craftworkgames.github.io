@@ -58,22 +58,22 @@ const gettingStartedCategory = {
 /// "Texture Handling" features category
 ////////////////////////////////////////////////////////////////////////////////
 const textureHandlingCategory = {
-    type: 'category',
-    label: "Texture Handling",
-    items: [
-      {
-        type: 'doc',
-        id: 'features/texture-handling/texture2dregion/texture2dregion'
-      },
-      {
-        type: 'doc',
-        id: 'features/texture-handling/texture2datlas/texture2datlas'
-      },
-      {
-        type: 'doc',
-        id: 'features/texture-handling/sprite/sprite'
-      }        
-    ]
+  type: 'category',
+  label: "Texture Handling",
+  items: [
+    {
+      type: 'doc',
+      id: 'features/texture-handling/texture2dregion/texture2dregion'
+    },
+    {
+      type: 'doc',
+      id: 'features/texture-handling/texture2datlas/texture2datlas'
+    },
+    {
+      type: 'doc',
+      id: 'features/texture-handling/sprite/sprite'
+    }
+  ]
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -246,6 +246,18 @@ const particlesCategory = {
   items: [
     {
       type: 'doc',
+      id: 'features/particles/quick_start'
+    },
+    {
+      type: 'doc',
+      id: 'features/particles/core_concepts'
+    },
+    {
+      type: 'doc',
+      id: 'features/particles/emission_profiles'
+    },
+    {
+      type: 'doc',
       id: 'features/particles/particles'
     }
   ]
@@ -327,7 +339,7 @@ const features = {
   items: [
     textureHandlingCategory,
     _2dAnimationsCategory,
-    fontsCategory,    
+    fontsCategory,
     inputCategory,
     cameraCategory,
     collectionsCategory,
