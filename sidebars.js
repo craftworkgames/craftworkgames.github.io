@@ -258,6 +258,10 @@ const particlesCategory = {
     },
     {
       type: 'doc',
+      id: 'features/particles/modifiers'
+    },    
+    {
+      type: 'doc',
       id: 'features/particles/particles'
     }
   ]
