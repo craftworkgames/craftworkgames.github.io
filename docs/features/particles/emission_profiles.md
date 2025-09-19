@@ -72,20 +72,18 @@ Profile.Line(Vector2 axis, float length)
 Profile.Line(Vector2 axis, float length, LineRadiation radiate, Vector2 direction)
 ```
 
-**Parameters:**
+| Parameter   | Description                                                                                                                                                                                       |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `axis`      | The direction vector of the line (will be normalized internally)                                                                                                                                  |
+| `length`    | The total length of the line segment                                                                                                                                                              |
+| `radiate`   | Controls how particle headings relate to the line orientation                                                                                                                                     |
+| `direction` | The emission direction vector for direction radiation modes.  This value is ignored if the radiation mode is `LineRadiate.None`, `LineRadiate.PerpendicularUp` or `LineRadiate.PerpendicularDown` |
 
-- **Axis**: The direction vector of the line (will be normalized internally)
-- **Length**: The total length of the line segment
-- **Radiate**: Controls how particle headings relate to the line orientation
-- **Direction**: The emission direction vector for directional radiation modes
-
-**Radiation Patterns:**
-
-| Pattern | Description | Visual Effect |
-|---------|-------------|---------------|
-| `LineRadiation.None` | Random directions regardless of line angle | ![LineRadiation.None Example](./images/line_none.gif) |
-| `LineRadiation.Directional` | All particles move in the specified direction | ![LineRadiation.Directional Example](./images/line_directional.gif) |
-| `LineRadiation.PerpendicularUp` | Particles move perpendicular upward from line | ![LineRadiation.PerpendicularUp Example](./images/line_perpendicularup.gif) |
+| Line Radiation                    | Description                                     | Visual Effect                                                                   |
+| --------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------- |
+| `LineRadiation.None`              | Random directions regardless of line angle      | ![LineRadiation.None Example](./images/line_none.gif)                           |
+| `LineRadiation.Directional`       | All particles move in the specified direction   | ![LineRadiation.Directional Example](./images/line_directional.gif)             |
+| `LineRadiation.PerpendicularUp`   | Particles move perpendicular upward from line   | ![LineRadiation.PerpendicularUp Example](./images/line_perpendicularup.gif)     |
 | `LineRadiation.PerpendicularDown` | Particles move perpendicular downward from line | ![LineRadiation.PerpendicularDown Example](./images/line_perpendiculardown.gif) |
 
 ```cs title="LineProfile Code Example"
@@ -111,18 +109,16 @@ The `CircleProfile` distributes particles within a circular area with radiation 
 Profile.Circle(float radius, CircleRadiation radiate)
 ```
 
-**Parameters:**
+| Parameter | Description                                              |
+| --------- | -------------------------------------------------------- |
+| `radius`  | The radius of the circular distribution area             |
+| `radiate` | Controls how particle headings relate to their positions |
 
-- **Radius**: The radius of the circular distribution area
-- **Radiate**: Controls how particle headings relate to their positions
-
-**Radiation Patterns:**
-
-| Pattern | Description | Visual Effect |
-|---------|-------------|---------------|
-| `CircleRadiation.None` | Random movement directions for chaotic dispersal | ![CircleProfile CircleRadiation.None Example](./images/circle_none.gif) |
-| `CircleRadiation.In` | Particles move toward center for implosion effects | ![CircleProfile CircleRadiation.In Example](./images/circle_in.gif) |
-| `CircleRadiation.Out` | Particles move away from center for explosion effects | ![CircleProfile CircleRadiation.Out Example](./images/circle_out.gif) |
+| Circle Radiation       | Description                                           | Visual Effect                                                           |
+| ---------------------- | ----------------------------------------------------- | ----------------------------------------------------------------------- |
+| `CircleRadiation.None` | Random movement directions for chaotic dispersal      | ![CircleProfile CircleRadiation.None Example](./images/circle_none.gif) |
+| `CircleRadiation.In`   | Particles move toward center for implosion effects    | ![CircleProfile CircleRadiation.In Example](./images/circle_in.gif)     |
+| `CircleRadiation.Out`  | Particles move away from center for explosion effects | ![CircleProfile CircleRadiation.Out Example](./images/circle_out.gif)   |
 
 ```cs title="CircleProfile Code Example"
 ParticleEmitter emitter = new ParticleEmitter(1500)
@@ -146,15 +142,20 @@ The `RingProfile` works like Circle Profile but constrains particles to the circ
 Profile.Ring(float radius, CircleRadiation radiate)
 ```
 
+| Parameter | Description                                              |
+| --------- | -------------------------------------------------------- |
+| `radius`  | The radius of the ring                                   |
+| `radiate` | Controls how particle headings relate to their positions |
+
+:::note
 Uses the same radiation patterns as Circle Profile but with particles starting only on the circumference rather than within the entire circular area.
+:::
 
-**Radiation Patterns:**
-
-| Pattern | Description | Visual Effect |
-|---------|-------------|---------------|
-| `CircleRadiation.None` | Random movement directions for chaotic dispersal | ![RingProfile CircleRadiation.None Example](./images/ring_none.gif) |
-| `CircleRadiation.In` | Particles move toward center for implosion effects | ![RingProfile CircleRadiation.In Example](./images/ring_in.gif) |
-| `CircleRadiation.Out` | Particles move away from center for explosion effects | ![RingProfile CircleRadiation.Out Example](./images/ring_out.gif) |
+| Circle Radiation       | Description                                           | Visual Effect                                                       |
+| ---------------------- | ----------------------------------------------------- | ------------------------------------------------------------------- |
+| `CircleRadiation.None` | Random movement directions for chaotic dispersal      | ![RingProfile CircleRadiation.None Example](./images/ring_none.gif) |
+| `CircleRadiation.In`   | Particles move toward center for implosion effects    | ![RingProfile CircleRadiation.In Example](./images/ring_in.gif)     |
+| `CircleRadiation.Out`  | Particles move away from center for explosion effects | ![RingProfile CircleRadiation.Out Example](./images/ring_out.gif)   |
 
 ```cs title="RingProfile Code Example"
 ParticleEmitter emitter = new ParticleEmitter(800)
@@ -178,7 +179,14 @@ The `BoxProfile` distributes particles along the edges of a rectangle, giving ea
 Profile.Box(float width, float height)
 ```
 
-For non-square rectangles, this creates uneven particle density since shorter edges receive the same number of particles as longer ones.
+| Parameter | Description                             |
+| --------- | --------------------------------------- |
+| `width`   | The width of the rectangular perimeter  |
+| `height`  | The height of the rectangular perimeter |
+
+:::warning
+For non-square rectangular perimeters, this profile creates uneven particle density since shorter edges receive the same number of particles as longer ones.
+:::
 
 ```cs title="BoxProfile Code Example"
 ParticleEmitter emitter = new ParticleEmitter(1200)
@@ -202,7 +210,14 @@ The `BoxUniformProfile` improves upon `BoxProfile` by distributing particles pro
 Profile.BoxUniform(float width, float height)
 ```
 
+| Parameter | Description                             |
+| --------- | --------------------------------------- |
+| `width`   | The width of the rectangular perimeter  |
+| `height`  | The height of the rectangular perimeter |
+
+:::tip
 Use this instead of `BoxProfile` when you need even distribution on rectangular shapes, as it allocates particles based on the relative length of each edge.
+:::
 
 ```cs title="BoxUniformProfile Code Example"
 ParticleEmitter emitter = new ParticleEmitter(1200)
@@ -225,6 +240,11 @@ The `BoxFillProfile` fills the entire rectangular area with particles rather tha
 ```cs
 Profile.BoxFill(float width, float height)
 ```
+
+| Parameter | Description                             |
+| --------- | --------------------------------------- |
+| `width`   | The width of the rectangular perimeter  |
+| `height`  | The height of the rectangular perimeter |
 
 Particles are randomly distributed throughout the rectangular area with random heading directions.
 
@@ -250,20 +270,19 @@ The `SprayProfile` emits particles from a single point in a directional cone, pe
 Profile.Spray(Vector2 direction, float spread)
 ```
 
-**Parameters:**
+| Parameter   | Description                                    |
+| ----------- | ---------------------------------------------- |
+| `direction` | The central direction vector of the spray cone |
+| `spread`    | The angular width of the spray cone in radians |
 
-- **Direction**: The central direction vector of the spray cone (does not need to be normalized)
-- **Spread**: The angular width of the spray cone in radians
 
-**Spread Examples:**
-
-| Spread Angle | Description | Visual Effect |
-|--------------|-------------|---------------|
-| 0 radians | Perfectly focused beam | ![SpreadProfile 0 Degree Example](./images/spray_0.gif) |
-| π/4 (45°) | Narrow cone for flamethrowers | ![SpreadProfile 45 Degree Example](./images/spray_45.gif) |
-| π/2 (90°) | Medium spread for general effects | ![SpreadProfile 90 Degree Example](./images/spray_90.gif) |
-| π (180°) | Wide semicircle fan | ![SpreadProfile 180 Degree Example](./images/spray_180.gif) |
-| 2π radians (360°) | Full circle, equivalent to `PointProfile` behavior                 | ![SpreadProfile 360 Degree Example](./images/spray_360.gif) |
+| Spread Angle      | Description                                        | Visual Effect                                               |
+| ----------------- | -------------------------------------------------- | ----------------------------------------------------------- |
+| 0 radians         | Perfectly focused beam                             | ![SpreadProfile 0 Degree Example](./images/spray_0.gif)     |
+| π/4 (45°)         | Narrow cone for flamethrowers                      | ![SpreadProfile 45 Degree Example](./images/spray_45.gif)   |
+| π/2 (90°)         | Medium spread for general effects                  | ![SpreadProfile 90 Degree Example](./images/spray_90.gif)   |
+| π (180°)          | Wide semicircle fan                                | ![SpreadProfile 180 Degree Example](./images/spray_180.gif) |
+| 2π radians (360°) | Full circle, equivalent to `PointProfile` behavior | ![SpreadProfile 360 Degree Example](./images/spray_360.gif) |
 
 ```cs title="SprayProfile Code Example"
 ParticleEmitter emitter = new ParticleEmitter(2000)
