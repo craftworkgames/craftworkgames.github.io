@@ -4,6 +4,10 @@ title: 'MonoGame Extended Particle System: Emission Profiles Guide'
 sidebar_label: Emission Profiles
 ---
 
+:::tip[Up to date]
+This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+:::
+
 The visual character of any particle effect starts with where and how particles are initially positioned when they are created. Emission profiles control these fundamental properties, defining the spatial distribution patterns that determine whether your particles create a concentrated explosion, a flowing waterfall, a spreading flame, or any other emission pattern you can imagine.
 
 MonoGame Extended provides eight emission profiles, each designed for specific visual effects and use cases. Understanding how each profile works enables you to create precisely the particle behaviors your game requires.

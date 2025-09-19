@@ -4,6 +4,10 @@ title: 'MonoGame Extended Particle System: Interpolator Guide'
 sidebar_label: Interpolators
 ---
 
+:::tip[Up to date]
+This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+:::
+
 Interpolators are specialized components that create smooth property transitions in particle effects.  While [modifiers](./modifiers.md) control when and how particles change, interpolators define the specific transformations that occur, whether it is a particle fading from opaque to transparent, growing from small to large, or shifting from one color to another.
 
 MonoGame Extended provides six interpolators, each designed to smoothly transition specific particle properties over time.  Understanding how to use and combine these interpolators enables you to create effects with smooth animations.

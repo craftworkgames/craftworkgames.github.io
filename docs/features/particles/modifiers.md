@@ -4,6 +4,10 @@ title: 'MonoGame Extended Particle System: Modifiers Guide'
 sidebar_label: Modifiers
 ---
 
+:::tip[Up to date]
+This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+:::
+
 While [emission profiles](./emission_profiles.md) determine where particles begin their journey, modifiers control how particles behave and change throughout their lifetime. Modifiers are the dynamic components that bring particle effects to life by applying forces, changing visual properties, and creating complex behaviors over time.
 
 MonoGame Extended provides a comprehensive collection of modifiers that can simulate physics, create visual transformations, and enforce spatial constraints. Understanding how to use and combine these modifiers enables you to create sophisticated particle effects that respond realistically to forces and change appearance over time.
