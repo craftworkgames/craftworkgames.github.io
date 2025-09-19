@@ -4,10 +4,42 @@
         <title>MonoGame.Extended Blog</title>
         <link>https://www.monogameextended.net/blog/</link>
         <description>MonoGame.Extended Blog</description>
-        <lastBuildDate>Thu, 24 Jul 2025 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 19 Sep 2025 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
+        <item>
+            <title><![CDATA[Version 5.1.0 Released]]></title>
+            <link>https://www.monogameextended.net/blog/version-5-1-0/</link>
+            <guid>https://www.monogameextended.net/blog/version-5-1-0/</guid>
+            <pubDate>Fri, 19 Sep 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[Hi everyone,]]></description>
+            <content:encoded><![CDATA[<p>Hi everyone,</p>
+<p>Quick update that MonoGame Extended version 5.1.0 has been released.  This release brings some updates to the particle system refactor that was done as part of the 5.0.0 release.  After working through through updating the particle documentation, I noticed that some of the implementations seemed off or didn't work as expected, so in tandem with documenting, I also did some updates.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="whats-changed">What's Changed<a class="hash-link" aria-label="Direct link to What's Changed" title="Direct link to What's Changed" href="https://www.monogameextended.net/blog/version-5-1-0/#whats-changed">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="load-ember-particle-effects-from-filestream">Load Ember Particle Effects From File/Stream<a class="hash-link" aria-label="Direct link to Load Ember Particle Effects From File/Stream" title="Direct link to Load Ember Particle Effects From File/Stream" href="https://www.monogameextended.net/blog/version-5-1-0/#load-ember-particle-effects-from-filestream">​</a></h3>
+<p>The <code>ParticleEffect.FromFile</code> and <code>ParticleEffect.FromStream</code> methods have been implemented.  This is in preparation for the full release of the Ember Particle Editor that will be coming very soon to visually create particle effects.</p>
+<p>Reference: <a href="https://github.com/MonoGame-Extended/Monogame-Extended/pull/1023" target="_blank" rel="noopener noreferrer">https://github.com/MonoGame-Extended/Monogame-Extended/pull/1023</a></p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="modifier-frequency">Modifier Frequency<a class="hash-link" aria-label="Direct link to Modifier Frequency" title="Direct link to Modifier Frequency" href="https://www.monogameextended.net/blog/version-5-1-0/#modifier-frequency">​</a></h3>
+<p>There was a bug in the core implementation of the modifiers where the <code>Frequency</code> property was not actually being used.  The purpose of this property is to control the frequency in which the modifier updates particles so you can fine tune the system in performance heavy scenarios.  This was a property that was in the original Mercury Particle Engine, but when that was ported over to MonoGame Extended, it was left unused.</p>
+<p>Reference: <a href="https://github.com/MonoGame-Extended/Monogame-Extended/pull/1025" target="_blank" rel="noopener noreferrer">https://github.com/MonoGame-Extended/Monogame-Extended/pull/1025</a></p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="line-profile-radiation-modes">Line Profile Radiation Modes<a class="hash-link" aria-label="Direct link to Line Profile Radiation Modes" title="Direct link to Line Profile Radiation Modes" href="https://www.monogameextended.net/blog/version-5-1-0/#line-profile-radiation-modes">​</a></h3>
+<p>When using the <code>LineProfile</code> in the particle system, there is now a <code>Radiation</code> property that can be set.  This property allows you as the user to control how particles emissions radiate from the line itself.  The default behavior before this was that particles would emit with a randomly chosen velocity from the line.  This is still the default behavior for backwards compatability and is what happens when using the <code>LineRadiation.None</code> value.  See the table below for what each radiation mode does</p>
+<table><thead><tr><th>Line Radiation</th><th>Description</th><th>Visual Effect</th></tr></thead><tbody><tr><td><code>LineRadiation.None</code></td><td>Random directions regardless of line angle</td><td><img decoding="async" loading="lazy" alt="LineRadiation.None Example" src="https://www.monogameextended.net/assets/images/line_none-251c579b37d31de40e8d297011b60008.gif" width="777" height="384" class="img_ev3q"></td></tr><tr><td><code>LineRadiation.Directional</code></td><td>All particles move in the specified direction</td><td><img decoding="async" loading="lazy" alt="LineRadiation.Directional Example" src="https://www.monogameextended.net/assets/images/line_directional-ae7a45efd7ba1f56c9abdccc4b428014.gif" width="777" height="384" class="img_ev3q"></td></tr><tr><td><code>LineRadiation.PerpendicularUp</code></td><td>Particles move perpendicular upward from line</td><td><img decoding="async" loading="lazy" alt="LineRadiation.PerpendicularUp Example" src="https://www.monogameextended.net/assets/images/line_perpendicularup-d5c6fcd535fa0a90b01ef6e3cc7522be.gif" width="777" height="384" class="img_ev3q"></td></tr><tr><td><code>LineRadiation.PerpendicularDown</code></td><td>Particles move perpendicular downward from line</td><td><img decoding="async" loading="lazy" alt="LineRadiation.PerpendicularDown Example" src="https://www.monogameextended.net/assets/images/line_perpendiculardown-9e21ee7b14643817832dd90e1e8f6b1e.gif" width="777" height="384" class="img_ev3q"></td></tr></tbody></table>
+<p>Reference: <a href="https://github.com/MonoGame-Extended/Monogame-Extended/pull/1027" target="_blank" rel="noopener noreferrer">https://github.com/MonoGame-Extended/Monogame-Extended/pull/1027</a></p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="vortex-modifier">Vortex Modifier<a class="hash-link" aria-label="Direct link to Vortex Modifier" title="Direct link to Vortex Modifier" href="https://www.monogameextended.net/blog/version-5-1-0/#vortex-modifier">​</a></h3>
+<p>While documenting the various modifiers, I noticed something strange about the <code>VortexModifier</code>....it didn't actually create or simulate any type of vortex.  Instead it acted as a gravity well, or an acctractor that just pulled particles into its center mass and expelled them out.  We can't have this, if we're going to call it a <code>VortexModifier</code> it needs to create a vortex.  So this modifier was updated to do what it says now</p>
+<p><img decoding="async" loading="lazy" alt="VortexModifier Example" src="https://www.monogameextended.net/assets/images/vortex_modifier-0e15d5412e4cc1b5bf80d737055ef122.gif" width="781" height="414" class="img_ev3q"></p>
+<p>Reference: <a href="https://github.com/MonoGame-Extended/Monogame-Extended/pull/1031" target="_blank" rel="noopener noreferrer">https://github.com/MonoGame-Extended/Monogame-Extended/pull/1031</a></p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="conclusion">Conclusion<a class="hash-link" aria-label="Direct link to Conclusion" title="Direct link to Conclusion" href="https://www.monogameextended.net/blog/version-5-1-0/#conclusion">​</a></h2>
+<p>With this release done and the documentation completed for the particle system, I can now focus on finishing up the documentation for the Ember Particle Editor to so we can do an official release of it.  If you want to read the new documentation on particles, you can start with the <a href="https://www.monogameextended.net/docs/features/particles/quick_start/">Quick Start Guide</a>.</p>
+<p>Once Ember documentation is completed and a full release made, the particle system will go into maintenance mode while focus is shifted to work on tne tile map system in MonoGame Extended.  Hope you all are looking forward to that.</p>
+<p>Happy Coding,</p>
+<p>- ❤️ Chris Whitley (<a href="https://github.com/aristurtledev" target="_blank" rel="noopener noreferrer">AristurtleDev</a>)</p>]]></content:encoded>
+            <category>Updates</category>
+            <category>Releases</category>
+            <category>five-oh</category>
+        </item>
         <item>
             <title><![CDATA[The Next Chapter for MonoGame Extended]]></title>
             <link>https://www.monogameextended.net/blog/the-next-chapter-for-monogame-extended/</link>
