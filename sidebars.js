@@ -250,20 +250,16 @@ const particlesCategory = {
     },
     {
       type: 'doc',
-      id: 'features/particles/core_concepts'
-    },
-    {
-      type: 'doc',
       id: 'features/particles/emission_profiles'
     },
     {
       type: 'doc',
       id: 'features/particles/modifiers'
-    },    
+    },
     {
       type: 'doc',
-      id: 'features/particles/particles'
-    }
+      id: 'features/particles/interpolators'
+    },
   ]
 }
 
