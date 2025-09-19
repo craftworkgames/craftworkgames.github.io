@@ -58,7 +58,7 @@ ParticleEmitter emitter = new ParticleEmitter(1000)
 };
 ```
 
-![Point Profile Example](./images/point_profile.gif)
+![Point Profile Example](./images/emission_profiles/point_profile.gif)
 
 ### Line Profile
 
@@ -81,10 +81,10 @@ Profile.Line(Vector2 axis, float length, LineRadiation radiate, Vector2 directio
 
 | Line Radiation                    | Description                                     | Visual Effect                                                                   |
 | --------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------- |
-| `LineRadiation.None`              | Random directions regardless of line angle      | ![LineRadiation.None Example](./images/line_none.gif)                           |
-| `LineRadiation.Directional`       | All particles move in the specified direction   | ![LineRadiation.Directional Example](./images/line_directional.gif)             |
-| `LineRadiation.PerpendicularUp`   | Particles move perpendicular upward from line   | ![LineRadiation.PerpendicularUp Example](./images/line_perpendicularup.gif)     |
-| `LineRadiation.PerpendicularDown` | Particles move perpendicular downward from line | ![LineRadiation.PerpendicularDown Example](./images/line_perpendiculardown.gif) |
+| `LineRadiation.None`              | Random directions regardless of line angle      | ![LineRadiation.None Example](./images/emission_profiles/line_none.gif)                           |
+| `LineRadiation.Directional`       | All particles move in the specified direction   | ![LineRadiation.Directional Example](./images/emission_profiles/line_directional.gif)             |
+| `LineRadiation.PerpendicularUp`   | Particles move perpendicular upward from line   | ![LineRadiation.PerpendicularUp Example](./images/emission_profiles/line_perpendicularup.gif)     |
+| `LineRadiation.PerpendicularDown` | Particles move perpendicular downward from line | ![LineRadiation.PerpendicularDown Example](./images/emission_profiles/line_perpendiculardown.gif) |
 
 ```cs title="LineProfile Code Example"
 ParticleEmitter emitter = new ParticleEmitter(1500)
@@ -99,7 +99,7 @@ ParticleEmitter emitter = new ParticleEmitter(1500)
 };
 ```
 
-![LineProfile Example](./images/line_example.gif)
+![LineProfile Example](./images/emission_profiles/line_example.gif)
 
 ### Circle Profile
 
@@ -116,9 +116,9 @@ Profile.Circle(float radius, CircleRadiation radiate)
 
 | Circle Radiation       | Description                                           | Visual Effect                                                           |
 | ---------------------- | ----------------------------------------------------- | ----------------------------------------------------------------------- |
-| `CircleRadiation.None` | Random movement directions for chaotic dispersal      | ![CircleProfile CircleRadiation.None Example](./images/circle_none.gif) |
-| `CircleRadiation.In`   | Particles move toward center for implosion effects    | ![CircleProfile CircleRadiation.In Example](./images/circle_in.gif)     |
-| `CircleRadiation.Out`  | Particles move away from center for explosion effects | ![CircleProfile CircleRadiation.Out Example](./images/circle_out.gif)   |
+| `CircleRadiation.None` | Random movement directions for chaotic dispersal      | ![CircleProfile CircleRadiation.None Example](./images/emission_profiles/circle_none.gif) |
+| `CircleRadiation.In`   | Particles move toward center for implosion effects    | ![CircleProfile CircleRadiation.In Example](./images/emission_profiles/circle_in.gif)     |
+| `CircleRadiation.Out`  | Particles move away from center for explosion effects | ![CircleProfile CircleRadiation.Out Example](./images/emission_profiles/circle_out.gif)   |
 
 ```cs title="CircleProfile Code Example"
 ParticleEmitter emitter = new ParticleEmitter(1500)
@@ -132,7 +132,7 @@ ParticleEmitter emitter = new ParticleEmitter(1500)
 };
 ```
 
-![CircleProfile Example](./images/circle_example.gif)
+![CircleProfile Example](./images/emission_profiles/circle_example.gif)
 
 ### Ring Profile
 
@@ -153,9 +153,9 @@ Uses the same radiation patterns as Circle Profile but with particles starting o
 
 | Circle Radiation       | Description                                           | Visual Effect                                                       |
 | ---------------------- | ----------------------------------------------------- | ------------------------------------------------------------------- |
-| `CircleRadiation.None` | Random movement directions for chaotic dispersal      | ![RingProfile CircleRadiation.None Example](./images/ring_none.gif) |
-| `CircleRadiation.In`   | Particles move toward center for implosion effects    | ![RingProfile CircleRadiation.In Example](./images/ring_in.gif)     |
-| `CircleRadiation.Out`  | Particles move away from center for explosion effects | ![RingProfile CircleRadiation.Out Example](./images/ring_out.gif)   |
+| `CircleRadiation.None` | Random movement directions for chaotic dispersal      | ![RingProfile CircleRadiation.None Example](./images/emission_profiles/ring_none.gif) |
+| `CircleRadiation.In`   | Particles move toward center for implosion effects    | ![RingProfile CircleRadiation.In Example](./images/emission_profiles/ring_in.gif)     |
+| `CircleRadiation.Out`  | Particles move away from center for explosion effects | ![RingProfile CircleRadiation.Out Example](./images/emission_profiles/ring_out.gif)   |
 
 ```cs title="RingProfile Code Example"
 ParticleEmitter emitter = new ParticleEmitter(800)
@@ -169,7 +169,7 @@ ParticleEmitter emitter = new ParticleEmitter(800)
 };
 ```
 
-![RingProfile Example](./images/ring_example.gif)
+![RingProfile Example](./images/emission_profiles/ring_example.gif)
 
 ### Box Profile
 
@@ -200,7 +200,7 @@ ParticleEmitter emitter = new ParticleEmitter(1200)
 };
 ```
 
-![BoxProfile Example](./images/box_example.gif)
+![BoxProfile Example](./images/emission_profiles/box_example.gif)
 
 ### BoxUniform Profile
 
@@ -231,7 +231,7 @@ ParticleEmitter emitter = new ParticleEmitter(1200)
 };
 ```
 
-![BoxUniformProfile Example](./images/boxuniform_example.gif)
+![BoxUniformProfile Example](./images/emission_profiles/boxuniform_example.gif)
 
 ### BoxFill Profile
 
@@ -260,7 +260,7 @@ ParticleEmitter emitter = new ParticleEmitter(2000)
 };
 ```
 
-![BoxFillProfile Example](./images/boxfill_example.gif)
+![BoxFillProfile Example](./images/emission_profiles/boxfill_example.gif)
 
 ### Spray Profile
 
@@ -277,11 +277,11 @@ Profile.Spray(Vector2 direction, float spread)
 
 | Spread Angle      | Description                                        | Visual Effect                                               |
 | ----------------- | -------------------------------------------------- | ----------------------------------------------------------- |
-| 0 radians         | Perfectly focused beam                             | ![SpreadProfile 0 Degree Example](./images/spray_0.gif)     |
-| π/4 (45°)         | Narrow cone for flamethrowers                      | ![SpreadProfile 45 Degree Example](./images/spray_45.gif)   |
-| π/2 (90°)         | Medium spread for general effects                  | ![SpreadProfile 90 Degree Example](./images/spray_90.gif)   |
-| π (180°)          | Wide semicircle fan                                | ![SpreadProfile 180 Degree Example](./images/spray_180.gif) |
-| 2π radians (360°) | Full circle, equivalent to `PointProfile` behavior | ![SpreadProfile 360 Degree Example](./images/spray_360.gif) |
+| 0 radians         | Perfectly focused beam                             | ![SpreadProfile 0 Degree Example](./images/emission_profiles/spray_0.gif)     |
+| π/4 (45°)         | Narrow cone for flamethrowers                      | ![SpreadProfile 45 Degree Example](./images/emission_profiles/spray_45.gif)   |
+| π/2 (90°)         | Medium spread for general effects                  | ![SpreadProfile 90 Degree Example](./images/emission_profiles/spray_90.gif)   |
+| π (180°)          | Wide semicircle fan                                | ![SpreadProfile 180 Degree Example](./images/emission_profiles/spray_180.gif) |
+| 2π radians (360°) | Full circle, equivalent to `PointProfile` behavior | ![SpreadProfile 360 Degree Example](./images/emission_profiles/spray_360.gif) |
 
 ```cs title="SprayProfile Code Example"
 ParticleEmitter emitter = new ParticleEmitter(2000)
@@ -295,7 +295,7 @@ ParticleEmitter emitter = new ParticleEmitter(2000)
 };
 ```
 
-![SprayProfile Example](./images/spray_example.gif)
+![SprayProfile Example](./images/emission_profiles/spray_example.gif)
 
 ## Performance Considerations
 

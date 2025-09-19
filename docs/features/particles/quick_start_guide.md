@@ -200,7 +200,7 @@ protected override void Draw(GameTime gameTime)
 
 Run your game, and you should see a fire effect in the center of the screen with particles rising upward and fading out over time.
 
-![Fire particle effect](./images/fire.gif)
+![Fire particle effect](./images/quick_start/fire.gif)
 
 ## Making Effects Interactive: Mouse Following
 
@@ -225,7 +225,7 @@ protected override void Update(GameTime gameTime)
 
 Now when you run the game, the fire effect will follow your mouse cursor around the screen. This simple change demonstrates how particle effects can respond to player input or game events.
 
-![Fire effect following mouse cursor](./images/fire-moving.gif)
+![Fire effect following mouse cursor](./images/quick_start/fire-moving.gif)
 
 :::tip
 You can make effects follow any game object by updating the `Position` property. For example, in a platformer, you could make a magic aura follow the player character or create exhaust trails behind a spaceship.
@@ -329,7 +329,7 @@ protected override void Update(GameTime gameTime)
 
 Now if you run the game and click the mouse around the game window, each time you click, the explosion particle effect will trigger.
 
-![Explosion particle effect triggering where the mouse is clicked](./images/explosion.gif)
+![Explosion particle effect triggering where the mouse is clicked](./images/quick_start/explosion.gif)
 
 #### Understanding the Explosion Effect
 
@@ -411,7 +411,7 @@ private void CreateParticleEffect()
 
 Now if you run the game you'll see a shimmering sparkle effect of particles spawning and changing color until fading out.
 
-![Sparkling particle effect](./images/sparkle.gif)
+![Sparkling particle effect](./images/quick_start/sparkle.gif)
 
 #### Understanding the Sparkle Effect
 
