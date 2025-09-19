@@ -275,7 +275,6 @@ Profile.Spray(Vector2 direction, float spread)
 | `direction` | The central direction vector of the spray cone |
 | `spread`    | The angular width of the spray cone in radians |
 
-
 | Spread Angle      | Description                                        | Visual Effect                                               |
 | ----------------- | -------------------------------------------------- | ----------------------------------------------------------- |
 | 0 radians         | Perfectly focused beam                             | ![SpreadProfile 0 Degree Example](./images/spray_0.gif)     |
