@@ -20,12 +20,12 @@ Some of the main features of **MonoGame.Extended** include:
 | [Input](/docs/features/input/keyboardextended/keyboardextended.md)                     | Utility classes that extend the base input states provided by MonoGame as well as an `InputListener` for event based input events instead of poll based. |
 | [Camera](/docs/features/camera/camera.md)                                              | Class wrapper for viewport objects.  Allows easily moving the viewable area of your world.                                                               |
 | [Collections](/docs/features/collections/collections.md)                               | Containers for data with efficient insertion, removal, and memory usage. Each with unique reasons usage.                                                 |
-| [Collisions](/docs/features/collision/collision.md)                                    | Features to handle collision detection using different Space Algorithms.                                                                                                                           |
-| [Content Extensions](/docs/features/content-extensions/contentManager.md)       | Extension methods for ContentManager and ContentReader                                                                                                                           |
+| [Collisions](/docs/features/collision/collision.md)                                    | Features to handle collision detection using different Space Algorithms.                                                                                 |
+| [Content Extensions](/docs/features/content-extensions/contentManager.md)              | Extension methods for ContentManager and ContentReader                                                                                                   |
 | [ECS](/docs/features/entities/entities.md)                                             | ⚠️ Documentation needs updating                                                                                                                           |
 | [Graphics](/docs/features/scene-graphs/scene-graphs.md)                                | ⚠️ Documentation needs updating                                                                                                                           |
 | [Object Pooling](/docs/features/object-pooling/object-pooling.md)                      | Collection types that reduce performance issues related to things like Garbage Collection.                                                               |
-| [Particles](/docs/features/particles/particles.md)                                     | ⚠️ Documentation needs updating                                                                                                                           |
+| [Particles](/docs/features/particles/quick_start_guide.md)                             | MonoGame Extended's particle system guides                                                                                                               |
 | [Serialization](/docs/features/serialization/serialization.md)                         | ⚠️ Documentation needs updating                                                                                                                           |
 | [Screen Management](/docs/features/screen-management/screen-management.md)             | ⚠️ Documentation needs updating                                                                                                                           |
 | [Tilemap](/docs/features/tiled/tiled.md)                                               | ⚠️ Documentation needs updating                                                                                                                           |
@@ -44,12 +44,12 @@ Readers should have a solid foundational skill in C# and an understanding of how
 ## Join our Community
 If you have any questions related to **MonoGame.Extended**, you are welcome to join one of our community hubs and ask questions:
 
-- [GitHub Discussions](https://github.com/craftworkgames/MonoGame.Extended/discussions)
+- [GitHub Discussions](https://github.com/MonoGame-Extended/MonoGame-Extended/discussions)
 - [MonoGame.Extended Discord](https://discord.gg/FvZ8Z7EzPJ)
 
 The maintainers are also active in the main [MonoGame Discord](https://discord.gg/monogame).
 
 ## Something Missing?
-If you discover any issues with the documentation or have suggestions for improvement, please create an issue in the [documentation GitHub repository](https://github.com/craftworkgames/craftworkgames.github.io) or join the [MonoGame.Extended Discord](https://discord.gg/FvZ8Z7EzPJ) and leave a message. Contributions to the documentation are encouraged and welcome; please read the [Contributing](/docs/about/contributing) document first.
+If you discover any issues with the documentation or have suggestions for improvement, please create an issue in the [documentation GitHub repository](https://github.com/monogame-extended/monogame-extended.github.io) or join the [MonoGame.Extended Discord](https://discord.gg/FvZ8Z7EzPJ) and leave a message. Contributions to the documentation are encouraged and welcome; please read the [Contributing](/docs/about/contributing) document first.
 
-For issues or feature requests in the **MonoGame.Extended** library itself, please open new requests on the [MonoGame.Extended GitHub](https://github.com/craftworkgames/MonoGame.Extended).
+For issues or feature requests in the **MonoGame.Extended** library itself, please open new requests on the [MonoGame.Extended GitHub](https://github.com/MonoGame-Extended/MonoGame-Extended).

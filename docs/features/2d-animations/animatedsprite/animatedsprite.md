@@ -5,16 +5,16 @@ title: AnimatedSprite
 description: An AnimatedSprite encapsulates a SpriteSheet with methods to set the current animation and control the playback. 
 ---
 
-import AdventurerSpriteSheet from './adventurer.png'
+import AdventurerSpriteSheet from './adventurer-texture.png'
 import IdleAnimation from './idle_animation.gif'
 import AttackNoIdle from './attack_no_idle.gif'
 import EventTrigger from './event_trigger.gif'
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/craftworkgames/craftworkgames.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
-In the [previous document](/docs/features/2d-animations/spritesheet/spritesheet.md) about `SpriteSheets` we went over how to create a `SpriteSheet`, define animations, and retrieve the animations from it.  Doing this only gives use the `SpriteSheetAnimation` instance for that animation, which we then have to create an `AnimationController` with to manage that single animation.
+In the [previous document](/docs/features/2d-animations/spritesheet/spritesheet.md) about `SpriteSheets` we went over how to create a `SpriteSheet`, define animations, and retrieve the animations from it.  Doing this only gives us the `SpriteSheetAnimation` instance for that animation, which we then have to create an `AnimationController` with to manage that single animation.
 
 However, typically a `SpriteSheet` is going to contain several animations related to a single concept, like all of the animations for a player.  To better manage controlling the animations from the `SpriteSheet` we can use the `AnimatedSprite` class.
 
@@ -37,75 +37,46 @@ protected override void LoadContent()
 {
     _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-    //highlight-next-line
-    Texture2D adventurerTexture = Content.Load<Texture2D>("adventurer");
-    //highlight-next-line
-    Texture2DAtlas atlas = Texture2DAtlas.Create("Atlas/adventurer", adventurerTexture, 50, 37);
-    //highlight-next-line
+    //highlight-start
+    Texture2DAtlas atlas = Content.Load<Texture2DAtlas>("adventurer");
     SpriteSheet spriteSheet = new SpriteSheet("SpriteSheet/adventurer", atlas);
 
-    //highlight-next-line
+    TimeSpan duration = TimeSpan.FromSeconds(0.1);
     spriteSheet.DefineAnimation("attack", builder =>
-    //highlight-next-line
     {
-        //highlight-next-line
         builder.IsLooping(false)
-                //highlight-next-line
-               .AddFrame(regionIndex: 0, duration: TimeSpan.FromSeconds(0.1))
-               //highlight-next-line
-               .AddFrame(1, TimeSpan.FromSeconds(0.1))
-               //highlight-next-line
-               .AddFrame(2, TimeSpan.FromSeconds(0.1))
-               //highlight-next-line
-               .AddFrame(3, TimeSpan.FromSeconds(0.1))
-               //highlight-next-line
-               .AddFrame(4, TimeSpan.FromSeconds(0.1))
-               //highlight-next-line
-               .AddFrame(5, TimeSpan.FromSeconds(0.1));
-    //highlight-next-line
+               .AddFrame("adventurer-attack3-00", duration)
+               .AddFrame("adventurer-attack3-01", duration)
+               .AddFrame("adventurer-attack3-02", duration)
+               .AddFrame("adventurer-attack3-03", duration)
+               .AddFrame("adventurer-attack3-04", duration)
+               .AddFrame("adventurer-attack3-05", duration);
     });
 
-    //highlight-next-line
     spriteSheet.DefineAnimation("idle", builder =>
-    //highlight-next-line
     {
-        //highlight-next-line
         builder.IsLooping(true)
-                //highlight-next-line
-               .AddFrame(6, TimeSpan.FromSeconds(0.1))
-               //highlight-next-line
-               .AddFrame(7, TimeSpan.FromSeconds(0.1))
-               //highlight-next-line
-               .AddFrame(8, TimeSpan.FromSeconds(0.1))
-               //highlight-next-line
-               .AddFrame(9, TimeSpan.FromSeconds(0.1));
-    //highlight-next-line
+               .AddFrame("adventurer-idle-2-00", duration)
+               .AddFrame("adventurer-idle-2-01", duration)
+               .AddFrame("adventurer-idle-2-02", duration)
+               .AddFrame("adventurer-idle-2-03", duration);
     });
 
-    //highlight-next-line
     spriteSheet.DefineAnimation("run", builder =>
-    //highlight-next-line
     {
-        //highlight-next-line
         builder.IsLooping(true)
-                //highlight-next-line
-               .AddFrame(10, TimeSpan.FromSeconds(0.1))
-               //highlight-next-line
-               .AddFrame(11, TimeSpan.FromSeconds(0.1))
-               //highlight-next-line
-               .AddFrame(12, TimeSpan.FromSeconds(0.1))
-               //highlight-next-line
-               .AddFrame(13, TimeSpan.FromSeconds(0.1))
-               //highlight-next-line
-               .AddFrame(14, TimeSpan.FromSeconds(0.1))
-               //highlight-next-line
-               .AddFrame(15, TimeSpan.FromSeconds(0.1));
-    //highlight-next-line
+               .AddFrame("adventurer-run-00", duration)
+               .AddFrame("adventurer-run-01", duration)
+               .AddFrame("adventurer-run-02", duration)
+               .AddFrame("adventurer-run-03", duration)
+               .AddFrame("adventurer-run-04", duration)
+               .AddFrame("adventurer-run-05", duration);
     });
+    //highlight-end
 }
 ```
 
-This creates the `Texture2DAtlas` using the `Texture2DAtlas.Create` method to automatically generate the regions, creates a `SpriteSheet` using the atlas, then defines the animations for the `attack`, `idle`, and `run` animations.  **Note that the `attack` animation is set to `false` for looping.  This will be important later.**
+This creates the `Texture2DAtlas` based on a JSON data file that automatically generates the regions, creates a `SpriteSheet` using the atlas, then defines the animations for the `attack`, `idle`, and `run` animations.  **Note that the `attack` animation is set to `false` for looping.  This will be important later.**
 
 Now that we have the `SpriteSheet` defined, let's use it to create an `AnimatedSprite`
 
@@ -119,39 +90,39 @@ protected override void LoadContent()
 {
     _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-    Texture2D adventurerTexture = Content.Load<Texture2D>("adventurer");
-    Texture2DAtlas atlas = Texture2DAtlas.Create("Atlas/adventurer", adventurerTexture, 50, 37);
+    Texture2DAtlas atlas = Content.Load<Texture2DAtlas>("adventurer");
     SpriteSheet spriteSheet = new SpriteSheet("SpriteSheet/adventurer", atlas);
 
+    TimeSpan duration = TimeSpan.FromSeconds(0.1);
     spriteSheet.DefineAnimation("attack", builder =>
     {
-        builder.IsLooping(true)
-               .AddFrame(regionIndex: 0, duration: TimeSpan.FromSeconds(0.1))
-               .AddFrame(1, TimeSpan.FromSeconds(0.1))
-               .AddFrame(2, TimeSpan.FromSeconds(0.1))
-               .AddFrame(3, TimeSpan.FromSeconds(0.1))
-               .AddFrame(4, TimeSpan.FromSeconds(0.1))
-               .AddFrame(5, TimeSpan.FromSeconds(0.1));
+        builder.IsLooping(false)
+               .AddFrame("adventurer-attack3-00", duration)
+               .AddFrame("adventurer-attack3-01", duration)
+               .AddFrame("adventurer-attack3-02", duration)
+               .AddFrame("adventurer-attack3-03", duration)
+               .AddFrame("adventurer-attack3-04", duration)
+               .AddFrame("adventurer-attack3-05", duration);
     });
 
     spriteSheet.DefineAnimation("idle", builder =>
     {
         builder.IsLooping(true)
-               .AddFrame(6, TimeSpan.FromSeconds(0.1))
-               .AddFrame(7, TimeSpan.FromSeconds(0.1))
-               .AddFrame(8, TimeSpan.FromSeconds(0.1))
-               .AddFrame(9, TimeSpan.FromSeconds(0.1));
+               .AddFrame("adventurer-idle-2-00", duration)
+               .AddFrame("adventurer-idle-2-01", duration)
+               .AddFrame("adventurer-idle-2-02", duration)
+               .AddFrame("adventurer-idle-2-03", duration);
     });
 
     spriteSheet.DefineAnimation("run", builder =>
     {
         builder.IsLooping(true)
-               .AddFrame(10, TimeSpan.FromSeconds(0.1))
-               .AddFrame(11, TimeSpan.FromSeconds(0.1))
-               .AddFrame(12, TimeSpan.FromSeconds(0.1))
-               .AddFrame(13, TimeSpan.FromSeconds(0.1))
-               .AddFrame(14, TimeSpan.FromSeconds(0.1))
-               .AddFrame(15, TimeSpan.FromSeconds(0.1));
+               .AddFrame("adventurer-run-00", duration)
+               .AddFrame("adventurer-run-01", duration)
+               .AddFrame("adventurer-run-02", duration)
+               .AddFrame("adventurer-run-03", duration)
+               .AddFrame("adventurer-run-04", duration)
+               .AddFrame("adventurer-run-05", duration);
     });
 
     // highlight-next-line
@@ -160,7 +131,7 @@ protected override void LoadContent()
 ```
 
 ## Updating the `AnimatedSprite`
-The `AnimatedSprite` needs to be updated each frame so it can track the progressof the animation and change frames when the duration for the current frame has passed
+The `AnimatedSprite` needs to be updated each frame so it can track the progress of the animation and change frames when the duration for the current frame has passed
 
 ```cs
 protected override void Update(GameTime gameTime)
@@ -248,7 +219,13 @@ Now, if we run our sample and press the `Enter` key, the attack animation will p
 
 Instead, we would like to tell it that when the animation completes, it should go back to the `idle` animation.  We can do this using the `IAnimationController.OnAnimationEvent` event.
 
-Modify the code to the following
+### Event Handler Management - Important Considerations
+
+Before we implement animation events, there's an important concept to understand about event handlers in C#. Each time you subscribe to an event using a lambda expression or anonymous method, you're creating a new delegate instance. If you subscribe multiple times without unsubscribing, you'll accumulate handlers that all execute when the event fires.
+
+This can lead to memory leaks and unexpected behavior where your code runs multiple times. For animation events, this means if a player pressed Enter multiple times, each press would add another handler, causing the idle animation to be set multiple times when any attack animation completes.
+
+Let's look at the proper way to handle this:
 
 ```cs
 protected override void Initialize()
@@ -258,27 +235,34 @@ protected override void Initialize()
     {
         if (eventArgs.Key == Keys.Enter && _adventurer.CurrentAnimation == "idle")
         {
-            // highlight-next-line
-            _adventurer.SetAnimation("attack").OnAnimationEvent += (sender, trigger) =>
-            // highlight-next-line
+            // highlight-start
+            // Store a reference to our handler so we can unregister it later
+            void handler(IAnimationController animSender, AnimationEventTrigger trigger)
             {
-                // highlight-next-line
                 if (trigger == AnimationEventTrigger.AnimationCompleted)
-                // highlight-next-line
                 {
-                    // highlight-next-line
+                    // Important: Unregister the handler first to prevent accumulation
+                    animSender.OnAnimationEvent -= handler;
                     _adventurer.SetAnimation("idle");
-                // highlight-next-line
                 }
-            // highlight-next-line
-            };
+            }
+
+            // Subscribe to the event with our handler
+            _adventurer.SetAnimation("attack").OnAnimationEvent += handler;
+            // highlight-end
         }
     };
     base.Initialize();
 }
 ```
 
-If we run the sample now, when we press `Enter`, the attack animation will play.  Once the animation completes, it will trigger the animation event, which we're now checking for and change it back to using the `idle` animation.
+This approach creates a self-unregistering handler. The handler removes itself from the event after it executes, preventing accumulation of multiple handlers.
+
+:::warning[Event Handler Accumulation]
+Always be mindful when subscribing to events inside loops, conditional blocks, or repeated operations. Lambda expressions create new delegate instances each time they're evaluated. For temporary event subscriptions like animation completion handlers, always unregister when done to prevent memory leaks and unexpected behavior.
+:::
+
+If we run the sample now, when we press `Enter`, the attack animation will play. Once the animation completes, it will trigger the animation event, which we're now checking for and change it back to using the `idle` animation. Each press of Enter will work correctly without accumulating handlers.
 
 <figure>
     <img src={EventTrigger} style={{width: '100%', imageRendering: 'pixelated'}}/>
@@ -289,5 +273,118 @@ If we run the sample now, when we press `Enter`, the attack animation will play.
     </figcaption>
 </figure>
 
+## Alternative Patterns for Complex Animation Management
+
+For more complex scenarios with multiple animations and states, you might want to consider alternative patterns:
+
+### Persistent Event Handler Pattern
+
+Instead of creating handlers for each animation, use a single persistent handler:
+
+```cs
+private bool _isAttacking;
+
+protected override void Initialize()
+{
+    // Set up a single persistent animation event handler
+    _adventurer.OnAnimationEvent += OnAnimationEvent;
+    
+    _keyboardListener = new KeyboardListener();
+    _keyboardListener.KeyPressed += (sender, eventArgs) =>
+    {
+        if (eventArgs.Key == Keys.Enter && _adventurer.CurrentAnimation == "idle")
+        {
+            _isAttacking = true;
+            _adventurer.SetAnimation("attack");
+        }
+    };
+    base.Initialize();
+}
+
+private void OnAnimationEvent(object sender, AnimationEventTrigger trigger)
+{
+    if (_isAttacking && trigger == AnimationEventTrigger.AnimationCompleted)
+    {
+        _isAttacking = false;
+        _adventurer.SetAnimation("idle");
+    }
+}
+
+protected override void UnloadContent()
+{
+    // Clean up event handlers when disposing
+    if (_adventurer != null)
+    {
+        _adventurer.OnAnimationEvent -= OnAnimationEvent;
+    }
+    base.UnloadContent();
+}
+```
+
+### State Machine Pattern
+
+For even more complex character behavior, consider implementing a state machine:
+
+```cs
+private enum CharacterState
+{
+    Idle,
+    Attacking,
+    Running
+}
+
+private CharacterState _characterState = CharacterState.Idle;
+
+protected override void Initialize()
+{
+    _adventurer.OnAnimationEvent += OnAnimationEvent;
+    
+    _keyboardListener = new KeyboardListener();
+    _keyboardListener.KeyPressed += (sender, eventArgs) =>
+    {
+        if (eventArgs.Key == Keys.Enter && _characterState == CharacterState.Idle)
+        {
+            _characterState = CharacterState.Attacking;
+            _adventurer.SetAnimation("attack");
+        }
+    };
+    base.Initialize();
+}
+
+private void OnAnimationEvent(object sender, AnimationEventTrigger trigger)
+{
+    switch (_characterState)
+    {
+        case CharacterState.Attacking when trigger == AnimationEventTrigger.AnimationCompleted:
+            _characterState = CharacterState.Idle;
+            _adventurer.SetAnimation("idle");
+            break;
+        // Handle other state transitions...
+    }
+}
+```
+
+## Cleanup and Best Practices
+
+Remember to clean up event handlers when your game objects are disposed to prevent memory leaks:
+
+```cs
+protected override void UnloadContent()
+{
+    // Unsubscribe from events to prevent memory leaks
+    if (_adventurer != null)
+    {
+        // If using persistent handlers, unsubscribe them
+        _adventurer.OnAnimationEvent -= OnAnimationEvent;
+    }
+    
+    base.UnloadContent();
+}
+```
+
 ## Conclusion
-The `AnimatedSprite` class provides a way to manage multiple animations from a single `SpriteSheet`. By encapsulating the animation logic within the `AnimatedSprite`, it simplifies the process of updating, drawing, and controlling animations. This makes it easier to handle transitions and events within your animations. Using the `IAnimationController` interface and its event triggers, you can create animations that react to game events and user inputs.
+The `AnimatedSprite` class provides a powerful way to manage multiple animations from a single `SpriteSheet`. By encapsulating the animation logic within the `AnimatedSprite`, it simplifies the process of updating, drawing, and controlling animations. 
+
+When working with animation events, always be mindful of event handler management to prevent memory leaks and unexpected behavior. The self-unregistering handler pattern shown in this tutorial works well for simple scenarios, while persistent handlers or state machines provide better structure for complex animation systems.
+
+Using the `IAnimationController` interface and its event triggers thoughtfully, you can create robust animation systems that react to game events and user inputs while maintaining clean, maintainable code.

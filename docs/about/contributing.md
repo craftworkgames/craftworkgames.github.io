@@ -17,7 +17,7 @@ All Pull Requests will trigger a GitHub action that will execute the test script
 
 Once all reviews are satisfied and all tests are passing, your changes will be merged into `MonoGame.Extended`.
 
-If you are looking for ways to contribute, you should start by looking at the [open issues](https://github.com/craftworkgames/MonoGame.Extended/issues) on GitHub.  Please let us know if you plan to work on an issue so that others are not duplicating work.
+If you are looking for ways to contribute, you should start by looking at the [open issues](https://github.com/MonoGame-Extended/MonoGame-Extended/issues) on GitHub.  Please let us know if you plan to work on an issue so that others are not duplicating work.
 
 ## Quick Guidelines
 Here are a few simple rules and suggestions to remember when contributing to **MonoGame.Extended**
@@ -31,7 +31,7 @@ Here are a few simple rules and suggestions to remember when contributing to **M
 - **DO NOT** surprise us with new APIs or big new features. Open an issue to discuss your ideas first.
 - **DO NOT** reorder type members as it makes it difficult to compare code changes in a PR.
 - **DO** give priority to the existing style of the file you're changing.
-- **DO** try to add to our [unit tests](https://github.com/craftworkgames/MonoGame.Extended/tree/develop/tests) when adding new features or fixing bugs.
+- **DO** try to add to our [unit tests](https://github.com/MonoGame-Extended/MonoGame-Extended/tree/develop/tests) when adding new features or fixing bugs.
 - **DO NOT** send PRs for code style changes or make code changes just for the sake of style.
 - **PLEASE** keep a civil and respectful tone when discussing and reviewing contributions.
 - **PLEASE** tell others about **MonoGame.Extended** and your contributions via social media.
@@ -52,7 +52,7 @@ If you did not write the code, you do not have ownership of the code, and you sh
 If we find a contribution in violation of copyright it will be immediately removed. We will bar that contributor from the **MonoGame.Extended** project.
 
 ## Licensing
-The **MonoGame.Extended** project is under the [MIT License](https://opensource.org/licenses/MIT) unless a portion of code is explicitly stated elsewhere. See the [LICENSE](https://github.com/craftworkgames/MonoGame.Extended/blob/develop/LICENSE) for more details. Third-party libraries used by **MonoGame.Extended** are under their own licenses, we always seek permission from the original author of those libraries.. Please refer to those libraries for details on the license they use.
+The **MonoGame.Extended** project is under the [MIT License](https://opensource.org/licenses/MIT) unless a portion of code is explicitly stated elsewhere. See the [LICENSE](https://github.com/MonoGame-Extended/MonoGame-Extended/blob/develop/LICENSE) for more details. Third-party libraries used by **MonoGame.Extended** are under their own licenses, we always seek permission from the original author of those libraries.. Please refer to those libraries for details on the license they use.
 
 We accept contributions in "good faith" that it isn't bound to a conflicting license. By submitting a PR you agree to distribute your work under the **MonoGame.Extended** license and copyright.
 

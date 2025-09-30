@@ -5,7 +5,7 @@ sidebar_label: Object Pooling
 ---
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/craftworkgames/craftworkgames.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
 Object pooling is an optimization pattern. It's used to improve performance, in certain cases, by re-using objects instead of allocating memory for them on demand. In C/C++, one the things object pooling has to offer is a solution to avoid [memory fragmentation](http://stackoverflow.com/questions/3770457/what-is-memory-fragmentation). In C#, we don't have to worry about memory fragmentation thanks to [garbage collection](https://msdn.microsoft.com/en-us/library/ee787088). However, garbage collection can be still be too expensive for certain parts of real-time applications, especially on mobile devices with slower CPUs and simpler garbage collectors. [More details on object pooling here](http://gameprogrammingpatterns.com/object-pool.html).

@@ -5,7 +5,7 @@ sidebar_label: MouseExtended
 ---
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/craftworkgames/craftworkgames.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
 `MouseExtended` is an extension of the `Microsoft.Xna.Framework.Input.Mouse` class. Unlike the default MonoGame one, `MouseExtended` will internally track both the mouse state of the previous frame and the mouse state of the current frame.  This allows for easy comparisons between the previous and current state to check for things like  single frame button presses and tracking mouse position delta between frames

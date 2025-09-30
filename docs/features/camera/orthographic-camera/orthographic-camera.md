@@ -5,7 +5,7 @@ title: Orthographic Camera
 ---
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/craftworkgames/craftworkgames.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
 This camera type creates a view with no depth perception.  Exactly what is wanted for a 2D game.  Below are some of the common actions you might want to take with the camera.  There are many other methods and attributes on the class you can use and modify to get different behavior.

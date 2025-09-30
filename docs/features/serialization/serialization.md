@@ -6,7 +6,7 @@ description: JSON serialization helpers
 ---
 
 :::warning[Not up to date]
-This page **is not** up to date for MonoGame.Extended `@mgeversion@`.  If you would like to contribute to updating this document, please [create a new PR](https://github.com/craftworkgames/craftworkgames.github.io/pulls)
+This page **is not** up to date for MonoGame.Extended `@mgeversion@`.  If you would like to contribute to updating this document, please [create a new PR](https://github.com/monogame-extended/monogame-extended.github.io/pulls)
 :::
 
 MonoGame.Extended contains various serialization helpers that work with [Newtonsoft Json.NET](http://www.newtonsoft.com/json/help/html/SerializingJSON.htm).

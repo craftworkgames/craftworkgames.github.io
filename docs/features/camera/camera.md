@@ -9,7 +9,7 @@ import FreehandCamera from './camera.svg'
 import CameraExample from './cameraExample.png'
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/craftworkgames/craftworkgames.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
 The purpose of a camera is to provide a quick way show the game world from a different position in space.  The way the camera does this is by using a transformation matrix that changes the way a sprite batch is rendered to the screen.  This allows no movement of objects, and instead, moves the projected image on screen space.

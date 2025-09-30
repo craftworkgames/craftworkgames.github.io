@@ -13,13 +13,13 @@ I wanted to take a moment and give a report on some of the progress made so far 
 <!-- trunicated -->
 
 ## Current Status
-If you take a look at the [v4.0.0 Milestone](https://github.com/craftworkgames/MonoGame.Extended/milestone/8) page, you can see we are now at 55% completed
+If you take a look at the [v4.0.0 Milestone](https://github.com/MonoGame-Extended/MonoGame-Extended/milestone/8) page, you can see we are now at 55% completed
 
 ![4.0.0 Milestone 55% Completed](./milestone-55.png)
 
-If you'd like to checkout the list of issues that have been worked through so far, you can view them [here](https://github.com/craftworkgames/MonoGame.Extended/issues?q=is%3Aissue%20is%3Aclosed%20project%3Acraftworkgames%2F6).
+If you'd like to checkout the list of issues that have been worked through so far, you can view them [here](https://github.com/MonoGame-Extended/MonoGame-Extended/issues?q=is%3Aissue%20is%3Aclosed%20project%3Acraftworkgames%2F6).
 
-A lot of the remaining issues here could be closed with better documentation, which is going to come in the last leg of this sprint. However, with the current pace, the current deadline of end of June is looking good.  If you'd like to get involved in helping resolve the backlog of issues, please do. Be sure to checkout the [Contributing Guidelines](https://github.com/craftworkgames/MonoGame.Extended/blob/develop/CONTRIBUTING.md) and fee free to contact me on discord with any questions.
+A lot of the remaining issues here could be closed with better documentation, which is going to come in the last leg of this sprint. However, with the current pace, the current deadline of end of June is looking good.  If you'd like to get involved in helping resolve the backlog of issues, please do. Be sure to checkout the [Contributing Guidelines](https://github.com/MonoGame-Extended/MonoGame-Extended/blob/develop/CONTRIBUTING.md) and fee free to contact me on discord with any questions.
 
 And with that status report out of the way, I wanted to touch on some other subjects
 

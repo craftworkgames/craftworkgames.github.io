@@ -50,7 +50,7 @@ This new `MonoGameExtendedPipelineReferencePath` property defines the path that 
 If you use the content pipeline extensions, please give me any feedback on this new method, good or bad.  
 
 ## To Close Out
-That's all I have for you for now.  Version 4 "stable" is officially released and smaller, but more frequent, releases will follow for various bug fixes and features.  If you have any questions or concerns, please let us know. You can use the comment section below which is linked with the [MonoGame.Extended GitHub Discussion](https://github.com/craftworkgames/MonoGame.Extended/discussions) board, or you can come by the [MonoGame.Extended Discord](https://discord.gg/FvZ8Z7EzPJ) and yell at me.
+That's all I have for you for now.  Version 4 "stable" is officially released and smaller, but more frequent, releases will follow for various bug fixes and features.  If you have any questions or concerns, please let us know. You can use the comment section below which is linked with the [MonoGame.Extended GitHub Discussion](https://github.com/MonoGame-Extended/MonoGame-Extended/discussions) board, or you can come by the [MonoGame.Extended Discord](https://discord.gg/FvZ8Z7EzPJ) and yell at me.
 
 Thanks everyone,
 

@@ -14,7 +14,7 @@ Previously, MonoGame.Extended required that the `.fnt` file created by BMFont be
 
 ![BMFont File Format Options](./bmfont-file-format.png)
 
-With [PR #887](https://github.com/craftworkgames/MonoGame.Extended/pull/887) all three export formats are now supported both when loading the file directly at runtime or if you want to use the Content Pipeline to preprocess the file.
+With [PR #887](https://github.com/MonoGame-Extended/MonoGame-Extended/pull/887) all three export formats are now supported both when loading the file directly at runtime or if you want to use the Content Pipeline to preprocess the file.
 
 This change is significant because it means that you can use any tool that can export a `.fnt` file in the AngleCode Bitmap Font file format, such as [libGDX Hiero](https://libgdx.com/wiki/tools/hiero) which can be used cross platform.  Previously only the AngleCode BMFont application could be used, which was Windows only, unless you setup WINE on macOS or Linux to run it.
 

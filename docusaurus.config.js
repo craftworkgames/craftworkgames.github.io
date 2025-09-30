@@ -1,7 +1,7 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 
 const globalVariables = {
-  'mgeversion': '4.0.4'
+  'mgeversion': '5.1.0'
 }
 
 /** @type {import('@docusaurus/types').Config} */
@@ -11,8 +11,8 @@ const config = {
   favicon: 'img/favicon.ico',
   url: 'https://www.monogameextended.net',
   baseUrl: '/',
-  organizationName: 'craftworkgames',
-  projectName: 'craftworkgames.github.io',
+  organizationName: 'MonoGame-Extended',
+  projectName: 'monogame-extended.github.io',
   deploymentBranch: 'gh-pages',
   trailingSlash: true,
   onBrokenLinks: 'throw',
@@ -22,6 +22,23 @@ const config = {
     locales: ['en'],
   },
 
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'me',
+        href: 'https://mastodon.gamedev.place/@monogameextended'
+      }
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'fediverse:creator',
+        content: '@monogameextended@mastodon.gamedev.place',
+      },
+    }
+  ],
+
   presets: [
     [
       'classic',
@@ -29,11 +46,11 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
-          editUrl: 'https://github.com/craftworkgames/craftworkgames.github.io/tree/develop/',
+          editUrl: 'https://github.com/monogame-extended/monogame-extended.github.io/tree/develop/',
         },
         blog: {
           showReadingTime: true,
-          editUrl: 'https://github.com/craftworkgames/craftworkgames.github.io/tree/develop/',
+          editUrl: 'https://github.com/monogame-extended/monogame-extended.github.io/tree/develop/',
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -43,10 +60,10 @@ const config = {
   ],
 
   markdown: {
-    preprocessor: ({filePath, fileContent}) => {
+    preprocessor: ({ filePath, fileContent }) => {
       var key = '';
       var found = false;
-      for(key in globalVariables) {
+      for (key in globalVariables) {
         fileContent = fileContent.replaceAll(`@${key}@`, globalVariables[key]);
       }
       return fileContent;
@@ -73,7 +90,7 @@ const config = {
           },
           { to: '/blog', label: 'Blog', position: 'left' },
           {
-            href: 'https://github.com/craftworkgames/MonoGame.Extended',
+            href: 'https://github.com/monogame-extended/Monogame-Extended',
             label: 'GitHub',
             position: 'right',
           },
@@ -97,6 +114,18 @@ const config = {
               {
                 label: 'Discord',
                 href: 'https://discord.gg/FvZ8Z7EzPJ',
+              },
+              {
+                label: 'Twitter',
+                href: 'https://twitter.com/MonoGameEx'
+              },
+              {
+                label: 'Bluesky',
+                href: 'https://bsky.app/profile/monogameextended.bsky.social'
+              },
+              {
+                label: 'Mastodon',
+                href: 'https://mastodon.gamedev.place/@monogameextended'
               }
             ],
           },
@@ -109,12 +138,12 @@ const config = {
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/craftworkgames/MonoGame.Extended',
+                href: 'https://github.com/monogame-extended/monogame-extended',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Craftwork Games.`,
+        copyright: `Copyright © ${new Date().getFullYear()} MonoGame Extended.`,
       },
       prism: {
         theme: prismThemes.github,

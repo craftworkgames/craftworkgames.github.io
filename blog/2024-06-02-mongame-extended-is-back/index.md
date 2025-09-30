@@ -24,7 +24,7 @@ If you have any questions or concerns about this, please contact me on the [Mono
 ## Roadmap
 Coming into MonoGame.Extended as a maintainer, the first priority is getting outstanding issues closed and a new release pushed.  This means my current attention will be focused solely on that goal for now.  New features that have been requested will be pushed back in favor of prioritizing outstanding issues.
 
-I currently have a goal of resolving outstanding issue by the end of June 2024. You can follow the progress of this on the [v4.0.0 Milestone](https://github.com/craftworkgames/MonoGame.Extended/milestone/8) page.
+I currently have a goal of resolving outstanding issue by the end of June 2024. You can follow the progress of this on the [v4.0.0 Milestone](https://github.com/MonoGame-Extended/MonoGame-Extended/milestone/8) page.
 
 ## Acknowledgements
 MonoGame.Extended would not exist were it not for the original maintainer Dylan Wilson [@dylanwilson80](https://github.com/dylanwilson80), Lucas Girouard-Stranks [@lithiumtoast](https://github.com/lithiumtoast) taking over, and the work done by countless community members over time.  Thank you everyone for all that you have done for this project in the past, and I am honored to be the person leading this into the future.  I look forward to working with you all to continue shaping this into the best extension library for MonoGame.

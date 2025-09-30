@@ -6,7 +6,7 @@ description: An example document for gum
 ---
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/craftworkgames/craftworkgames.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 Gum Forms provides a collection of flexible, fully customizable controls which can be added to your project with just a few lines of code. 
 
@@ -33,13 +33,17 @@ The following code shows a single Gum Forms button in an otherwise empty Game1 c
 
 ```cs
 
+using Gum.Forms;
+using Gum.Forms.Controls;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGameGum;
 
 public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
 
-    GumService Gum => GumService.Default;
+    GumService GumUI => GumService.Default;
 
     public Game1()
     {
@@ -53,14 +57,12 @@ public class Game1 : Game
     {
         // If loading a Gum project (gumx), pass that
         // parameter as the 2nd argument
-        var gumProject = Gum.Initialize(this);
+        GumUI.Initialize(this, DefaultVisualsVersion.V2);
 
-        var button = new Button();
+        Button button = new Button();
         button.AddToRoot();
         button.X = 50;
         button.Y = 50;
-        button.Width = 200;
-        button.Height = 50;
         button.Text = "Hello MonoGame.Extended!";
         int clickCount = 0;
         button.Click += (_, _) =>
@@ -73,14 +75,14 @@ public class Game1 : Game
 
     protected override void Update(GameTime gameTime)
     {
-        Gum.Update(gameTime);
+        GumUI.Update(gameTime);
         base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
-        Gum.Draw();
+        GumUI.Draw();
         base.Draw(gameTime);
     }
 }
@@ -96,7 +98,7 @@ The Button is a control providing an event for handling clicks. Button objects c
 The following code adds a button which increments every time it is clicked:
 
 ```cs
-var button = new Button();
+Button button = new Button();
 button.X = 0;
 button.Y = 0;
 button.Width = 200;
@@ -117,7 +119,7 @@ The CheckBox control provides the ability to display a true/false state and allo
 The following code creates a CheckBox which outputs text whenever it is checked and unchecked:
 
 ```cs
-var checkBox = new CheckBox();
+CheckBox checkBox = new CheckBox();
 checkBox.X = 50;
 checkBox.Y = 50;
 checkBox.Text = "Checkbox";
@@ -132,13 +134,13 @@ The ListBox control provides a scrollable list of ListBoxItems for displaying an
 The following code adds items to a ListBox when a button is clicked. When an item is added, `ScrollIntoView` is called so the item is shown.
 
 ```cs
-var listBox = new ListBox();
+ListBox listBox = new ListBox();
 listBox.X = 50;
 listBox.Y = 50;
 listBox.Width = 400;
 listBox.Height = 200;
 
-var button = new Button();
+Button button = new Button();
 this.Root.Children.Add(button.Visual);
 button.X = 50;
 button.Y = 270;
@@ -147,7 +149,7 @@ button.Height = 40;
 button.Text = "Add to ListBox";
 button.Click += (s, e) =>
 {
-    var newItem = $"Item @ {DateTime.Now}";
+    string newItem = $"Item @ {DateTime.Now}";
     listBox.Items.Add(newItem);
     listBox.ScrollIntoView(newItem);
 };
@@ -160,7 +162,7 @@ The Slider control provides a way for the user to change a value by dragging the
 The following code creates a Slider which allows the user to select a value between 0 and 30, inclusive.  The `IsSnapToTickEnabled` property results in the value being snapped to the `TickFrequency` value. In this case, the value is used to force whole numbers.
 
 ```cs
-var slider = new Slider();
+Slider slider = new Slider();
 slider.X = 50;
 slider.Y = 50;
 slider.Minimum = 0;
@@ -181,14 +183,14 @@ The TextBox control allows users to enter a string. It supports highlighting, co
 The following code creates two TextBoxes which can be used to test copy/paste.
 
 ```cs
-var textBox = new TextBox();
+TextBox textBox = new TextBox();
 textBox.X = 50;
 textBox.Y = 50;
 textBox.Width = 200;
 textBox.Height = 34;
 textBox.Placeholder = "Placeholder Text...";
 
-var textBox2 = new TextBox();
+TextBox textBox2 = new TextBox();
 this.Root.Children.Add(textBox2.Visual);
 textBox2.X = 50;
 textBox2.Y = 90;
