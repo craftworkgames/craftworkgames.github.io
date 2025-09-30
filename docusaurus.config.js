@@ -152,7 +152,7 @@ const config = {
       },
       announcementBar: {
         id: 'announcement-docs-updating',
-        content: '⚠ Documentation is currently being updated for V4. There may be missing or incomplete information while they are updated.'
+        content: '⚠ Documentation is currently being updated for V5. There may be missing or incomplete information while they are updated.'
       }
     }),
 };

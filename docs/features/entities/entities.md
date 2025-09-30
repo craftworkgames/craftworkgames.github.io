@@ -5,19 +5,19 @@ sidebar_label: Entities
 description: High performance, Artemis based, Entity Component System (ECS)
 ---
 
-:::warning[Not up to date]
-This page **is not** up to date for MonoGame.Extended `@mgeversion@`.  If you would like to contribute to updating this document, please [create a new PR](https://github.com/monogame-extended/monogame-extended.github.io/pulls)
+:::tip[Up to date]
+This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
-The Entities package is a modern high performance Artemis based Entity Component System. Many of the features found in this implementation were inspired by artemis-odb. Although, many others were also studied during development. As you'll see the systems are designed to feel familar to MonoGame developers.
+The Entities package is a modern high performance Artemis based Entity Component System. Many of the features found in this implementation were inspired by artemis-odb. Although, many others were also studied during development. As you'll see the systems are designed to feel familiar to MonoGame developers.
 
 ## What is an ECS?
 
 An [Entity Component System (ECS)](https://www.gamedev.net/articles/programming/general-and-gameplay-programming/understanding-component-entity-systems-r3013) is a way to build and manage the entities (or game objects) in your game by composing their component parts together. An ECS consists of three main parts:
 
-### Components
+### 1. Components Overview
 
-A component is a class that holds some _state_ about the entity. Typically, components are lightweight and don't contain any game logic. It's common to have components with only a few properties or fields. Components can be more complex but inheritence is not encouraged.
+A component is a class that holds some _state_ about the entity. Typically, components are lightweight and don't contain any game logic. It's common to have components with only a few properties or fields. Components can be more complex but inheritance is not encouraged.
 
 __Examples of Components are:__
 
@@ -28,14 +28,14 @@ __Examples of Components are:__
 |Transform2|**Vector2** position|
 |Sprite|**Texture2d** image|
 
-![Raindrop Component class with Vector2 Velocity and float Size](Raindrop.png) ![Expiry Component class with float TimeRemaining](Expiry.png) ![Transform2 Component Class with Vector2 position](Transform2.png) ![Srite Component Class with Texture2d image](Sprite.png)
+![Raindrop Component class with Vector2 Velocity and float Size](Raindrop.png) ![Expiry Component class with float TimeRemaining](Expiry.png) ![Transform2 Component Class with Vector2 position](Transform2.png) ![Sprite Component Class with Texture2d image](Sprite.png)
 
 
-### Entities
+### 2. Entities Overview
 
-An entity is a composition of components identified by an ID. Often you only need the ID of the entity to work with it. For performance reasons, and entity ID is only valid while the entity is alive. Once the entity is destroyed, it's ID may be recycled.  Entities are created for you when you call `CreateEntity` on the `World` instance.
+An entity is a composition of components identified by an ID. Often you only need the ID of the entity to work with it. For performance reasons, an entity ID is only valid while the entity is alive. Once the entity is destroyed, it's ID may be recycled.  In Monogame.Extended, Entities are created for you when you call `CreateEntity` on the `World` instance.
 
-### Systems
+### 3. Systems Overview
 
 A system is a class that will run during the game's `Update` or `Draw` calls. They usually contain the game logic about how to manage a filtered collection of entities and their components. This is where the primary logic for functionality of an ECS lives.  
 
@@ -47,81 +47,67 @@ __Examples of Systems are:__
 |RenderSystem|Controls the drawing of all entities, utilizing their components|
 |PlayerSystem|Controls the updates to an entity, based on whatever components are part of that player entity|
 
-## Creating the world
+## Where to start?
 
-The `World` is the entry point to the ECS. It holds your entities and systems and you'll use it later to create and destroy entities.
+Since the `Systems` act upon the `Entities` set of `Components`, and the `world` controls which Systems are running, a good order would be to create them in this order
+1. Components
+2. Systems
+3. World
+4. Entities
 
-To create the world you need to use the `WorldBuilder` and add your systems before building the `World` instance.
+## Components
 
-Below is an example of how an ECS would be setup, each of the System classes would have to be written before calling AddSystem on them.
+Since this is just a class with data properties it can be anything.  It can even be a classes like the `Monogame.Extended.Transform2` or `Microsoft.Xna.Framework.Graphics.Texture2D`.  Generally you want your components to make up the individual pieces of an entity.  You need to decouple common functionality into individual grouped components.
+
+Component Examples:
+1. Positional information
+2. Size information
+3. Health information
+4. Shield information
+
+The reason is that you want your `Systems` to act upon all entities that have a that component.  Player characters, enemies, bullets, all have positional information.
+
+The other beauty with separating out components this way, could be that you could later on decide you want bullets to potentially have a shield.  All you'd have to do is add the shield component to the bullet entity and all the functionality would be already built for you.
+
+### Creating a Component
+
+Below are two example components.  In `Enemy`, it has a speed variable and a TimeLeft variable.  In `Raindrop`, it has a Velocity and Size.
 
 ```csharp
-// Class level definition
-private World _world;
-
-// In your LoadContent method
-_world = new WorldBuilder()
-    .AddSystem(new PlayerSystem())
-    .AddSystem(new RenderSystem(GraphicsDevice))
-    .Build();
-```
-:::note
-Manually adding your systems this way might seem annoying at first, but it can be highly desireable to be able to control the order systems are added. It also allows you to constructor inject services as desired.
-:::
-
-Once the world is created you need to call the `Update` and `Draw` methods. 
-
-```csharp
-protected override void Update(GameTime gameTime)
+public class Enemy
 {
-    _world.Update(gameTime);
-    base.Update(gameTime);
+    public float Speed = 100;
+    public float TimeLeft = 1.0f;
+}
+
+public class Raindrop
+{
+    public Vector2 Velocity;
+    public float Size = 3;
 }
 ```
 
+No logic is put into either component.  Notice that these are lacking a constructor.  In a purse ECS, these would all be structs only, it is possible to include a constructor if you wish.  
+
+Below is an example with a constructor.  Notice there is still no logic, it's just setting the variables for us.
+
 ```csharp
-protected override void Draw(GameTime gameTime)
+public class Player
 {
-    _world.Draw(gameTime);
-    base.Draw(gameTime);
+    public int speed = 100;
+    public Vector2 Position;
+
+    public Player(int speed, Vector2 position)
+    {
+        this.speed = speed;
+        this.Position = position;
+    }
 }
 ```
 
-:::note
-The world also implements the `IGameComponent` interface, so if you prefer you can add it to the `GameComponentCollection` instead (not to be confused with ECS components).
-:::
+## Systems
 
-## Creating entities
-
-Usually when you create an entity you'll want to attach some components to it immediately. This is not required though, as components can be added and removed anytime by systems.
-
-```csharp
-var entity = _world.CreateEntity();
-entity.Attach(new Transform2(position));
-entity.Attach(new Sprite(textureRegion));
-```
-
-Any standard class can be used as a component but typically you'll want to keep your components lightweight and specific.
-
-:::note
-An entity can only have one instance of each component type.
-:::
-
-## Destroying entities
-
-Removing entities from the world is easy.
-
-```csharp
-_world.DestroyEntity(entity);
-```
-
-It should be noted that the actual entity creation and removal is deferred until the next update. This allows for some performance optimizations and batches events so that they can be handled more gracefully by systems.
-
-:::note
-When you're inside an `EntitySystem` there are helper methods for creating destroying entities so that you don't need to access the `World` instance each time.
-:::
-
-## Types of systems
+### Types of systems
 
 Systems can be used to do all kinds of processing during your game. There are several kinds of base systems available to build your game.
 
@@ -133,7 +119,7 @@ Systems can be used to do all kinds of processing during your game. There are se
 - You can also create a system that has both an `Update` method and a `Draw` method by implementing the `IUpdateSystem` and `IDrawSystem` interfaces respectively.
 - An `EntitySystem` is the base class for all entity processing systems. Typically you won't derive from this class unless you're building a new type of entity processing system. If you do derive from this class you probably also want to implement one of the update or draw interfaces.
 
-## Creating systems
+### Creating systems
 
 To create a new system, decide which base system to derive from and implement a new class.
 
@@ -143,9 +129,14 @@ public class RenderSystem : EntityDrawSystem
 
 When you're creating entity systems the first thing you'll want to do is provide an `Aspect` to filter the system to only process the entities you're interested in.
 
+See the [Filtering components within a System](#filtering-components-within-a-system) for details on `Aspects`.
+
 For example, a typical `RenderSystem` might want to process entities with a `Sprite` component and a `Transform2` component. To provide an aspect you pass it into the base constructor.
 
 ```csharp
+private readonly SpriteBatch _spriteBatch;
+private readonly GraphicsDevice _graphicsDevice;
+
 public RenderSystem(GraphicsDevice graphicsDevice)
     : base(Aspect.All(typeof(Sprite), typeof(Transform2)))
 {
@@ -172,19 +163,25 @@ public override void Draw(GameTime gameTime)
 }
 ```
 
+In the code above, `ActiveEntities` will always contain only the entities filtered by the `Aspect`.
+
 :::note
-Don't forget to add your system to the `WorldBuilder` when you're done.
+Don't forget to add your system to the `WorldBuilder` when you're done. See the World section for how.
 :::
 
-## Accessing components
+### Accessing components within a System
 
 The preferred way to access components is to use component mappers.
 
+#### Component Mapper
 A `ComponentMapper` provides a very fast way to access components within a system. When you're using a component mapper you're getting nearly direct access to the underlying arrays that hold the components under the hood.
 
 To get a component mapper, create a field on your system and use the `Initialize` method to grab an instance of the mapper. Do this for each component type you want to process.
 
 ```csharp
+private ComponentMapper<Transform2> _transformMapper;
+private ComponentMapper<Sprite> _spriteMapper;
+
 public override void Initialize(IComponentMapperService mapperService)
 {
   _transformMapper = mapperService.GetMapper<Transform2>();
@@ -201,6 +198,7 @@ var sprite = _spriteMapper.Get(entityId);
 _spriteBatch.Draw(sprite, transform);
 ```
 
+#### Put (Add components to an entity)
 Component mappers can also be used to modify entities on the fly. For example, you can add a new component to an entity with the `Put` method.
 
 ```csharp
@@ -211,7 +209,19 @@ _buffMapper.Put(entityId, buffComponent);
 The `Put` method will replace an existing component of the same type if it already exists. There is no need to check if the entity already has the component.
 :::
 
+#### Has/Delete (Checking for existence or deleting a Component)
+
 You can also check if an entity `Has` a component or `Delete` a component with the mapper.
+
+```csharp
+if (_buffMapper.Has(entityId))
+{
+    // Perform buff
+}
+
+// or, Remove a buff from an entity
+_buffMapper.Delete(entityId)
+```
 
 ---
 
@@ -223,25 +233,272 @@ var health = entity.Get<HealthComponent>();
 var transform = entity.Get<Transform2>();
 ```
 
-:::note
+:::warning
 This method of accessing components requires dictionary lookups of the component types each frame. This is still a fairly fast operation, and for some games it'll do just fine.
 :::
 
-## Filtering components
+### Filtering components within a System
 
 An `Aspect` is used by entity systems to decide what component types the system will process. The entities will be available in the system's `ActiveEntities` collection.
 
 An aspect has three methods:
 
-- `Aspect.All(A, B)` requires the entities to have all of the desired components.
-- `Aspect.One(C, D)` requires the entities to have any one or more of the components.
-- `Aspect.Exclude(E, F)` will exclude entities that have any of these components.
+- `Aspect.All(A, B)` requires the entities to have all of the desired components (A AND B).
+- `Aspect.One(C, D)` requires the entities to have any one or more of the components (C OR D OR BOTH).
+- `Aspect.Exclude(E, F)` will exclude entities that have any of these components (NOT E OR F).
 
 Aspects can also be chained together. For example, an entity matching:
 
 `Aspect.All(A, B).One(C, D).Exclude(E)` would need to have A and B and at least one of C or D except if it has E.
 
-## Example
+## World
+
+### Creating the world
+
+The `World` is the entry point to the ECS. It holds your entities and systems and you'll use it later to create and destroy entities.
+
+To create the world you need to use the `WorldBuilder` and add your systems before building the `World` instance.
+
+Below is an example of how an ECS would be setup, each of the System classes would have to be written before calling AddSystem on them.
+
+```csharp
+// Class level definition
+private World _world;
+
+// In your LoadContent method
+_world = new WorldBuilder()
+    .AddSystem(new PlayerSystem())
+    .AddSystem(new RenderSystem(GraphicsDevice))
+    .Build();
+```
+:::note
+Manually adding your systems this way might seem annoying at first, but it can be highly desirable to be able to control the order systems are added. It also allows you to constructor inject services as desired.
+:::
+
+Once the world is created you need to call the `Update` and `Draw` methods. 
+
+```csharp
+protected override void Update(GameTime gameTime)
+{
+    _world.Update(gameTime);
+    base.Update(gameTime);
+}
+```
+
+```csharp
+protected override void Draw(GameTime gameTime)
+{
+    _world.Draw(gameTime);
+    base.Draw(gameTime);
+}
+```
+
+:::tip
+The world also implements the `IGameComponent` interface, so if you prefer you can add it to the `GameComponentCollection` instead (not to be confused with ECS components).
+:::
+
+
+
+## Entities
+### Creating entities
+
+Usually when you create an entity you'll want to attach some components to it immediately. This is not required though, as components can be added and removed anytime by systems.
+
+```csharp
+var entity = _world.CreateEntity();
+entity.Attach(new Transform2(position));
+entity.Attach(new Sprite(textureRegion));
+```
+
+Any standard class can be used as a component but typically you'll want to keep your components lightweight and specific.
+
+:::info
+An entity can only have one instance of each component type.
+:::
+
+### Destroying entities
+
+Removing entities from the world is easy.
+
+```csharp
+_world.DestroyEntity(entity);
+```
+
+It should be noted that the actual entity creation and removal is deferred until the next update. This allows for some performance optimizations and batches events so that they can be handled more gracefully by systems.
+
+:::note
+When you're inside an `EntitySystem` there are helper methods for creating or destroying entities so that you don't need to access the `World` instance each time.
+:::
+
+## Examples
+
+### Simple Example
+
+This is the example from the Samples called "Entities".  It will allow you to control an image with your keyboards arrow keys.  All movement logic is done inside the PlayerSystem.cs file.
+
+Start by following the getting started guide for a basic Monogame.Extended project.
+
+Then inside the project create 2 folders, (Components, Systems).
+
+Next we will create a single component for the position of the player.  We'll wrap in the speed also and just call it Player.  To do this, create a new class named `Player` and place it in the subfolder `Components`. In our examples we will use the root namespace Entities.  Use your root namespace instead.
+
+```csharp
+namespace Entities.Components
+{
+    public class Player
+    {
+        public int speed = 100;
+        public Vector2 Position;
+
+        public Player(int speed, Vector2 position)
+        {
+            this.speed = speed;
+            this.Position = position;
+        }
+    }
+}
+```
+Now lets create the 2 Systems Classes
+
+PlayerSystem
+```csharp
+using Entities.Components;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended.ECS;
+using MonoGame.Extended.ECS.Systems;
+
+namespace Entities.Systems
+{
+    internal class PlayerSystem : EntityProcessingSystem
+    {
+        private ComponentMapper<Player> _playerMapper;
+
+        public PlayerSystem() : base(Aspect.All(typeof(Player))) { }
+
+        public override void Initialize(IComponentMapperService mapperService)
+        {
+            _playerMapper = mapperService.GetMapper<Player>();
+        }
+
+        public override void Process(GameTime gameTime, int entityId)
+        {
+            Player player = _playerMapper.Get(entityId);
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            {
+                player.Position.X -= 5;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            {
+                player.Position.X += 5;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            {
+                player.Position.Y -= 5;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            {
+                player.Position.Y += 5;
+            }
+        }
+    }
+}
+```
+
+RenderSystem
+```csharp
+using Entities.Components;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.ECS;
+using MonoGame.Extended.ECS.Systems;
+
+namespace Entities.Systems
+{
+    internal class RenderSystem : EntityDrawSystem
+    {
+        private SpriteBatch _spriteBatch;
+        private ComponentMapper<Texture2D> _textureMapper;
+        private ComponentMapper<Player> _playerMapper;
+
+        public RenderSystem(SpriteBatch spriteBatch)
+            : base(Aspect.All(typeof(Texture2D), typeof(Player)))
+        {
+            _spriteBatch = spriteBatch;
+        }
+        public override void Draw(GameTime gameTime)
+        {
+            _spriteBatch.Begin();
+
+            foreach (var entityId in ActiveEntities)
+            {
+                var texture = _textureMapper.Get(entityId);
+                var player = _playerMapper.Get(entityId);
+                _spriteBatch.Draw(texture, new Rectangle((int)player.Position.X, (int)player.Position.Y, 64, 64), Color.White);
+            }
+
+            _spriteBatch.End();
+        }
+
+        public override void Initialize(IComponentMapperService mapperService)
+        {
+            _textureMapper = mapperService.GetMapper<Texture2D>();
+            _playerMapper = mapperService.GetMapper<Player>();
+        }
+    }
+}
+```
+
+In your Game1.cs file:
+
+Add the following using statements to the top
+```csharp
+using Entities.Components;
+using Entities.Systems;
+using MonoGame.Extended.ECS;
+```
+
+Add the following properties to the Game1 class
+```csharp
+private SpriteBatch _spriteBatch;
+private World _world;
+private Entity playerEntity;
+```
+
+Update your LoadContent Method to create the world, player entity, and load a texture.
+```csharp
+protected override void LoadContent()
+{
+    _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+    _world = new WorldBuilder()
+        .AddSystem(new PlayerSystem())
+        .AddSystem(new RenderSystem(_spriteBatch))
+        .Build();
+
+    playerEntity = _world.CreateEntity();
+    playerEntity.Attach(Content.Load<Texture2D>("logo-square-128"));
+    playerEntity.Attach(new Player(100, new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2)));
+}
+```
+
+Add the world update to the Update method:
+```csharp
+_world.Update(gameTime);
+```
+
+Add the world draw to the Draw method:
+```csharp
+_world.Draw(gameTime);
+```
+
+That's it, you should have an image that can move around the screen using the ECS system that you can expand from here.
+
+### Rain Example
 
 In this example we are going to make a rain simulator.
 
