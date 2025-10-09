@@ -69,6 +69,10 @@ The reason is that you want your `Systems` to act upon all entities that have a 
 
 The other beauty with separating out components this way, could be that you could later on decide you want bullets to potentially have a shield.  All you'd have to do is add the shield component to the bullet entity and all the functionality would be already built for you.
 
+:::warning
+Currently, there is a limit of 32 Components that can be returned by a ComponentMapper. You'll want to architect your game and components in a way that you do not go above that limit when using a ComponentMapper.
+:::
+
 ### Creating a Component
 
 Below are two example components.  In `Enemy`, it has a speed variable and a TimeLeft variable.  In `Raindrop`, it has a Velocity and Size.
@@ -87,20 +91,20 @@ public class Raindrop
 }
 ```
 
-No logic is put into either component.  Notice that these are lacking a constructor.  In a purse ECS, these would all be structs only, it is possible to include a constructor if you wish.  
+No logic is put into either component.  Notice that these are lacking a constructor.  In a pure ECS, these would all be structs only, it is possible to include a constructor if you wish.  
 
 Below is an example with a constructor.  Notice there is still no logic, it's just setting the variables for us.
 
 ```csharp
 public class Player
 {
-    public int speed = 100;
+    public int Speed = 100;
     public Vector2 Position;
 
     public Player(int speed, Vector2 position)
     {
-        this.speed = speed;
-        this.Position = position;
+        Speed = speed;
+        Position = position;
     }
 }
 ```
@@ -209,20 +213,31 @@ _buffMapper.Put(entityId, buffComponent);
 The `Put` method will replace an existing component of the same type if it already exists. There is no need to check if the entity already has the component.
 :::
 
-#### Has/Delete (Checking for existence or deleting a Component)
+#### Retrieving an Entity from a Component by the EntityID:
 
-You can also check if an entity `Has` a component or `Delete` a component with the mapper.
+There are a few different ways to do this.  The recommended way is to use `TryGet`.  This reduces the code bloat from a null check or Has check.
 
 ```csharp
-if (_buffMapper.Has(entityId))
+if(_buffMapper.TryGet(entityId, out Entity entity))
 {
-    // Perform buff
+     // Do something with entity
 }
-
-// or, Remove a buff from an entity
-_buffMapper.Delete(entityId)
 ```
 
+This is essentially doing the same thing as either of these alternatives below.  Again, use the `TryGet` instead.
+
+```csharp
+if(_buffMapper.Has(entityId))
+{
+    Entity entity = _buffMapper.Get(entityId);
+}
+
+Entity entity = _buffMapper.Get(entityId);
+If(entity != null)
+{
+     // Do something with entity
+}
+```
 ---
 
 For convenience it's also possible to access components on an entity *without* using component mappers. This can be useful for prototyping ideas or when performance isn't a primary concern.
@@ -236,6 +251,14 @@ var transform = entity.Get<Transform2>();
 :::warning
 This method of accessing components requires dictionary lookups of the component types each frame. This is still a fairly fast operation, and for some games it'll do just fine.
 :::
+
+### Deleting Entities from a Component:
+
+You can also `Delete` a component with the mapper.
+
+```csharp
+_buffMapper.Delete(entityId)
+```
 
 ### Filtering components within a System
 
@@ -298,8 +321,16 @@ The world also implements the `IGameComponent` interface, so if you prefer you c
 :::
 
 
-
 ## Entities
+
+## Overview of the Lifecycle of an Entity
+
+1. Creation: `CreateEntity` creates an entity and how it does it by using the internal pooling and queues them
+1. Activation: The following world update queued entities get activated and then the systems receive the entity added event.
+1. Modification: changes through `Attach`, `Detach`, and component mapper methods trigger `EntityChanged`
+1. Destruction: `DestroyEntity` queues it for removal
+1. Cleanup: During the next world update the entity is removed triggering the `EntityRemoved` event and returned to the pool.
+
 ### Creating entities
 
 Usually when you create an entity you'll want to attach some components to it immediately. This is not required though, as components can be added and removed anytime by systems.
@@ -505,7 +536,7 @@ In this example we are going to make a rain simulator.
 We start by including the `Entities` namespaces.
 
 ```cs
-using MonoGame.Extended.Entities;
+using MonoGame.Extended.ECS;
 ```
 
 Next, we create our `Expiry` and `Raindrop` components.
