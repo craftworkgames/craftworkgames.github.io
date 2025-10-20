@@ -8,6 +8,10 @@ sidebar_label: Ember Editor
 
 The Ember editor is a visual particle effect editor for MonoGame Extended's particle system. It provides an intuitive interface for creating, configuring,a nd previewing particle effects without writing code.
 
+## Download
+
+Download ember from the latest release tag at https://github.com/MonoGame-Extended/Ember/releases/tag/v1.0.3
+
 ## Getting Started
 
 When you launch Ember, you will be greeted with an empty workspace.  The editor requires a project to be created or opened before you can begin working with particle effects.
