@@ -33,7 +33,7 @@ The editor is built using MonoGame itself (DesktopGL) with a Dear ImGui interfac
 
 ## Getting Started with Ember
 
-Head over to the [Ember documentation](../../tools/ember/quick_start) to get started. The quick start guide will walk you through downloading Ember, creating your first particle effect, and loading it into your MonoGame Extended project.
+Head over to the [Ember documentation](../../../docs/tools/ember) to get started. The quick start guide will walk you through downloading Ember, creating your first particle effect, and loading it into your MonoGame Extended project.
 
 For those who have been using the particle system programmatically, you'll find that Ember integrates seamlessly with your existing workflow. Effects created in Ember can be loaded using the `ParticleEffect.FromFile()` method that was introduced in version 5.1.0.
 
