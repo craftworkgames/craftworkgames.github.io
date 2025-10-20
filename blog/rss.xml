@@ -4,10 +4,49 @@
         <title>MonoGame.Extended Blog</title>
         <link>https://www.monogameextended.net/blog/</link>
         <description>MonoGame.Extended Blog</description>
-        <lastBuildDate>Fri, 19 Sep 2025 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 20 Oct 2025 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
+        <item>
+            <title><![CDATA[Version 5.1.1 Released - Ember Is Here!]]></title>
+            <link>https://www.monogameextended.net/blog/version-5-1-1/</link>
+            <guid>https://www.monogameextended.net/blog/version-5-1-1/</guid>
+            <pubDate>Mon, 20 Oct 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[Hi everyone,]]></description>
+            <content:encoded><![CDATA[<p>Hi everyone,</p>
+<p>I'm excited to announce the release of MonoGame Extended version 5.1.1, which officially launches <strong>Ember</strong>, the particle effect editor for MonoGame Extended!</p>
+<p>If you've been following along, you may remember that Ember had a soft release for community feedback. Well, that feedback period is over, and I'm thrilled to share that Ember is now ready for its full public release. This 5.1.1 update to MonoGame Extended ensures full compatibility with Ember's file format and workflow.</p>
+<ul>
+<li>GitHub: <a href="https://github.com/monogame-extended/monogame-extended" target="_blank" rel="noopener noreferrer">https://github.com/monogame-extended/monogame-extended</a></li>
+<li>Release Notes: <a href="https://github.com/MonoGame-Extended/Monogame-Extended/releases/tag/v5.1.1" target="_blank" rel="noopener noreferrer">https://github.com/MonoGame-Extended/Monogame-Extended/releases/tag/v5.1.1</a></li>
+<li>Ember GitHub: <a href="https://github.com/MonoGame-Extended/Ember" target="_blank" rel="noopener noreferrer">https://github.com/MonoGame-Extended/Ember</a></li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="what-is-ember">What Is Ember?<a class="hash-link" aria-label="Direct link to What Is Ember?" title="Direct link to What Is Ember?" href="https://www.monogameextended.net/blog/version-5-1-1/#what-is-ember">​</a></h2>
+<p><img decoding="async" loading="lazy" alt="Ember Editor" src="https://www.monogameextended.net/assets/images/ember-preview-2b26b7422869198ce70d47a522dae6f1.png" width="3840" height="2088" class="img_ev3q"></p>
+<p>Ember is a standalone particle effect editor built specifically for the MonoGame Extended particle system. It provides a visual, real-time environment for creating, editing, and fine-tuning particle effects without having to recompile your game every time you want to tweak a value.</p>
+<p>The editor is built using MonoGame itself (DesktopGL) with a Dear ImGui interface, which means what you see in Ember is exactly what you'll get in your game.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="key-features">Key Features<a class="hash-link" aria-label="Direct link to Key Features" title="Direct link to Key Features" href="https://www.monogameextended.net/blog/version-5-1-1/#key-features">​</a></h2>
+<ul>
+<li><strong>Real-time visual editing</strong> - See your particle effects update instantly as you adjust parameters</li>
+<li><strong>Complete particle system support</strong> - Full access to all emitters, modifiers, profiles, and parameters</li>
+<li><strong>Project-based workflow</strong> - Save your effects as <code>.ember</code> files that can be loaded directly into your MonoGame Extended projects</li>
+<li><strong>Accurate rendering</strong> - Built on MonoGame DesktopGL to ensure perfect rendering fidelity</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="getting-started-with-ember">Getting Started with Ember<a class="hash-link" aria-label="Direct link to Getting Started with Ember" title="Direct link to Getting Started with Ember" href="https://www.monogameextended.net/blog/version-5-1-1/#getting-started-with-ember">​</a></h2>
+<p>Head over to the <a href="https://www.monogameextended.net/docs/tools/ember/">Ember documentation</a> to get started. The quick start guide will walk you through downloading Ember, creating your first particle effect, and loading it into your MonoGame Extended project.</p>
+<p>For those who have been using the particle system programmatically, you'll find that Ember integrates seamlessly with your existing workflow. Effects created in Ember can be loaded using the <code>ParticleEffect.FromFile()</code> method that was introduced in version 5.1.0.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="whats-next">What's Next?<a class="hash-link" aria-label="Direct link to What's Next?" title="Direct link to What's Next?" href="https://www.monogameextended.net/blog/version-5-1-1/#whats-next">​</a></h2>
+<p>With Ember officially released and the particle system documentation complete, the particle system will be entering maintenance mode. This means I'll continue to fix bugs and address issues, but no major new features are planned for the immediate future.</p>
+<p>My focus is now shifting to the tile map system in MonoGame Extended. There's a lot of exciting work planned there, and I'm looking forward to bringing the same level of polish and tooling to tile maps that we've achieved with the particle system.</p>
+<p>Thank you to everyone who provided feedback during the soft release period. Your input helped shape Ember into a tool that I hope you'll find invaluable for your projects.</p>
+<p>Happy particle creating!</p>
+<p>- ❤️ Chris Whitley (<a href="https://github.com/aristurtledev" target="_blank" rel="noopener noreferrer">AristurtleDev</a>)</p>]]></content:encoded>
+            <category>Updates</category>
+            <category>Releases</category>
+            <category>five-oh</category>
+            <category>ember</category>
+        </item>
         <item>
             <title><![CDATA[Version 5.1.0 Released]]></title>
             <link>https://www.monogameextended.net/blog/version-5-1-0/</link>
