@@ -250,6 +250,10 @@ const particlesCategory = {
     },
     {
       type: 'doc',
+      id: "features/particles/loading_ember_files"
+    },
+    {
+      type: 'doc',
       id: 'features/particles/emission_profiles'
     },
     {
@@ -357,10 +361,26 @@ const features = {
   ]
 };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Defines the "Tools" sidebar category. 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const toolsCategory = {
+  type: 'category',
+  label: 'Tools',
+  items: [
+    {
+      type: 'doc',
+      id: 'tools/ember'
+    }
+  ]
+}
+
 module.exports = {
   docs: [
     monogameExtendedCategory,
     gettingStartedCategory,
-    features
+    features,
+    toolsCategory
   ]
 };
