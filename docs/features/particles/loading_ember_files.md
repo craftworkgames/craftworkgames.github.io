@@ -146,9 +146,9 @@ Organize your files so that textures are either:
 - In the same directory as the `.ember` file, or
 - Already loaded through the Content Pipeline
 
-### Step 2: Load Using ParticleEffectReader
+### Step 2: Load Using ParticleEffectSerializer
 
-Use the `ParticleEffectReader` class to load the effect directly:
+Use the `ParticleEffectSerializer` class to load the effect directly:
 
 ```cs
 public class Game1 : Game
@@ -159,11 +159,8 @@ public class Game1 : Game
     {
         // Load the particle effect directly from file
         string effectPath = "Content/ParticleEffects/Smoke.ember";
-        
-        using (ParticleEffectReader reader = new ParticleEffectReader(effectPath, Content))
-        {
-            _particleEffect = reader.ReadParticleEffect();
-        }
+
+        _particleEffect = ParticleEffectSerializer.Deserialize(effectPath, Content);
         
         // Position the effect
         _particleEffect.Position = new Vector2(400, 300);
@@ -197,8 +194,7 @@ You can also load from a stream for more advanced scenarios:
 ```cs
 // Load using MonoGame's TitleContainer
 using Stream stream = TitleContainer.OpenStream("Content/ParticleEffects/Smoke.ember");
-using ParticleEffectReader reader = new ParticleEffectReader(stream, Content);
-ParticleEffect effect = reader.ReadParticleEffect();
+ParticleEffect effect = ParticleEffectSerializer.Deserialize(stream, Content);
 ```
 
 ### Direct Loading Considerations
