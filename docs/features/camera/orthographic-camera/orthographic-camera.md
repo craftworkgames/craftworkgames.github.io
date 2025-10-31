@@ -703,6 +703,12 @@ if (_camera.BoundingRectangle.Contains(_enemy.Position))
 - **`MinimumZoom`** - Gets or sets the minimum allowed zoom level
 - **`MaximumZoom`** - Gets or sets the maximum allowed zoom level
 
+### World Bounds Properties
+
+- **`WorldBounds`**: Gets the bounding rectangle that defines camera movement limits (read-only)
+- **`IsClampedToWorldBounds`**: Gets whether the camera is currently constrained within world bounds (read-only)
+- **`IsZoomClampedToWorldBounds`*:  Gets or sets whether zoom should be clamped to prevent viewing beyond world bounds
+
 This camera type creates a view with no depth perception.  Exactly what is wanted for a 2D game.  Below are some of the common actions you might want to take with the camera.  There are many other methods and attributes on the class you can use and modify to get different behavior.
 
 ## Further Reading
