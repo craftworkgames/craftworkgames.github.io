@@ -711,6 +711,22 @@ if (_camera.BoundingRectangle.Contains(_enemy.Position))
 
 This camera type creates a view with no depth perception.  Exactly what is wanted for a 2D game.  Below are some of the common actions you might want to take with the camera.  There are many other methods and attributes on the class you can use and modify to get different behavior.
 
+## Deprecated Features
+
+:::warning[Deprecated]
+The following members are deprecated and will be removed in the next major version of MonoGame.Extended:
+
+- **`Pitch`** property
+- **`MinimumPitch`** property
+- **`MaximumPitch`** property
+- **`PitchUp()`** method
+- **`PitchDown()`** method
+
+These features were introduced to provide vertical scale multipliers, but they don't semantically fit with an orthographic camera's purpose. If you need non-uniform scaling or perspective effects, consider implementing a custom camera or waiting for future camera types (such as isometric or perspective cameras) that may better suit those needs.
+
+If your code currently uses these members, you should plan to migrate away from them before upgrading to the next major version.
+:::
+
 ## Further Reading
 
 - [Matrix Basics](https://stevehazen.wordpress.com/2010/02/15/matrix-basics-how-to-step-away-from-storing-an-orientation-as-3-angles/)
