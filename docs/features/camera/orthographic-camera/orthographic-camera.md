@@ -709,8 +709,6 @@ if (_camera.BoundingRectangle.Contains(_enemy.Position))
 - **`IsClampedToWorldBounds`**: Gets whether the camera is currently constrained within world bounds (read-only)
 - **`IsZoomClampedToWorldBounds`*:  Gets or sets whether zoom should be clamped to prevent viewing beyond world bounds
 
-This camera type creates a view with no depth perception.  Exactly what is wanted for a 2D game.  Below are some of the common actions you might want to take with the camera.  There are many other methods and attributes on the class you can use and modify to get different behavior.
-
 ## Deprecated Features
 
 :::warning[Deprecated]
