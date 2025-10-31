@@ -300,6 +300,154 @@ _camera.Origin = Vector2.Zer;
 _camera.Origin = new Vector2(100, 100);
 ```
 
+## Constraining Camera Movement with World Bounds
+
+In many game,s you want to prevent the camera from showing areas outside your playable world.  The `OrthographicCamera` provides world bounds constraints that automatically clamp the camera position and zoom to keep the view within a defied rectangular area.
+
+### Enabling World Bounds Constraints
+
+To enable world bounds, call the `EnableWorldBounds` method with a rectangle defining your world's boundaries:
+
+```cs
+protected override void Initialize()
+{
+    base.Initialize();
+
+    BoxingViewportAdapter viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 800, 480);
+
+    // Define the boundaries of yoru game world
+    Rectangle worldBonds = new Rectangle(0, 0, 1920, 1080);
+
+    // Enable world bounds constraints
+    _camera.EnableWorldBounds(worldBounds);
+}
+```
+
+once enabled, the camera automatically clamps its position to ensure the viewport edges never extend beyond the world bound edges.
+
+### Disabling World Bounds
+
+To remove the constraints and allow free camera movement
+
+```cs
+_camera.DisableWorldBounds();
+```
+
+This resets the world bounds to `Rectangle.Empty` and disables all boundary checking
+
+### Constraining Zoom with World Bounds
+
+By default, world bounds only constrain camera position.  To also prevent zooming out beyond the world bounds, enable zoom clamping:
+
+```cs
+_camera.EnableWorldBounds(worldBounds);
+
+// Enable zoom clamping to prevent viewing beyond world bounds
+_camera.IsZoomClampedToWorldBounds = true;
+```
+
+With zoom clamping enabled, the camera calculates and enforces a minimum zoom level based on the world bounds and viewport size.  This ensures you can never zoom out far enough to see areas beyond the world bounds.
+
+:::tip
+Set `IsZoomClampedToWorldBounds = true` when you want strict boundary enforcement.  Leave it `false` if you want toallow zooming out beyond the world (for example, to show a minimap view or level select screen).
+:::
+
+### Understanding World Bounds Behavior
+
+When world bounds are enabled, the camera applies the following constraings:
+
+1. **Position Clamping**: The camera position is automatically adjusted so the viewport edges stay within the world bounds.  If you try to move the camera beyond the boundaries, it will stop at the edge.
+2. **Zoom Clamping** (when enabled): If `IsZoomClampedToWorldBounds` is `true`, the camera prevents zooming out to a level where the viewport would exceed the world bounds.
+3. **Small World Handling**: If the world bounds are smaller than the viewport (e.g. a 400x300 world with a 800x480 viewport), the camera automatically centers itself on the world bounds rather than clamping to edges
+4. **Rotation Limitations**: World bounds clamping only works when the camera has no rotation (`Rotation = 0`) and the pitch is at default (`Pitch = 1.0f`).  This is because calculating accurate boundaries with rotation is complex.
+
+### Checking World Bounds Status
+
+You can check if world bounds are currently active and retrieve the current bounds:
+
+```cs
+if(_camera.IsClampedToWorldBounds)
+{
+    Rectangle currentBounds = _camera.WorldBounds;
+    Console.WriteLine($"Camera is constrained to: {currentBounds}");
+}
+```
+
+### Example: Camera Following Player with World Bounds
+
+Here's a complete example demonstrating camera following a payer while respecting world bounds:
+
+```cs
+public class Game1 : Game
+{
+    private GraphicsDeviceManager _graphics;
+    private SpriteBatch _spriteBatch;
+    private OrthographicCamera _camera;
+    private Player _player;
+
+    protected override void Initialize()
+    {
+        base.Initialize();
+
+        // Set up viewport adapter for consistent scaling
+        BoxingViewportAdapter viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 800, 480);
+        _camera = new OrthographicCamera(viewportAdapter);
+        
+        // Configure world bounds for a 2000x1500 level
+        Rectangle worldBounds = new Rectangle(0, 0, 2000, 1500);
+        _camera.EnableWorldBounds(worldBounds);
+        
+        // Enable zoom clamping to prevent viewing beyond the world
+        _camera.IsZoomClampedToWorldBounds = true;
+        
+        // Set zoom limits
+        _camera.MinimumZoom = 0.5f;  // Can zoom out to 50%
+        _camera.MaximumZoom = 2.0f;  // Can zoom in to 200%
+        
+        // Initialize player at center of world
+        _player = new Player
+        {
+            Position = new Vector2(1000, 750)
+        };
+    }
+
+    protected override void Update(GameTime gameTime)
+    {
+        // Update player position
+        _player.Update(gameTime);
+        
+        // Make camera follow the player
+        // The LookAt method centers the camera on the player position
+        _camera.LookAt(_player.Position);
+        
+        // The camera position will automatically be clamped to world bounds
+        // If the player is near the edge, the camera will stop at the boundary
+        
+        base.Update(gameTime);
+    }
+
+    protected override void Draw(GameTime gameTime)
+    {
+        GraphicsDevice.Clear(Color.CornflowerBlue);
+
+        // Apply camera transformation to sprite batch
+        Matrix transformMatrix = _camera.GetViewMatrix();
+        _spriteBatch.Begin(transformMatrix: transformMatrix);
+        
+        // Draw world objects (use world coordinates)
+        _player.Draw(_spriteBatch);
+        
+        _spriteBatch.End();
+
+        base.Draw(gameTime);
+    }
+}
+```
+
+:::important
+When world bounds are enabled, the `LookAt` method may not perfectly center the target if it would cause the camera to exceed the bounds. The camera will get as close as possible while respecting the boundaries.
+:::
+
 ## Converting Between Screen and World Coordinates
 
 One of the most important features of the camera system is converting between screen space (where the mouse cursor is) and world space (where your game objects are positioned).
@@ -555,7 +703,27 @@ if (_camera.BoundingRectangle.Contains(_enemy.Position))
 - **`MinimumZoom`** - Gets or sets the minimum allowed zoom level
 - **`MaximumZoom`** - Gets or sets the maximum allowed zoom level
 
-This camera type creates a view with no depth perception.  Exactly what is wanted for a 2D game.  Below are some of the common actions you might want to take with the camera.  There are many other methods and attributes on the class you can use and modify to get different behavior.
+### World Bounds Properties
+
+- **`WorldBounds`**: Gets the bounding rectangle that defines camera movement limits (read-only)
+- **`IsClampedToWorldBounds`**: Gets whether the camera is currently constrained within world bounds (read-only)
+- **`IsZoomClampedToWorldBounds`*:  Gets or sets whether zoom should be clamped to prevent viewing beyond world bounds
+
+## Deprecated Features
+
+:::warning[Deprecated]
+The following members are deprecated and will be removed in the next major version of MonoGame.Extended:
+
+- **`Pitch`** property
+- **`MinimumPitch`** property
+- **`MaximumPitch`** property
+- **`PitchUp()`** method
+- **`PitchDown()`** method
+
+These features were introduced to provide vertical scale multipliers, but they don't semantically fit with an orthographic camera's purpose. If you need non-uniform scaling or perspective effects, consider implementing a custom camera or waiting for future camera types (such as isometric or perspective cameras) that may better suit those needs.
+
+If your code currently uses these members, you should plan to migrate away from them before upgrading to the next major version.
+:::
 
 ## Further Reading
 
