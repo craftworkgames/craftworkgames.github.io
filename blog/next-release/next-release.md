@@ -7,6 +7,8 @@ enableComments: true
 draft: true
 ---
 
+## Camera Changes
+
 ### OrthographicCamera World Bounds
 
 The `OrthographicCamera` now supports constraining camera movement and zoom to stay within defined world boundaries.
@@ -44,3 +46,28 @@ Several internal improvements have been made to the camera implementation:
 - Exception handling updated to use `ArgumentOutOfRangeException.ThrowIfLessThan()` helper methods
 - Comprehensive XML documentation added following .NET style conventions
 - Extensive unit test coverage for all camera functionality including world bounds edge cases
+
+## Sprite Changes
+
+### Sprite Copy Constructor and Clone Method
+
+The `Sprite` class now supports creating copies through a copy constructor and `Clone()` method. This makes it easier to create multiple sprite instances with different properties (such as `SpriteEffects`) without mutating the original sprite.
+
+```cs
+// Create a base sprite
+Sprite originalSprite = new Sprite(texture);
+
+// Create a copy using the copy constructor
+Sprite copy1 = new Sprite(originalSprite);
+
+// Or use the Clone method
+Sprite copy2 = originalSprite.Clone();
+
+// Modify the copy without affecting the original
+copy1.Effect = SpriteEffects.FlipHorizontally;
+copy2.Effect = SpriteEffects.FlipVertically;
+```
+
+Both methods perform a shallow copy where the new sprite shares the same `TextureRegion` reference but has independent copies of all other properties like `Color`, `Alpha`, `Effect`, and `Depth`. This is particularly useful when you need to render the same texture with different visual effects or properties.
+
+Reference: [https://github.com/MonoGame-Extended/MonoGame-Extended/issues/1028](https://github.com/MonoGame-Extended/MonoGame-Extended/issues/1028)
