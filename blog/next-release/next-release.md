@@ -47,6 +47,56 @@ Several internal improvements have been made to the camera implementation:
 - Comprehensive XML documentation added following .NET style conventions
 - Extensive unit test coverage for all camera functionality including world bounds edge cases
 
+## Content Management Changes
+
+### ExtendedContentManager Extensibility
+
+The `ExtendedContentManager` class now exposes four utility methods as `protected` instead of `private`, enabling developers to create derived classes for custom asset types without code duplications.  The newly accessible protected methods are:
+
+- `GetStream(string path)`: Opens file streams for both absolute and relative paths. Relative paths are resolved using `TitleContainer`.
+- `CacheAsset(string name, object obj)`: Caches loaded assets with automatic disposal registration.
+- `NoExtension(string name)`: Checks if an asset path has a file extension.
+- `TryGetCachedAsset<T>(string name, out T asset)`: Retrieves a previously loaded cached asset with type safety.
+
+Example implementation:
+
+```cs
+public class CustomContentManager : ExtendedContentManager
+{
+    public CustomContentManager(IServiceProvider serviceProvider)
+        : base(serviceProvider) { }
+
+    public CustomAsset LoadCustomAsset(string path)
+    {
+        // Check if already cached
+        if(TryGetCachedAsset<CustomAsset>(path, out CustomAsset asset))
+        {
+            return asset;
+        }
+
+        // Use base monogame content manager class if no extension (processed content)
+        if(NoExtension(path))
+        {
+            return Load<CustomAsset>(path)
+        }
+
+        // Load from raw file
+        using Stream stream = GetStream(path);
+        asset = CustomAsset.FromStream(stream);
+
+        // Cache for reuse
+        CacheAsset(path, asset);
+        return asset;
+    }
+}
+```
+
+This change maintains backward compatibility while providing a clean, consitent API for extending the content management system.
+
+Additionally, missing XML documentation has been added to members of the `ExtendedContentManager` class and the new `protected` methods are now documented for consumers.
+
+Reference: [https://github.com/MonoGame-Extended/MonoGame-Extended/issues/973](https://github.com/MonoGame-Extended/MonoGame-Extended/issues/973)
+
 ## Sprite Changes
 
 ### Sprite Copy Constructor and Clone Method
