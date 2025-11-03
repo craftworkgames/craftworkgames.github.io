@@ -97,6 +97,50 @@ Additionally, missing XML documentation has been added to members of the `Extend
 
 Reference: [https://github.com/MonoGame-Extended/MonoGame-Extended/issues/973](https://github.com/MonoGame-Extended/MonoGame-Extended/issues/973)
 
+## Screen Management Changes
+
+### Stack-Based Screen Management With Background Updates
+
+The `ScreenManager` now supports multiple active screens simultaneously.  Screens can continue updating and drawing in the background, enabling scenarios like rooms that maintain states while the player is elsewhere, or pause menus that overlay gameplay.
+
+Each screen now has two properties to control its background behavior:
+
+```cs
+public abstract class Screen
+{
+    // True if this is the topmost screen.
+    public bool IsActive { get; }
+
+    // Continue updating when not active.
+    public bool UpdateWhenInactive { get; set; }
+
+    // Continue drawing when not active.
+    public bool DrawWhenInactive { get; set; }
+}
+```
+
+The `ScreenManager` provides a clean API for managing the screen stack:
+
+```cs
+// Showing a pause menu on top of a gameplay screen.
+// The gameplay screen remains in the background
+screenManager.ShowScreen(gameplayScreen);
+screenManager.ShowScreen(pauseMenu);
+
+// Close the pause screen to go back to the game screen
+screenManager.CloseScreen();
+
+// Replace the active screen
+screenManager.ReplaceScreen(mainMenu);
+
+// Close all screens
+screenManager.ClearScreens();
+```
+
+The implementation includes performance optimizations with internal cache to eliminate per-frame allocations during update and draw loops.  The existing `LoadScreen()` method remains supported for backward compatibility but is marked as obsolete, with the new `Show`/`Close`/`Replace` methods providing more explicit control over screen lifecycle.
+
+Reference: [https://github.com/MonoGame-Extended/MonoGame-Extended/issues/958](https://github.com/MonoGame-Extended/MonoGame-Extended/issues/958)
+
 ## Sprite Changes
 
 ### Sprite Copy Constructor and Clone Method
