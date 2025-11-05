@@ -38,14 +38,26 @@ The `Pitch` property and related methods (`MinimumPitch`, `MaximumPitch`, `Pitch
 
 Existing code using these properties will continue to work with warnings. If you need non-uniform scaling effects, consider implementing a custom camera solution or waiting for future camera types that may better support these needs.
 
+### OrthographicCamera Coordinate Transformation Fix
+
+The `WorldToScreen` and `ScreenToWorld` methods in `OrthographicCamera` have been fixed to correctly handle viewport offsets based on the viewport adapter type. Previously, viewport offset adjustments were unconditionally applied, causing incorrect transformations when using non-scaling viewport adapters.
+The fix ensures proper behavior across different viewport adapter types:
+
+- `DefaultViewportAdapter`: Viewport offset is now correctly ignored, as it represents only the rendering position and not part of the coordinate transformation. Mouse input coordinates are properly translated directly to world space.
+- `BoxingViewportAdapter` / `ScalingViewportAdapter`: Viewport offset is correctly applied to convert between window coordinates (from mouse input) and viewport coordinates before scale transformations are applied.
+
+This resolves issues where mouse input and touch coordinates were incorrectly transformed when the window origin was not at (0,0), which commonly occurred with letterboxing or pillarboxing scenarios
+
+Reference: <https://github.com/MonoGame-Extended/Monogame-Extended/issues/793>
+
 ### Camera Code Quality Improvements
 
 Several internal improvements have been made to the camera implementation:
 
 - Property setters now use `MathHelper.Clamp()` for cleaner, more maintainable code
 - Exception handling updated to use `ArgumentOutOfRangeException.ThrowIfLessThan()` helper methods
-- Comprehensive XML documentation added following .NET style conventions
-- Extensive unit test coverage for all camera functionality including world bounds edge cases
+- XML documentation added
+- Unit test coverage for all camera functionality
 
 ## Content Management Changes
 
@@ -95,7 +107,7 @@ This change maintains backward compatibility while providing a clean, consitent 
 
 Additionally, missing XML documentation has been added to members of the `ExtendedContentManager` class and the new `protected` methods are now documented for consumers.
 
-Reference: [https://github.com/MonoGame-Extended/MonoGame-Extended/issues/973](https://github.com/MonoGame-Extended/MonoGame-Extended/issues/973)
+Reference: <https://github.com/MonoGame-Extended/MonoGame-Extended/issues/973>
 
 ## Screen Management Changes
 
@@ -139,7 +151,7 @@ screenManager.ClearScreens();
 
 The implementation includes performance optimizations with internal cache to eliminate per-frame allocations during update and draw loops.  The existing `LoadScreen()` method remains supported for backward compatibility but is marked as obsolete, with the new `Show`/`Close`/`Replace` methods providing more explicit control over screen lifecycle.
 
-Reference: [https://github.com/MonoGame-Extended/MonoGame-Extended/issues/958](https://github.com/MonoGame-Extended/MonoGame-Extended/issues/958)
+Reference: <https://github.com/MonoGame-Extended/MonoGame-Extended/issues/958>
 
 ## Sprite Changes
 
@@ -164,4 +176,4 @@ copy2.Effect = SpriteEffects.FlipVertically;
 
 Both methods perform a shallow copy where the new sprite shares the same `TextureRegion` reference but has independent copies of all other properties like `Color`, `Alpha`, `Effect`, and `Depth`. This is particularly useful when you need to render the same texture with different visual effects or properties.
 
-Reference: [https://github.com/MonoGame-Extended/MonoGame-Extended/issues/1028](https://github.com/MonoGame-Extended/MonoGame-Extended/issues/1028)
+Reference: <https://github.com/MonoGame-Extended/MonoGame-Extended/issues/1028>
