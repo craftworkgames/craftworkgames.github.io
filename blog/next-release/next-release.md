@@ -153,6 +153,34 @@ The implementation includes performance optimizations with internal cache to eli
 
 Reference: <https://github.com/MonoGame-Extended/MonoGame-Extended/issues/958>
 
+## Entity Component System Changes
+
+### World Entity Lifecycle Events
+
+The `World` class now exposes public events that fire when entities are added, removed, or have their component composition changed.  This enabled integration between the ECS and other subsystems without requiring each system to implement its own entity tracking.
+
+Three events are now available:
+
+```cs
+public class World : SimpleDrawableGameComponent
+{
+    // Fires when an entity is added during the update cycle
+    public event Action<int> EntityAdded;
+
+    // Fires when an entity is removed during the update cycle (before destruction)
+    public event Action<int> EntityRemoved;
+
+    // Fires when an entity's composition changes
+    public event Action<int> EntityChanged;
+}
+```
+
+The events are useful for keeping external systems synchronized with the ECS.
+
+All entity lifecycle events are raised during the `World.Update()` cycle ensuring consistent timing and allowing subscribers to safely access entity components during event handlers.  The `EntityRemoved` event is raised before the entity is destroyed, giving subscribers a final opportunity to perform operations such as cleanup.
+
+Reference: <https://github.com/MonoGame-Extended/MonoGame-Extended/issues/1026>
+
 ## Sprite Changes
 
 ### Sprite Copy Constructor and Clone Method
