@@ -4,6 +4,9 @@ sidebar_label: Orthographic Camera
 title: Orthographic Camera
 ---
 
+import zoomToPointDesktop from './zoom-to-point-desktop.webm'
+import zoomToPointAndroid from './zoom-to-point-android.webm'
+
 :::tip[Up to date]
 This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
@@ -241,14 +244,131 @@ _camera.Zoom = 0.9f;
 ```
 
 :::note
-The zoom operations center ont he camera's `Origin` point, which is typically set to the viewport center.
+The zoom operations center on the camera's `Origin` point, which is typically set to the viewport center.
+:::
+
+### Zooming Toward a Point
+
+The `ZoomIn` and `ZoomOut` methods provide overloads that accept a world position as the zoom center.  This allows you to zoom toward a specific point, such as the mouse cursor position, while keeping that point fixed on the screen.
+
+#### Mouse Wheel Zooming
+
+A common use case is zooming toward the mouse cursor using the scroll wheel:
+
+```cs
+private int _previousScrollValue;
+
+protected override void Update(GameTime gameTime)
+{
+    MouseState mouseState = Mouse.GetState();
+    
+    // Convert mouse position to world coordinates
+    Vector2 worldPosition = _camera.ScreenToWorld(mouseState.Position.ToVector2());
+    
+    // Check for scroll wheel changes
+    int scrollDelta = mouseState.ScrollWheelValue - _previousScrollValue;
+    
+    if (scrollDelta > 0)
+    {
+        // Zoom in toward the mouse cursor
+        _camera.ZoomIn(0.1f, worldPosition);
+    }
+    else if (scrollDelta < 0)
+    {
+        // Zoom out from the mouse cursor
+        _camera.ZoomOut(0.1f, worldPosition);
+    }
+    
+    _previousScrollValue = mouseState.ScrollWheelValue;
+}
+```
+
+<video width="100%" height="auto" controls autoplay>
+  <source src={zoomToPointDesktop}/>
+</video>
+
+The camera automatically adjusts its position to maintain the world position at the same screen location.  As you zoom in or out, the point under your cursor remains fixed, creating a natural zooming experience.
+
+#### Touch Pinch-to-Zoom
+
+You can also use zoom-to-point for touch based pinch-to-zoom gestures:
+
+```cs
+private float _previousPinchDistance;
+
+protected override void Update(GameTime gameTime)
+{
+    TouchCollection touches = TouchPanel.GetState();
+    
+    if (touches.Count == 2)
+    {
+        // Calculate the distance between two touch points
+        Vector2 touch1 = touches[0].Position;
+        Vector2 touch2 = touches[1].Position;
+        float currentDistance = Vector2.Distance(touch1, touch2);
+        
+        // Find the midpoint between touches in world coordinates
+        Vector2 screenMidpoint = (touch1 + touch2) / 2;
+        Vector2 worldMidpoint = _camera.ScreenToWorld(screenMidpoint);
+        
+        if (_previousPinchDistance > 0)
+        {
+            float distanceChange = currentDistance - _previousPinchDistance;
+            float zoomChange = distanceChange * 0.001f;
+            
+            if (zoomChange > 0)
+            {
+                _camera.ZoomIn(zoomChange, worldMidpoint);
+            }
+            else if (zoomChange < 0)
+            {
+                _camera.ZoomOut(-zoomChange, worldMidpoint);
+            }
+        }
+        
+        _previousPinchDistance = currentDistance;
+    }
+    else
+    {
+        _previousPinchDistance = 0;
+    }
+}
+```
+
+<video width="100%" height="800" controls autoplay>
+  <source src={zoomToPointAndroid}/>
+</video>
+
+#### Interaction with Zoom Constraints
+
+The zoom-to-point method respect all zoom constraints:
+
+- **Minimum/Maximum Zoom**: If the zoom would exceed `MinimumZoom` or `MaximumZoom`, the zoom is clamped and no position adjustment occurs
+- **World Bounds**: When world bounds are enabled, the camera position is automatically clamped after the zoom adjustment to ensure the view stays within bounds.
+
+```cs
+// Configure zoom constraints
+_camera.MinimumZoom = 0.5f;
+_camera.MaximumZoom = 3.0f;
+_camera.EnableWorldBounds(new Rectangle(0, 0, 2000, 2000));
+
+// Zoom toward mouse - will respect all constraints
+Vector2 mouseWorld = _camera.ScreenToWorld(mousePosition);
+_camera.ZoomIn(0.2f, mouseWorld);
+
+// If already at maximum zoom, no position change occurs
+// If position would exceed world bounds, it gets clamped
+```
+
+:::tip
+The zoom center is specified in world coordinates, not screen coordinates.  Use `ScreenToWorld()` to convert mouse or touch positions before passing them to the zoom methods.
 :::
 
 ## Rotating the Camera
 
 Camera rotation allows you to tilt the view, which can create interesting visual effects. The `Rotation` property uses radians, and rotation occurs around the camera's `Origin` point.
 
-### using the Rotate Method
+### Using the Rotate Method
 
 The `Rotate` method incrementally adjusts the rotation:
 

@@ -7,6 +7,8 @@ enableComments: true
 draft: true
 ---
 
+import zoomToPointDesktop from './zoom-to-point-desktop.webm'
+
 ## Camera Changes
 
 ### OrthographicCamera World Bounds
@@ -32,6 +34,46 @@ For more information, reference the [Constraining Camera Movement with World Bou
 
 Reference: [https://github.com/MonoGame-Extended/Monogame-Extended/issues/64](https://github.com/MonoGame-Extended/Monogame-Extended/issues/64)
 
+### Zoom Toward Point
+
+The `OrthographicCamera` now supports zooming towards a specific world position with the new `ZoomIn(float, Vector2)` and `ZoomOut(float, Vector2)` overloads.  This enables zooming while keeping that point fixed ont he screen as the zoom level changes, such as zooming with the mouse wheel at the cursor position.
+
+```cs
+private float _previousScrollWheelValue;
+
+protected override void Update(GameTime gameTime)
+{
+    MouseState mouseState = Mouse.GetState();
+    
+    // Convert mouse position to world coordinates
+    Vector2 worldPosition = _camera.ScreenToWorld(mouseState.Position.ToVector2());
+
+    // Zoom toward the mouse center
+    int scrollDelta = mouseState.ScrollWheelValue - _previousScrollWheelValue;
+    if (scrollDelta > 0)
+    {
+        _camera.ZoomIn(0.1f, worldPosition);
+    }
+    else if (scrollDelta < 0)
+    {
+        _camera.ZoomOut(0.1f, worldPosition);
+    }
+
+    _previousScrollValue = mouseState.ScrollWheelValue;
+
+    base.Update(gameTime);    
+}
+```
+
+<video width="100%" height="auto" controls autoplay>
+  <source src={zoomToPointDesktop}/>
+</video>
+
+
+The camera automatically adjusts its position to maintain the zoom center's screen position.  When zoom is constrained by `MinimumZoom`, `MaximumZoom`, or world bounds, position adjustment is skipped to prevent unexpected camera movement.
+
+Reference: https://github.com/MonoGame-Extended/MonoGame-Extended/issues/625
+
 ### Pitch Property Deprecated
 
 The `Pitch` property and related methods (`MinimumPitch`, `MaximumPitch`, `PitchUp`, `PitchDown`) have been marked as obsolete with compiler warnings. While the original intent was to provide vertical scaling, pitch doesn't make semantic sense for an orthographic camera and will be removed in version 6.0.0.
@@ -48,7 +90,7 @@ The fix ensures proper behavior across different viewport adapter types:
 
 This resolves issues where mouse input and touch coordinates were incorrectly transformed when the window origin was not at (0,0), which commonly occurred with letterboxing or pillarboxing scenarios
 
-Reference: <https://github.com/MonoGame-Extended/Monogame-Extended/issues/793>
+Reference: https://github.com/MonoGame-Extended/Monogame-Extended/issues/793
 
 ### Camera Code Quality Improvements
 
@@ -107,7 +149,7 @@ This change maintains backward compatibility while providing a clean, consitent 
 
 Additionally, missing XML documentation has been added to members of the `ExtendedContentManager` class and the new `protected` methods are now documented for consumers.
 
-Reference: <https://github.com/MonoGame-Extended/MonoGame-Extended/issues/973>
+Reference: https://github.com/MonoGame-Extended/MonoGame-Extended/issues/973
 
 ## Screen Management Changes
 
@@ -151,7 +193,7 @@ screenManager.ClearScreens();
 
 The implementation includes performance optimizations with internal cache to eliminate per-frame allocations during update and draw loops.  The existing `LoadScreen()` method remains supported for backward compatibility but is marked as obsolete, with the new `Show`/`Close`/`Replace` methods providing more explicit control over screen lifecycle.
 
-Reference: <https://github.com/MonoGame-Extended/MonoGame-Extended/issues/958>
+Reference: https://github.com/MonoGame-Extended/MonoGame-Extended/issues/958
 
 ## Entity Component System Changes
 
@@ -179,7 +221,7 @@ The events are useful for keeping external systems synchronized with the ECS.
 
 All entity lifecycle events are raised during the `World.Update()` cycle ensuring consistent timing and allowing subscribers to safely access entity components during event handlers.  The `EntityRemoved` event is raised before the entity is destroyed, giving subscribers a final opportunity to perform operations such as cleanup.
 
-Reference: <https://github.com/MonoGame-Extended/MonoGame-Extended/issues/1026>
+Reference: https://github.com/MonoGame-Extended/MonoGame-Extended/issues/1026
 
 ## Sprite Changes
 
@@ -204,4 +246,4 @@ copy2.Effect = SpriteEffects.FlipVertically;
 
 Both methods perform a shallow copy where the new sprite shares the same `TextureRegion` reference but has independent copies of all other properties like `Color`, `Alpha`, `Effect`, and `Depth`. This is particularly useful when you need to render the same texture with different visual effects or properties.
 
-Reference: <https://github.com/MonoGame-Extended/MonoGame-Extended/issues/1028>
+Reference: https://github.com/MonoGame-Extended/MonoGame-Extended/issues/1028
