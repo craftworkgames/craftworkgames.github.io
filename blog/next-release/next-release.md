@@ -223,6 +223,27 @@ All entity lifecycle events are raised during the `World.Update()` cycle ensurin
 
 Reference: https://github.com/MonoGame-Extended/MonoGame-Extended/issues/1026
 
+### ComponentMapper OnDelete Event Timing
+
+The `ComponentMapper<T>.OnDelete` event now fires before the component is removed rather than after.  This change allows event handlers to access the component data during cleanup operations, enabling scenarios where external resources need to be cleaned up based on component state.
+
+Previously, the event was invoked after setting the component to `null`, making it impossible to reference the component during the deletion event. The new timing enables cleanup patterns like destroying physic bodies that are tied to ECS components:
+
+```cs
+// Subscript to component deletion
+ComponentMapper<PhysicsComponent>  physicsMapper = componentManager.GetMapper<PhysicsComponent>();
+physicsMapper.OnDelete += (entityId) =>
+{
+    // Component is still accessible during the event
+    PhysicsComponent physicsComponent = physicsMapper.Get(entityId);
+
+    // Clean up the associated physics body
+    _physicsWorld.DestroyBody(physicsComponent.BodyId);
+};
+```
+
+Reference: https://github.com/MonoGame-Extended/MonoGame-Extended/issues/1062
+
 ## Sprite Changes
 
 ### Sprite Copy Constructor and Clone Method
