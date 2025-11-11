@@ -18,7 +18,7 @@
 <p>In the sections below you can find a breakdown of all of the changes that made it into this release.  As always, please provide any feedback or report any bugs that you might find.</p>
 <ul>
 <li>GitHub: <a href="https://github.com/monogame-extended/monogame-extended" target="_blank" rel="noopener noreferrer">https://github.com/monogame-extended/monogame-extended</a></li>
-<li>Release Notes: <a href="https://github.com/MonoGame-Extended/Monogame-Extended/releases/tag/v5.3.0" target="_blank" rel="noopener noreferrer">https://github.com/MonoGame-Extended/Monogame-Extended/releases/tag/v5.2.0</a></li>
+<li>Release Notes: <a href="https://github.com/MonoGame-Extended/Monogame-Extended/releases/tag/v5.3.0" target="_blank" rel="noopener noreferrer">https://github.com/MonoGame-Extended/Monogame-Extended/releases/tag/v5.3.0</a></li>
 </ul>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="math-and-primitives-changes">Math and Primitives Changes<a class="hash-link" aria-label="Direct link to Math and Primitives Changes" title="Direct link to Math and Primitives Changes" href="https://www.monogameextended.net/blog/version-5-3-0/#math-and-primitives-changes">​</a></h2>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="rectanglef-normalize-method">RectangleF Normalize Method<a class="hash-link" aria-label="Direct link to RectangleF Normalize Method" title="Direct link to RectangleF Normalize Method" href="https://www.monogameextended.net/blog/version-5-3-0/#rectanglef-normalize-method">​</a></h3>
