@@ -36,6 +36,14 @@ The `RectangleExtensions` class was also updated to provide similar `Normalize()
 
 Reference: https://github.com/MonoGame-Extended/MonoGame-Extended/issues/747
 
+### RectangleF Method Naming Convention Fix
+
+The `RectangleF` intersection methods have been updated to follow .NET naming conventions where method names should be verbs. The `Intersection()` methods have been marked as obsolete and will be removed in the next major version.
+
+The preferred `Intersect()` methods are now the primary API.  Existing code using `Intersection()` methods will continue to work but will show deprecation warnings.
+
+Reference: https://github.com/MonoGame-Extended/Monogame-Extended/issues/1064
+
 ## Camera Changes
 
 ### OrthographicCamera World Bounds
