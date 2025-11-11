@@ -9,6 +9,31 @@ draft: true
 
 import zoomToPointDesktop from './zoom-to-point-desktop.webm'
 
+## Math and Primitives Changes
+
+### RectangleF Normalize Method
+
+The `RectangleF` struct now includes `Normalize()` methods to handle rectangles with negative width or height values. This addresses scenarios when creating rectangles from directional vectors (such as projectiles) or drag operations where the end point may be less than the start point.
+
+Three overloads are provided to match existing `RectangleF` patterns:
+
+```cs
+// Instance method - normalize in-place
+RectangleF rect = new RectangleF(32, 32, -32, -32);
+rect.Normalize();
+// Result: (0, 0, 32, 32)
+
+// Static method - returns normalized copy
+RectangleF normalized = RectangleF.Normalize(rect);
+
+// Ref/out method - for performance-critical scenarios
+RectangleF.Normalize(ref rect, out RectangleF result);
+```
+
+When a rectangle has negative dimensions, `Normalize()` adjusts the position coordinates and makes the dimensions positive without changing the rectangle's actual location. This ensures intersection tests, collision detection, and drawing operations work correctly.
+
+Reference: https://github.com/MonoGame-Extended/MonoGame-Extended/issues/747
+
 ## Camera Changes
 
 ### OrthographicCamera World Bounds
