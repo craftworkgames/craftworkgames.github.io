@@ -1,13 +1,22 @@
 ---
-slug: next-release
-title: Next Release Draft
+slug: version-5-3-
+title: Version 5.3.0 Release - Bug fixes and improvements
 authors: aris
-tags: ['updates', 'releases', 'five-oh', 'ember']
+tags: ['updates', 'releases', 'five-oh']
 enableComments: true
 draft: true
 ---
 
 import zoomToPointDesktop from './zoom-to-point-desktop.webm'
+
+I'm excited to announce the release of MonoGame Extended 5.3.0! This update represents a significant step forward in the commitment to delivering a more stable library.
+
+Version 5.3.0 focuses on resolving long standing community issues and implementing features that have accumulated over time. While this release doesn't include the comprehensive Tiled and tile map system overhaul (which remains the next major milestone), I prioritized delivering immediate value through bug fixes, API improvements, and new functionality that have been asking for.
+
+In the sections below you can find a breakdown of all of the changes that made it into this release.  As always, please provide any feedback or report any bugs that you might find.  
+
+- GitHub: [https://github.com/monogame-extended/monogame-extended](https://github.com/monogame-extended/monogame-extended)
+- Release Notes: [https://github.com/MonoGame-Extended/Monogame-Extended/releases/tag/v5.2.0](https://github.com/MonoGame-Extended/Monogame-Extended/releases/tag/v5.3.0)
 
 ## Math and Primitives Changes
 
@@ -103,7 +112,6 @@ protected override void Update(GameTime gameTime)
 <video width="100%" height="auto" controls autoplay>
   <source src={zoomToPointDesktop}/>
 </video>
-
 
 The camera automatically adjusts its position to maintain the zoom center's screen position.  When zoom is constrained by `MinimumZoom`, `MaximumZoom`, or world bounds, position adjustment is skipped to prevent unexpected camera movement.
 
