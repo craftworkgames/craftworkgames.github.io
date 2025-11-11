@@ -32,6 +32,8 @@ RectangleF.Normalize(ref rect, out RectangleF result);
 
 When a rectangle has negative dimensions, `Normalize()` adjusts the position coordinates and makes the dimensions positive without changing the rectangle's actual location. This ensures intersection tests, collision detection, and drawing operations work correctly.
 
+The `RectangleExtensions` class was also updated to provide similar `Normalize()` methods for MonoGame's `Rectangle` struct.
+
 Reference: https://github.com/MonoGame-Extended/MonoGame-Extended/issues/747
 
 ## Camera Changes
