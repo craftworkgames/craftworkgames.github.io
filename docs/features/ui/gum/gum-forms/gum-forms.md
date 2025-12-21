@@ -8,7 +8,7 @@ description: An example document for gum
 :::tip[Up to date]
 This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
-Gum Forms provides a collection of flexible, fully customizable controls which can be added to your project with just a few lines of code. 
+Gum provides a collection of flexible, fully customizable controls which can be added to your project with just a few lines of code. 
 
 Gum includes a number of solutions for UI:
 
@@ -18,16 +18,13 @@ Gum includes a number of solutions for UI:
 
 You can use Gum with the Gum UI tool or code-only. Both approaches are fully supported.
 
-This document provides setup and an introduction to using Gum forms controls purely in code. For full documentation see the [Gum Forms documentation](https://docs.flatredball.com/gum/monogame/gum-forms).
+This document provides setup and an introduction to using Gum forms controls purely in code. For full documentation see the [Gum documentation](https://docs.flatredball.com/gum/code/about).
 
 ## Setup
 
 Before using Gum, you must add the Gum.MonoGame [nuget package](https://www.nuget.org/packages/Gum.MonoGame) to your project.
 
-Gum Forms uses the following objects for initialization, updating, and drawing:
-
-* GumService - provides defaults, initialization, every-frame logic, and drawing for all forms objects. 
-* GraphicalUiElement - the base class for all Gum visual objects. The root is passed to GumService.Update so that it can perform every-frame logic on Forms objects, such as detecting clicks. 
+Gum Forms uses GumService initialization, updating, and drawing.
 
 The following code shows a single Gum Forms button in an otherwise empty Game1 class:
 
@@ -57,7 +54,7 @@ public class Game1 : Game
     {
         // If loading a Gum project (gumx), pass that
         // parameter as the 2nd argument
-        GumUI.Initialize(this, DefaultVisualsVersion.V2);
+        GumUI.Initialize(this, DefaultVisualsVersion.V3);
 
         Button button = new Button();
         button.AddToRoot();
@@ -198,3 +195,13 @@ textBox2.Width = 200;
 textBox2.Height = 34;
 textBox2.Placeholder = "Placeholder Text...";
 ```
+
+## Styling
+
+Gum controls can be styled in a number of ways including:
+
+* Creating application-wide styling that is applied to all controls
+* Creating reusable, styled controls
+* Applying styles per-instance
+
+For a deeper dive into styling, see the [Gum styling documentation](https://docs.flatredball.com/gum/code/styling/code-only-styling).
