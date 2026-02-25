@@ -5,7 +5,7 @@ sidebar_label: Emission Profiles
 ---
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
 The visual character of any particle effect starts with where and how particles are initially positioned when they are created. Emission profiles control these fundamental properties, defining the spatial distribution patterns that determine whether your particles create a concentrated explosion, a flowing waterfall, a spreading flame, or any other emission pattern you can imagine.
@@ -81,7 +81,7 @@ Profile.Line(Vector2 axis, float length, LineRadiation radiate, Vector2 directio
 | `axis`      | The direction vector of the line (will be normalized internally)                                                                                                                                  |
 | `length`    | The total length of the line segment                                                                                                                                                              |
 | `radiate`   | Controls how particle headings relate to the line orientation                                                                                                                                     |
-| `direction` | The emission direction vector for direction radiation modes.  This value is ignored if the radiation mode is `LineRadiate.None`, `LineRadiate.PerpendicularUp` or `LineRadiate.PerpendicularDown` |
+| `direction` | The emission direction vector for direction radiation modes. This value is ignored if the radiation mode is `LineRadiate.None`, `LineRadiate.PerpendicularUp` or `LineRadiate.PerpendicularDown` |
 
 | Line Radiation                    | Description                                     | Visual Effect                                                                   |
 | --------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------- |

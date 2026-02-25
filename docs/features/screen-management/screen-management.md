@@ -6,14 +6,14 @@ description: Learn how to organize your game into multiple screens with support 
 ---
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
-The `ScreenManager` helps you organize your game into multiple screens, each with their own lifecycle methods.  Screens are managed using a stack-based approach, allowing multiple screens to be active simultaneously.  This enables scenarios like pause menus that overlay gameplay, or rooms that continue updating while the player explores elsewhere.
+The `ScreenManager` helps you organize your game into multiple screens, each with their own lifecycle methods. Screens are managed using a stack-based approach, allowing multiple screens to be active simultaneously. This enables scenarios like pause menus that overlay gameplay, or rooms that continue updating while the player explores elsewhere.
 
 ## Understanding Screen Management
 
-In MonoGame.Extended, screens are organizational units that encapsulate a specific part of your game's functionality.  Common examples include:
+In MonoGame.Extended, screens are organizational units that encapsulate a specific part of your game's functionality. Common examples include:
 
 - **Main Menu Screen**: Title screen with menu navigation
 - **Gameplay Screen**: Core game logic and rendering
@@ -22,7 +22,7 @@ In MonoGame.Extended, screens are organizational units that encapsulate a specif
 - **Loading Screen**: Asset loading progress
 - **Dialog Screen**: In-game conversations and prompts
 
-The `ScreenManager` maintains a stack of screens where the topmost screen is considered "active."  You can show new screens on top of existing ones, close the active screen to return to the previous one, or replace screens entirely.
+The `ScreenManager` maintains a stack of screens where the topmost screen is considered "active." You can show new screens on top of existing ones, close the active screen to return to the previous one, or replace screens entirely.
 
 ## Getting Started
 
@@ -106,7 +106,7 @@ public class MainMenuScreen : GameScreen
 ```
 
 :::note
-`GameScreen` provides convenient properties like `Game`, `Content`, `GraphicsDevice`, and `Services` for easy access to common game resources.  Use `Screen` as your base class if you don't need these conveniences.
+`GameScreen` provides convenient properties like `Game`, `Content`, `GraphicsDevice`, and `Services` for easy access to common game resources. Use `Screen` as your base class if you don't need these conveniences.
 :::
 
 ### Showing Your First Screen
@@ -150,7 +150,7 @@ _screenManager.ShowScreen(new GameplayScreen(Game));
 _screenManager.ShowScreen(new GameplayScreen(Game), new FadeTransition(GraphicsDevice, Color.Black, 0.5f));
 ```
 
-The previous screen remains in the stack but becomes inactive.  By default, inactive screens do not update or draw.
+The previous screen remains in the stack but becomes inactive. By default, inactive screens do not update or draw.
 
 ### CloseScreen - Return to Previous Screen
 
@@ -195,7 +195,7 @@ _screenManager.ShowScreen(new MainMenuScreen(Game));
 
 ## Background Screen Behavior
 
-One of the features of the `ScreenManager` is the ability to control whether screens continue updating and drawing when they are not active.  This is controlled by two properties on the `Screen` class:
+One of the features of the `ScreenManager` is the ability to control whether screens continue updating and drawing when they are not active. This is controlled by two properties on the `Screen` class:
 
 ### UpdateWhenInactive Property
 
@@ -274,16 +274,16 @@ _screenManager.ReplaceScreen(new MainMenuScreen(Game), fadeTransition);
 ```
 
 :::tip
-Transitions can only be active one at a time.  If you try to start a new transition while one is already running, the request will be ignored.  This prevents overlapping transition effects.
+Transitions can only be active one at a time. If you try to start a new transition while one is already running, the request will be ignored. This prevents overlapping transition effects.
 :::
 
 ## Performance Considerations
 
-The `ScreenManager` itself is optimized to minimize per-frame allocations by internally caching the screen list and only rebuilding it when the stack changes.  However, keep these performance tips in mind:
+The `ScreenManager` itself is optimized to minimize per-frame allocations by internally caching the screen list and only rebuilding it when the stack changes. However, keep these performance tips in mind:
 
 ### Be Mindful of Background Screens
 
-Each screen with `UpdateWhenInactive = true` adds to your per-frame CPU cost.  If you have many screens updating in the background, consider:
+Each screen with `UpdateWhenInactive = true` adds to your per-frame CPU cost. If you have many screens updating in the background, consider:
 
 - Reducing update frequency for inactive screens
 - Pausing non-essential systems when screens aren't visible
@@ -291,7 +291,7 @@ Each screen with `UpdateWhenInactive = true` adds to your per-frame CPU cost.  I
 
 ### Drawing Multiple Screens
 
-If you have multiple screens with `DrawWhenInactive = true`, they all render every frame.  For complex scenes:
+If you have multiple screens with `DrawWhenInactive = true`, they all render every frame. For complex scenes:
 
 - Consider rendering inactive screens to a render target once and caching it
 - Use simple background or effects for inactive screens
