@@ -10,7 +10,7 @@ import TabItem from '@theme/TabItem';
 This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
-The following article details the steps necessary to get **MonoGame.Extended** installed and setup in your **KNI** project.  **MonoGame.Extended** can be used with either [**MonoGame**](https://github.com/monogame/monogame), [**KNI**](https://github.com/kniEngine/kni), or [**FNA**](https://github.com/FNA-XNA/FNA).  This article wil detail how to setup and install **MonoGame.Extended** with an existing **KNI** project.
+The following article details the steps necessary to get **MonoGame.Extended** installed and setup in your **KNI** project.  **MonoGame.Extended** can be used with either [**MonoGame**](https://github.com/monogame/monogame), [**KNI**](https://github.com/kniEngine/kni), or [**FNA**](https://github.com/FNA-XNA/FNA).  This article will detail how to setup and install **MonoGame.Extended** with an existing **KNI** project.
 
 :::note
 - If you are using MonoGame, please see the [Installation (MonoGame)](./installation-monogame.mdx) document. 
@@ -23,11 +23,11 @@ The following prerequisites are required when using **MonoGame.Extended** with *
 - Download the latest release templates and install them so you can create a new **KNI** project
   - [https://github.com/kniEngine/kni/releases](https://github.com/kniEngine/kni/releases)
 
-- An **KNI** project
+- A **KNI** project
   - You create a **KNI** project in much the same way you do a **MonoGame** project, only you select the **KNI** templates instead of the **MonoGame** templates.
 
 ## Installation
-**KNI.Extended** is distributed via a NuGet package.  You can add the NuGet pacakge to your **KNI** project through your IDE (Visual Studio, Rider, etc) or through the Command Line Interface (CLI) using the `dotnet` commands
+**KNI.Extended** is distributed via a NuGet package.  You can add the NuGet package to your **KNI** project through your IDE (Visual Studio, Rider, etc) or through the Command Line Interface (CLI) using the `dotnet` commands
 
 <Tabs>
   <TabItem value="net-cli" label=".NET Cli" default>
@@ -88,7 +88,7 @@ To get started first add the `KNI.Extended.Content.Pipeline` NuGet package to yo
 </Tabs>
 
 ### Add Reference to MGCB Editor
-In order for the MonoGame Content Builder (MGCB) Editor to make use of the extension provided by **KNI.Extended.Content.Pipeline** you will need to add a reference to the `KNI.Extended.Content.Pipeline.dll` assembly to the content project.  This assembly is downloaded as part of the **KNI.Extended.Content.Pipeline** NuGet you just install, however the necessary files to reference do not get automatically copied to your project directory.  To add the reference, complete the following steps:
+In order for the MonoGame Content Builder (MGCB) Editor to make use of the extension provided by **KNI.Extended.Content.Pipeline** you will need to add a reference to the `KNI.Extended.Content.Pipeline.dll` assembly to the content project.  This assembly is downloaded as part of the **KNI.Extended.Content.Pipeline** NuGet you just installed, however the necessary files to reference do not get automatically copied to your project directory.  To add the reference, complete the following steps:
 
 1. Open you **Content.mgcb** file in the **MGCB Editor**
 

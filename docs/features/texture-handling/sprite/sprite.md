@@ -14,7 +14,7 @@ This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find o
 
 ## Overview
 
-Using a `Texture2DAtlas` to create and manage our `Texture2DRegion`s is nice but sometimes we want a more concrete implementation of what we're drawing. Something that can encapsulate the common properties used when rendering such as scale, rotation, and color.  This is where the `Sprite` class comes in. At it's core, it holds a reference to a `Texture2DRegion` with adjustable properties to use when rendering that get applied automatically when drawing it.
+Using a `Texture2DAtlas` to create and manage our `Texture2DRegion`s is nice but sometimes we want a more concrete implementation of what we're drawing. Something that can encapsulate the common properties used when rendering such as scale, rotation, and color.  This is where the `Sprite` class comes in. At its core, it holds a reference to a `Texture2DRegion` with adjustable properties to use when rendering that get applied automatically when drawing it.
 
 ## Usage
 Let's take the cards image from the previous two examples and use them to create and render a sprite.
@@ -102,13 +102,13 @@ The `Sprite` class has the following properties that can be set
 | `Color`     | `Microsoft.Xna.Framework.Color`                  | Gets or Sets the color mask to apply when rendering the sprite.           |
 | `Alpha`     | `float`                                          | Gets or Sets the alpha transparency value used when rendering the sprite. |
 | `Depth`     | `float`                                          | Gets or Sets the layer depth used when rendering the sprite.              |
-| `Effect`    | `Microsoft.Xna.Framework.Graphics.SpriteEffects` | Gets of Sets the sprite effect to apply when rendering.                   |
+| `Effect`    | `Microsoft.Xna.Framework.Graphics.SpriteEffects` | Gets or Sets the sprite effect to apply when rendering.                   |
 
-As an example, let's create `Sprite`s for the other Ace cards and adjust some of their properties to show the affect.  Adjust your code to the following
+As an example, let's create `Sprite`s for the other Ace cards and adjust some of their properties to show the effect.  Adjust your code to the following
 
 ```cs
 private Texture2DAtlas _atlas;
-private Sprite _aceOfClubsSprite
+private Sprite _aceOfClubsSprite;
 // highlight-next-line
 private Sprite _aceOfDiamondsSprite;
 // highlight-next-line

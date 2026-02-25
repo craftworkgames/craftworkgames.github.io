@@ -30,7 +30,7 @@ public class MyTypeReader : ContentTypeReader<MyType>
 ```
 
 :::note
-This `ContentReader.GetGraphicsDevice` already exists in `Monogame` and `KNI`.  It does not exist in `FNA`. This method remains in `Monogame.Extended` for `FNA` only.
+This `ContentReader.GetGraphicsDevice` already exists in `MonoGame` and `KNI`.  It does not exist in `FNA`. This method remains in `MonoGame.Extended` for `FNA` only.
 :::
 
 ## ContentReader.GetRelativeAssetName

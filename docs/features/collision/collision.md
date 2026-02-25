@@ -23,7 +23,7 @@ This is an interface you need to create a class from and implement the method an
 
 In the below example, you can see that `LayerName` overrides the interfaces implementation so we can state the layer this entity will belong to.  `Layers` are discussed in the [Advanced Topics](#advanced-topics-optional) section at the bottom.
 
-The `OnCollision` method was implemented and simply reverses the direction of object by flipping it's velocity and moving it back the way it came.
+The `OnCollision` method was implemented and simply reverses the direction of object by flipping its velocity and moving it back the way it came.
 
 ```csharp
 public class MyEntity : ICollisionActor
@@ -51,13 +51,13 @@ public class MyEntity : ICollisionActor
 
 ### CollisionComponent
 
-This is the main driver that manages the collide-able entities.  This class passes the entities position updates down to the [`Space Algorithm`](#space-algorithms).  Finally it does the collision checks between entities in layers.  All entities in each layer are always checked against the entities in the default layer.  
+This is the main driver that manages the collidable entities.  This class passes the entities position updates down to the [`Space Algorithm`](#space-algorithms).  Finally it does the collision checks between entities in layers.  All entities in each layer are always checked against the entities in the default layer.  
 
 If you `Insert` entities into the `CollisionComponent`, it inserts them to a default layer, named appropriately "default".  `CollisionComponent` uses a `QuadTree` in the Default layer.  However if you create your own Layer, you can use a `SpatialHash` instead.
 
-This allows you to add layers where you don't want certain elements to interact with each-other by adding them to different layers.  For instance if your game has a water layer, ground layer, and sky layer.  Each of those would only compare objects against the default layer.  
+This allows you to add layers where you don't want certain elements to interact with each other by adding them to different layers.  For instance if your game has a water layer, ground layer, and sky layer.  Each of those would only compare objects against the default layer.  
 
-Entities within the same layer are not compared against each-other, except the default layer.
+Entities within the same layer are not compared against each other, except the default layer.
 
 Comparisons are done:
 1. `default` against `default`

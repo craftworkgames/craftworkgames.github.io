@@ -23,7 +23,7 @@ To create a new particle effect project:
 1. Select **File > New Project** from the main menu
 2. In the New Project dialog:
    - Enter a **Project Name** for your project (e.g. "Fire Effect", "Explosion").
-   - Choose a **Project DirectorY** where the project file will be saved.
+   - Choose a **Project Directory** where the project file will be saved.
    - Optionally, check **Create Project Directory** to create a subfolder with the project name.
 3. Click **Create** to create the project.
 
@@ -65,7 +65,7 @@ The Ember Editor uses a docked window layout that provides quick access to all e
 
 The main menu bar provides access to editor functions
 
-- **File**: Project management (New, Open Save, Exit)
+- **File**: Project management (New, Open, Save, Exit)
   - **New Project**:  Create a new project.
   - **Open Project**: Open an existing Ember project.
   - **Save Project**: Saves the currently open project.
@@ -126,7 +126,7 @@ The **Emitter List** section displays all emitters in your effect and allows you
 
 #### Adding Emitters
 
-To add a new emitter, click the **Add Emitter* button.  A new emitter with default settings will be added to the list and automatically selected for editing.
+To add a new emitter, click the **Add Emitter** button.  A new emitter with default settings will be added to the list and automatically selected for editing.
 
 #### Selecting Emitters
 
@@ -167,12 +167,12 @@ When an emitter is selected, the **Emitter Properties** section displays its set
 **Important Property Notes:**
 
 - **Source Rectangle** determines the rectangular bounds within the **Texture** used when rendering the particles.  This is useful when using a texture atlas that contains the particle textures for each emitter to reduce the amount of texture swapping.
-- **Capacity** determines the maximum number of active particles.  If you reach capacity, older particles wll need to expire before new ones can be created.
+- **Capacity** determines the maximum number of active particles.  If you reach capacity, older particles will need to expire before new ones can be created.
 - **Lifespan**: controls how long each particle exists.  Shorter life spans create burst effects, while longer lifespans create sustained effects.
 
 ### Emitter Textures
 
-Each emitter requires a texture that defines how individual particle look.  The **Texture*8 property in the **Emitter Properties** section controls this.
+Each emitter requires a texture that defines how individual particle look.  The **Texture** property in the **Emitter Properties** section controls this.
 
 ![Texture selection showing current texture preview and select texture button](texture-selection.png)
 
@@ -181,7 +181,7 @@ Each emitter requires a texture that defines how individual particle look.  The 
 To assign a texture to a particle emitter, click the **Select Texture** button in the **Emitter Properties**.  If a texture was previously assigned, then instead of **Select Texture** it will show the name of the texture already added.  In the file dialog, navigate to and select an image file to use.  The texture will be loaded and applied to the emitter.
 
 :::note
-When a texture is assigned, the image file will be copied locally to the project directory.  If an image file already exists with this name in the project directory, a confirmation box will be displayed to confirm overwriting the exiting file.
+When a texture is assigned, the image file will be copied locally to the project directory.  If an image file already exists with this name in the project directory, a confirmation box will be displayed to confirm overwriting the existing file.
 :::
 
 :::tip
@@ -192,7 +192,7 @@ For effects like explosions or complex visuals, you may want to use a texture at
 
 ### Emitter Profiles
 
-The **Emitter Profile** section determines where particles spawn an their initial direction.  MonoGame Extended provides several emission profiles, each creating different spatial patterns.
+The **Emitter Profile** section determines where particles spawn and their initial direction.  MonoGame Extended provides several emission profiles, each creating different spatial patterns.
 
 ![Profile selection dropdown showing available emission profiles](profile-selection.png)
 
@@ -205,7 +205,7 @@ The **Emitter Profile** section determines where particles spawn an their initia
 | **Line**        | Particles spawn along a line between two points.                                | Axis, Length, Radiate, Direction |
 | **Point**       | All particles spawn at the emitter position and move in random directions.      | *No configuration*               |
 | **Ring**        | Particles spawn along the edge of a circular area                               | Radiate, Radius                  |
-| **Spray**       | Particles pray in a cone-shaped direction                                       | Spread, Direction                |
+| **Spray**       | Particles spray in a cone-shaped direction                                       | Spread, Direction                |
 
 #### Configuration Profiles
 
@@ -232,7 +232,7 @@ Toggle between modes using the **Constant**/**Random** selector for each paramet
 
 #### Available Parameters
 
-The following parameters are available to be configured for each emitter:
+The following parameters are available for configuration for each emitter:
 
 | Parameter    | Description                                             |
 | ------------ | ------------------------------------------------------- |
@@ -249,7 +249,7 @@ The Color parameter uses HSL (Hue, Saturation, Lightness) color space for intuit
 
 ![Color picker showing HSL sliders and color preview](color-picker.png)
 
-When using **Random** mode for colors, you can set different HSL values for hte minimum and maximum range, allowing particles to vary across a spectrum of colors.
+When using **Random** mode for colors, you can set different HSL values for the minimum and maximum range, allowing particles to vary across a spectrum of colors.
 :::
 
 #### Parameter Tips
@@ -264,11 +264,11 @@ For more technical details about release parameters, see the [MonoGame Extended 
 
 ## Working with Modifiers
 
-Modifiers control how particles change and behave over time. While release parameters set initial particle properties, modifiers transform these properties through the particles lifetime.
+Modifiers control how particles change and behave over time. While release parameters set initial particle properties, modifiers transform these properties through the particle's lifetime.
 
 ### Managing Modifiers
 
-Modifiers are managed in the **Modifiers** panel. before you can add modifiers, you must have at least one emitter created and selected.
+Modifiers are managed in the **Modifiers** panel. Before you can add modifiers, you must have at least one emitter created and selected.
 
 ![Modifier list showing multiple modifiers](modifier-list.png)
 
@@ -339,13 +339,13 @@ Interpolators create smooth transitions of particle properties over time.  They 
 
 ### Managing Interpolators
 
-Interpolators are added to either an **Age Modifier** or **Velocity Modifier**.  You must have on of these modifier types added and selected before you can create interpolators.
+Interpolators are added to either an **Age Modifier** or **Velocity Modifier**. You must have one of these modifier types added and selected before you can create interpolators.
 
 ![Interpolator list showing multiple interpolators](interpolator-list.png)
 
 #### Adding Interpolators
 
-To add a new interpolator, click the **Add Interpolator** button.  A popup will appear with a choice of which interpolator you would like to add.  Choose the desired interpolator from the popup and click the **Select** button.  Te new interpolator will appear in the list and is automatically selected.
+To add a new interpolator, click the **Add Interpolator** button. A popup will appear with a choice of which interpolator you would like to add. Choose the desired interpolator from the popup and click the **Select** button. The new interpolator will appear in the list and is automatically selected.
 
 ![Choose interpolator popup](choose-interpolator.png)
 

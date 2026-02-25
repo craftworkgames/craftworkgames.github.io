@@ -58,7 +58,7 @@ bag.Remove(4);
 // bag is now [15, 16] with a capacity of 4
 ```
 
-Notice in the example when we removed the the second element (value 8) with `RemoveAt(1)` the last item (value 16) moved to it's place.  This is because when an item is removed the `bag` will reposition the last element into the removed spot.  This is to prevent the code from needing to move every element in the bag.  Meaning, **_do not count on the order of the items in the bag!_** 
+Notice in the example when we removed the second element (value 8) with `RemoveAt(1)` the last item (value 16) moved to its place.  This is because when an item is removed the `bag` will reposition the last element into the removed spot.  This is to prevent the code from needing to move every element in the bag.  Meaning, **_do not count on the order of the items in the bag!_** 
 
 This happens again when we use `Remove` to look for a specific VALUE in the bag, and remove that item.  15, the last element is swapped into the removed spot.
 

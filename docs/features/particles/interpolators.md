@@ -14,7 +14,7 @@ MonoGame Extended provides six interpolators, each designed to smoothly transiti
 
 In this guide, you will learn how to use each interpolator effectively and understand their impact on particle appearance.
 
-By the end fo this guide, you will understand:
+By the end of this guide, you will understand:
 
 - How interpolators create smooth property transitions
 - The specific particle properties each interpolator controls
@@ -54,7 +54,7 @@ Interpolators work by calculating intermediate values between the `StartValue` a
 
 Interpolators do not operate independently.  They are used by modifiers to determine what changes to apply:
 
-- [`AgeModifier`](./modifiers.md#age-modifier): Uses particles age as a percentage of lifespan (`0.0f` = just born, `1.0f` = about to expire)
+- [`AgeModifier`](./modifiers.md#age-modifier): Uses particle's age as a percentage of lifespan (`0.0f` = just born, `1.0f` = about to expire)
 - [`VelocityModifier`](./modifiers.md#velocity-modifier): uses particle speed relative to a threshold (`0.0f` = stationary, `1.0f` = at or above threshold speed)
 
 This relationship allows for both time-based and speed-based property changes
@@ -70,7 +70,7 @@ The `ColorInterpolator` transitions between HSL colors, affecting hue, saturatio
 | `StartValue` | Initial HSL color (`Vector3`: Hue in degrees 0-360, Saturation 0-1, Lightness 0-1) |
 | `EndValue`   | Final HSL color (`Vector3`: Hue in degrees 0-360, Saturation 0-1, Lightness 0-1)   |
 
-```cs title="ColorInterpolator Example
+```cs title="ColorInterpolator Example"
 emitter.Modifiers.Add(new AgeModifier()
 {
     Interpolators =
@@ -88,7 +88,7 @@ emitter.Modifiers.Add(new AgeModifier()
 
 ### Hue Interpolator
 
-The `HueInterpolator` changes only the hue component of particle colors while preserving saturationa nd lightness.
+The `HueInterpolator` changes only the hue component of particle colors while preserving saturation and lightness.
 
 | Property     | Description                    |
 | ------------ | ------------------------------ |
@@ -158,7 +158,7 @@ emitter.Modifiers.Add(new AgeModifier()
     [
         new RotationInterpolator
         {
-            // Start invisible
+            // No initial rotation
             StartValue = 0.0f,
 
             // Full rotation (360 degrees)
@@ -228,7 +228,7 @@ emitter.Modifiers.Add(new AgeModifier()
 
 ## Combining Interpolators
 
-Multiple interpolators can be used together to create complex, layered effects.  each interpolator operates independently on its specific particle property.
+Multiple interpolators can be used together to create complex, layered effects. Each interpolator operates independently on its specific particle property.
 
 ### Classic Fade-Out with Growth Effect
 

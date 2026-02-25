@@ -75,7 +75,7 @@ First we declare a `_speed` field that is used to update the `SceneGraph`
 private float _speed = 0.15f;
 ```
 
-Then, we add the following code to the `Update` function to update the potition of the Car and the rotation of the Wheels
+Then, we add the following code to the `Update` function to update the position of the Car and the rotation of the Wheels
 
 ```cs
 var keyboardState = Keyboard.GetState();
@@ -138,7 +138,7 @@ Which we then assign in the `Update` function
 _hoveredNode = _sceneGraph.GetSceneNodeAt(new Vector2(mouseState.X, mouseState.Y));
 ```
 
-Finally, We add the following code between `_spriteBatch` `Begin` and `End` to draw it
+Finally, we add the following code between `_spriteBatch` `Begin` and `End` to draw it
 
 ```cs
 if (_hoveredNode != null)

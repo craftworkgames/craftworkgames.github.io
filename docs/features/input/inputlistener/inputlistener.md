@@ -8,7 +8,7 @@ sidebar_label: InputListener
 This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
-**MonoGame.Extended** offers input listeners that can be used to subscribe to input events instead of having to poll for input changes.  These listeners include
+**MonoGame.Extended** offers input listeners that can be used to subscribe to input events instead of having to poll for input changes.  These listeners include:
 
 - `KeyboardListener`
 - `MouseListener`
@@ -84,7 +84,7 @@ protected override void Initialize()
 ```
 
 ## Using the `InputListenerComponent`
-**MonoGame.Extended** also provides an `InputListenerComponent` that can be created and added to the game component collection to have it automatically updated for you each frame.  Using it is similar to using hte individual listeners, you just have to create an instance of it and add it to the components collection
+**MonoGame.Extended** also provides an `InputListenerComponent` that can be created and added to the game component collection to have it automatically updated for you each frame.  Using it is similar to using the individual listeners, you just have to create an instance of it and add it to the components collection
 
 ```cs
 // highlight-next-line

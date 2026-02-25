@@ -43,7 +43,7 @@ Current limitations include:
 The following prerequisites are required when using Tiled maps with MonoGame.Extended:
 
 - A MonoGame project with MonoGame.Extended installed.
-- Content Pipeline Extensions configured (see [Installation Guide: Setup up MGC BEditor](/docs/getting-started/installation-monogame/#optional-set-up-mgcb-editor)).
+- Content Pipeline Extensions configured (see [Installation Guide: Set up MGC BEditor](/docs/getting-started/installation-monogame/#optional-set-up-mgcb-editor)).
 - Basic understanding of the [Tiled Map Editor](https://www.mapeditor.org/docs)
 
 ## File Organization
@@ -82,7 +82,7 @@ When working with Tiled maps in MonoGame.Extended, you need to add your files to
 
 The `.png` tileset images must be copied to your content directory maintaining the same relative path structure as your Tiled project, but they should **not** be added as content items in the MGCB Editor. The MonoGame.Extended Content Pipeline will automatically detect and process these images when it processes the `.tsx` files that reference them.
 
-For reference, here are the assets from the demo files setup in the MGCB Editor and what it looks like in the directory structure
+For reference, here are the assets from the demo files setup in the MGCB Editor and what it looks like in the directory structure:
 
 ![MGCB Setup](./mgcb-setup.png)
 

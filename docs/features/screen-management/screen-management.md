@@ -9,7 +9,7 @@ description: Learn how to organize your game into multiple screens with support 
 This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
-The `ScreenManager` helps you organize your game into multiple screens, each wih their own lifecycle methods.  Screens are managed using a stack-based approach, allowing multiple screens to be active simultaneously.  This enables scenarios like pause menus that overlay gameplay, or rooms that continue updating while the player explores elsewhere.
+The `ScreenManager` helps you organize your game into multiple screens, each with their own lifecycle methods.  Screens are managed using a stack-based approach, allowing multiple screens to be active simultaneously.  This enables scenarios like pause menus that overlay gameplay, or rooms that continue updating while the player explores elsewhere.
 
 ## Understanding Screen Management
 
@@ -28,7 +28,7 @@ The `ScreenManager` maintains a stack of screens where the topmost screen is con
 
 ### Adding the ScreenManager
 
-First add the required namespaces to your game class:
+First, add the required namespaces to your game class:
 
 ```cs
 using MonoGame.Extended.Screens;
@@ -51,7 +51,7 @@ In your constructor, create the `ScreenManager` and register it as a game compon
 ```cs
 public Game1()
 {
-    _graphics =  new GraphicsDeviceManager(this);
+    _graphics = new GraphicsDeviceManager(this);
     Content.RootDirectory = "Content";
 
     _screenManager = new ScreenManager();
@@ -106,7 +106,7 @@ public class MainMenuScreen : GameScreen
 ```
 
 :::note
-`GameScreen` provides convenient properties like `Game`, `Content`, `GraphicsDevice` and `Services` for easy access to common game resources.  Use `Screen` as your base class if you don't need these conveniences.
+`GameScreen` provides convenient properties like `Game`, `Content`, `GraphicsDevice`, and `Services` for easy access to common game resources.  Use `Screen` as your base class if you don't need these conveniences.
 :::
 
 ### Showing Your First Screen
@@ -154,7 +154,7 @@ The previous screen remains in the stack but becomes inactive.  By default, inac
 
 ### CloseScreen - Return to Previous Screen
 
-Use `CloseScreen()` to close the active scree and return to the previous one.
+Use `CloseScreen()` to close the active screen and return to the previous one.
 
 ```cs
 // Close current screen
@@ -168,7 +168,7 @@ The closed screen is disposed, and the next screen in the stack becomes active.
 
 ### ReplaceScreen - Replace the Active Screen
 
-Usee `ReplaceScreen()` to close the active screen and show a new one:
+Use `ReplaceScreen()` to close the active screen and show a new one:
 
 ```cs
 // Replace current screen (closes it and shows a new one)
@@ -195,7 +195,7 @@ _screenManager.ShowScreen(new MainMenuScreen(Game));
 
 ## Background Screen Behavior
 
-One of the features of the `ScreenManager` is the ability to control whether screens continue updating and drawing then they are not active.  This is controlled by two properties on the `Screen` class:
+One of the features of the `ScreenManager` is the ability to control whether screens continue updating and drawing when they are not active.  This is controlled by two properties on the `Screen` class:
 
 ### UpdateWhenInactive Property
 
@@ -227,13 +227,13 @@ public class GameplayScreen : GameScreen
 {
     public GameplayScreen(Game game) : base(game)
     {
-        // Keep his screen visible when other screens overlay it
+        // Keep this screen visible when other screens overlay it
         DrawWhenInactive = true;
     }
 
-    public override void Draw(GamTime gameTime)
+    public override void Draw(GameTime gameTime)
     {
-        // This continues to draw even when a pause menu is show
+        // This continues to draw even when a pause menu is shown
         DrawGameWorld();
     }
 }
@@ -248,7 +248,7 @@ public override void Update(GameTime gameTime)
 {
     if(IsActive)
     {
-        // Only process input when this is the active creen.
+        // Only process input when this is the active screen.
         ProcessPlayerInput();
     }
 
@@ -261,7 +261,7 @@ Use `IsActive` to differentiate behavior between when a screen is active versus 
 
 ## Screen Transitions
 
-The `SceneManager` supports smooth trnsitions between screens using the `Transition` class.  MonoGame.Extended includes a `FadeTransition` by default:
+The `ScreenManager` supports smooth transitions between screens using the `Transition` class.  MonoGame.Extended includes a `FadeTransition` by default:
 
 ```cs
 // Create a fade transition (black, 0.5 seconds)
@@ -274,12 +274,12 @@ _screenManager.ReplaceScreen(new MainMenuScreen(Game), fadeTransition);
 ```
 
 :::tip
-Transitions can only be active one at a time.  if you try to start a new transition while one is already running, the request will be ignored.  This prevents overlapping transition effects.
+Transitions can only be active one at a time.  If you try to start a new transition while one is already running, the request will be ignored.  This prevents overlapping transition effects.
 :::
 
 ## Performance Considerations
 
-The `ScreenManager` itself optimized to minimize per-frame allocations by internally caching the screen list and only rebuilding it when the stack changes.  However, keep these performance tips in mind:
+The `ScreenManager` itself is optimized to minimize per-frame allocations by internally caching the screen list and only rebuilding it when the stack changes.  However, keep these performance tips in mind:
 
 ### Be Mindful of Background Screens
 

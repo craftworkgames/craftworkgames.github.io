@@ -22,7 +22,7 @@ This document provides setup and an introduction to using Gum forms controls pur
 
 ## Setup
 
-Before using Gum, you must add the Gum.MonoGame [nuget package](https://www.nuget.org/packages/Gum.MonoGame) to your project.
+Before using Gum, you must add the Gum.MonoGame [NuGet package](https://www.nuget.org/packages/Gum.MonoGame) to your project.
 
 Gum Forms uses GumService initialization, updating, and drawing.
 

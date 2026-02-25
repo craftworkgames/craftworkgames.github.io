@@ -118,7 +118,7 @@ private void CreateParticleEffect()
             // Random speed between 10-40
             Speed = new ParticleFloatParameter(10.0f, 40.0f),
 
-            // Red color  using HSL values (Hue=0°, Saturation = 100%, Lightness=60%)
+            // Red color using HSL values (Hue=0°, Saturation = 100%, Lightness=60%)
             Color = new ParticleColorParameter(new Vector3(0.0f, 1.0f, 0.6f)),
 
             // Make them 10x bigger
@@ -409,7 +409,7 @@ private void CreateParticleEffect()
 }
 ```
 
-Now if you run the game you'll see a shimmering sparkle effect of particles spawning and changing color until fading out.
+Now if you run the game, you'll see a shimmering sparkle effect of particles spawning and changing color until fading out.
 
 ![Sparkling particle effect](./images/quick_start/sparkle.gif)
 

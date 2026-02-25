@@ -26,7 +26,7 @@ A `Texture2DRegion` is a subregion of a texture, typically used for rendering sp
 
 In MonoGame, this would be loaded as a single `Texture2D` image, however we would want to define the individual boundaries within the image that represent each individual card. For instance, the Ace of Hearts is at x:384 y:64 and has a width of 32px and a height of 32px.  So we can define the rectangular boundary of this card in the overall texture as `new Rectangle(384, 64, 32, 32)`
 
-This is what a `Texture2DRegion` represents.  Internally it has a reference to the source `Texture2D` and defines the rectangular boundary that represents the sub region within the texture.
+This is what a `Texture2DRegion` represents.  Internally it has a reference to the source `Texture2D` and defines the rectangular boundary that represents the subregion within the texture.
 
 ## Why Would We Use This
 This is an excellent question.  When rendering textures with the `SpriteBatch` in MonoGame, every time you do a `SpriteBatch.Draw` call that uses a different `Texture2D` than the one before, the batcher has to do a process called **texture swapping**.  Excessive texture swapping can reduce draw performance in your game. 
@@ -34,7 +34,7 @@ This is an excellent question.  When rendering textures with the `SpriteBatch` i
 By packing similar textures, like the cards, into a single image and then drawing only each region, we can draw the individual cards using a single source `Texture2D`, thus eliminating texture swapping as much as possible.
 
 ## Using a `Texture2DRegion`
-To create a `Texture2DRegion` in MonoGame.Extended, you only need two things; a `Texture2D` and the rectangular boundary that defines the region.  Using our example of the Ace of Hearts from before, let's also create a `Texture2DRegion` for each of the other Ace cards as well:
+To create a `Texture2DRegion` in MonoGame.Extended, you only need two things: a `Texture2D` and the rectangular boundary that defines the region. Using our example of the Ace of Hearts from before, let's also create a `Texture2DRegion` for each of the other Ace cards as well:
 
 ```cs
 private Texture2DRegion _aceOfHearts;

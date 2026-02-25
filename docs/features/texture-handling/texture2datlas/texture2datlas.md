@@ -52,7 +52,7 @@ protected override void LoadContent()
 }
 ```
 
-Then we can draw the regions just like in the other example
+Then we can draw the regions just like in the other example.
 
 ```cs
 protected override void Draw(GameTime gameTime)
@@ -127,7 +127,7 @@ The JSON file describes each sprite's location, size, rotation, and other proper
 ```
 
 Each frame entry contains:
-- `frame`: The rectangle coordinates and size within the texture (required)
+- `frame`: The rectangle coordinates and size within the texture atlas (required)
 - `size`: The original sprite size before trimming (optional)
 - `offset`: How much transparent space was removed on the top-left corner (optional)
 - `pivot`: The sprite's origin, used for placement and rotation (optional)
@@ -159,7 +159,7 @@ protected override void LoadContent()
     // Load the atlas using the JSON data file name
     _spriteAtlas = Content.Load<Texture2DAtlas>("spritesheet");
     
-    // Create a sprite by name, corresponding region is defined in JSON data file
+    // Create a sprite by name; the corresponding region is defined in JSON data file
     _walkSprite = _spriteAtlas.CreateSprite("capguy/walk_0001");
 }
 
@@ -167,7 +167,7 @@ protected override void LoadContent()
 
 ## Manually creating regions
 
-If you want more fine grained control over the creation of TextureRegions, you can create them programmatically by calling the `Texture2DAtlas.CreateRegion()` method
+If you want more fine-grained control over the creation of TextureRegions, you can create them programmatically by calling the `Texture2DAtlas.CreateRegion()` method
 
 ```cs
 protected override void LoadContent()

@@ -33,7 +33,7 @@ __Examples of Components are:__
 
 ### 2. Entities Overview
 
-An entity is a composition of components identified by an ID. Often you only need the ID of the entity to work with it. For performance reasons, an entity ID is only valid while the entity is alive. Once the entity is destroyed, it's ID may be recycled.  In Monogame.Extended, Entities are created for you when you call `CreateEntity` on the `World` instance.
+An entity is a composition of components identified by an ID. Often you only need the ID of the entity to work with it. For performance reasons, an entity ID is only valid while the entity is alive. Once the entity is destroyed, its ID may be recycled.  In MonoGame.Extended, Entities are created for you when you call `CreateEntity` on the `World` instance.
 
 ### 3. Systems Overview
 
@@ -57,7 +57,7 @@ Since the `Systems` act upon the `Entities` set of `Components`, and the `world`
 
 ## Components
 
-Since this is just a class with data properties it can be anything.  It can even be a classes like the `Monogame.Extended.Transform2` or `Microsoft.Xna.Framework.Graphics.Texture2D`.  Generally you want your components to make up the individual pieces of an entity.  You need to decouple common functionality into individual grouped components.
+Since this is just a class with data properties it can be anything.  It can even be a class like the `MonoGame.Extended.Transform2` or `Microsoft.Xna.Framework.Graphics.Texture2D`.  Generally you want your components to make up the individual pieces of an entity.  You need to decouple common functionality into individual grouped components.
 
 Component Examples:
 1. Positional information
@@ -367,7 +367,7 @@ When you're inside an `EntitySystem` there are helper methods for creating or de
 
 This is the example from the Samples called "Entities".  It will allow you to control an image with your keyboards arrow keys.  All movement logic is done inside the PlayerSystem.cs file.
 
-Start by following the getting started guide for a basic Monogame.Extended project.
+Start by following the getting started guide for a basic MonoGame.Extended project.
 
 Then inside the project create 2 folders, (Components, Systems).
 

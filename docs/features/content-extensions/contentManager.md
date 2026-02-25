@@ -17,7 +17,7 @@ This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find o
 
 **OpenStream** allows easy access to load data from files.  Files loaded this way should be in the content folder defined by `Content.RootDirectory`.
 
-Example below loads a text file "song-lyrics" directly.  This file is assumed to have it's properties set to "Copy to Output Directory".
+Example below loads a text file "song-lyrics" directly.  This file is assumed to have its properties set to "Copy to Output Directory".
 ```csharp
 // Put this in your Game1 class
 private string songLyrics;

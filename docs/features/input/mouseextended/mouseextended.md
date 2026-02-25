@@ -8,7 +8,7 @@ sidebar_label: MouseExtended
 This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
-`MouseExtended` is an extension of the `Microsoft.Xna.Framework.Input.Mouse` class. Unlike the default MonoGame one, `MouseExtended` will internally track both the mouse state of the previous frame and the mouse state of the current frame.  This allows for easy comparisons between the previous and current state to check for things like  single frame button presses and tracking mouse position delta between frames
+`MouseExtended` is an extension of the `Microsoft.Xna.Framework.Input.Mouse` class. Unlike the default MonoGame implementation, `MouseExtended` will internally track both the mouse state of the previous frame and the mouse state of the current frame.  This allows for easy comparisons between the previous and current state to check for things like  single frame button presses and tracking the mouse position delta between frames
 
 `MouseExtended` also contains the `MouseExtended.GetState()` method which returns back a `MouseStateExtended` struct.  This struct provides the standard utility methods of checking if a button is down or up, but also extends this functionality with methods for checking for single frame button presses and deltas between frames.
 
@@ -24,7 +24,7 @@ protected override void Update(GameTime gameTime)
 ```
 
 :::caution
-`MouseExtended.Update` should only be called once per update cycle in your game.  This is because when calling it, it will update it's internal source for the previous state by caching the current state into the previous state before refreshing the current state.  Calling this method more than once during an update cycle can cause the previous state cache to be overwritten with invalid data.
+`MouseExtended.Update` should only be called once per update cycle in your game.  This is because when calling it, it will update its internal source for the previous state by caching the current state into the previous state before refreshing the current state.  Calling this method more than once during an update cycle can cause the previous state cache to be overwritten with invalid data.
 :::
 
 Then, just like with base MonoGame, when you need to get the state of mouse input from `MouseExtended` you use the `MouseExtended.GetState()` method.  This returns back a new `MouseStateExtended` struct
