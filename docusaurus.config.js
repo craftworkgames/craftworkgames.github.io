@@ -22,6 +22,19 @@ const config = {
     locales: ['en'],
   },
 
+  plugins: [
+    [
+      require.resolve('docusaurus-plugin-search-local'),
+      {
+        hashed: false,
+        indexDocs: true,
+        indexBlog: true,
+        indexPages: false,
+        searchResultLimits: 10,
+      },
+    ],
+  ],
+
   headTags: [
     {
       tagName: 'link',
