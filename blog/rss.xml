@@ -4,10 +4,183 @@
         <title>MonoGame.Extended Blog</title>
         <link>https://www.monogameextended.net/blog/</link>
         <description>MonoGame.Extended Blog</description>
-        <lastBuildDate>Sat, 24 Jan 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 27 Feb 2026 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
+        <item>
+            <title><![CDATA[Version 5.4.0 Release - Backlog Reduction and Stability Improvements]]></title>
+            <link>https://www.monogameextended.net/blog/version-5-4-0/</link>
+            <guid>https://www.monogameextended.net/blog/version-5-4-0/</guid>
+            <pubDate>Fri, 27 Feb 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Hi everyone,]]></description>
+            <content:encoded><![CDATA[<p>Hi everyone,</p>
+<p>Over the past couple of months one of the areas I have focused on has been to reduce the issue backlog as much as possible without requiring a major version bump.</p>
+<p>When this effort started, MonoGame.Extended was sitting at roughly 70 to 75 open issues. As of this release, that number is down to 17.</p>
+<p>Some of those issues were closed because they were tied directly to the legacy Tiled integration, which is being replaced entirely by the new agnostic tilemap system. Rather than continue patching a system that is scheduled for removal in the next major version, those issues were triaged in the context of the new architecture.</p>
+<p>Version 5.4.0 is not about introducing a large new feature. It is about correctness, performance, API consistency, and preparing the for what comes next.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="table-of-contents">Table of Contents<a class="hash-link" aria-label="Direct link to Table of Contents" title="Direct link to Table of Contents" href="https://www.monogameextended.net/blog/version-5-4-0/#table-of-contents">​</a></h2>
+<ul>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#triangulator-improvements">Triangulator Improvements</a>
+<ul>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#heap-allocation-reduction">Heap Allocation Reduction</a></li>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#winding-order-fix">Winding Order Fix</a></li>
+</ul>
+</li>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#primitive-drawing-updates">Primitive Drawing Updates</a>
+<ul>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#alpha-rendering-fix">Alpha Rendering Fix</a></li>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#arc-drawing-support">Arc Drawing Support</a></li>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#outline-parameter-consistency">Outline Parameter Consistency</a></li>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#batcher2d-deprecation">Batcher2D Deprecation</a></li>
+</ul>
+</li>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#tweening-system-improvements">Tweening System Improvements</a>
+<ul>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#onupdate-callback">OnUpdate Callback</a></li>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#exposing-active-tweens">Exposing Active Tweens</a></li>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#easing-combinators">Easing Combinators</a></li>
+</ul>
+</li>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#screen-lifecycle-hooks">Screen Lifecycle Hooks</a></li>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#collision-layer-self-collision-fix">Collision Layer Self-Collision Fix</a></li>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#aot-and-trimming-support-for-content-readers">AOT and Trimming Support for Content Readers</a></li>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#texture2datlasname-fix">Texture2DAtlas.Name Fix</a></li>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#boxingviewportadapter-and-camera-triage">BoxingViewportAdapter and Camera Triage</a></li>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#camera-fit-example">Camera Fit Example</a></li>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#tilemap-overhaul-status">Tilemap Overhaul Status</a></li>
+<li><a href="https://www.monogameextended.net/blog/version-5-4-0/#closing-thoughts">Closing Thoughts</a></li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="triangulator-improvements">Triangulator Improvements<a class="hash-link" aria-label="Direct link to Triangulator Improvements" title="Direct link to Triangulator Improvements" href="https://www.monogameextended.net/blog/version-5-4-0/#triangulator-improvements">​</a></h2>
+<p>Two separate issues were addressed in the triangulation system.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="heap-allocation-reduction">Heap Allocation Reduction<a class="hash-link" aria-label="Direct link to Heap Allocation Reduction" title="Direct link to Heap Allocation Reduction" href="https://www.monogameextended.net/blog/version-5-4-0/#heap-allocation-reduction">​</a></h3>
+<p>It was reported that calling <code>DrawSolidPolygon</code> resulted in significant heap allocations, in some cases tens of kilobytes per call for moderately sized polygons. Profiling revealed that the dominant cause was struct boxing inside a generic <code>IndexOf</code> implementation used by the ear-clipping loop.</p>
+<p>The issue was that the internal <code>Vertex</code> struct did not implement <code>IEquatable&lt;Vertex&gt;</code>. Because of this, equality checks inside a generic method fell back to <code>object.Equals</code>, causing boxing on every comparison. Since ear clipping is O(n^2), that boxing compounded quickly.</p>
+<p>The fix involved:</p>
+<ul>
+<li>Implementing <code>IEquatable&lt;Vertex&gt;</code> on the struct.</li>
+<li>Switching to <code>EqualityComparer&lt;T&gt;.Default</code> inside the generic comparison loop.</li>
+<li>Reusing the triangle list buffer instead of allocating a new list per call.</li>
+<li>Avoiding unnecessary array cloning when the winding order was already correct.</li>
+</ul>
+<p>The results were significant:</p>
+<p><strong>Baseline Benchmark (Before Fix)</strong></p>
+<table><thead><tr><th>Method</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Ratio</th><th>RatioSD</th><th>Gen0</th><th>Allocated</th><th>Alloc Ratio</th></tr></thead><tbody><tr><td>Triangulate_Square</td><td>980.3 ns</td><td>22.84 ns</td><td>67.33 ns</td><td>1.00</td><td>0.00</td><td>0.8602</td><td>2.64 KB</td><td>1.00</td></tr><tr><td>Triangulate_Pentagon</td><td>1,589.3 ns</td><td>31.40 ns</td><td>74.01 ns</td><td>1.65</td><td>0.12</td><td>1.3847</td><td>4.24 KB</td><td>1.61</td></tr><tr><td>Triangulate_Circle16</td><td>17,316.5 ns</td><td>302.01 ns</td><td>267.72 ns</td><td>18.03</td><td>0.98</td><td>14.1296</td><td>43.33 KB</td><td>16.41</td></tr></tbody></table>
+<p><strong>Source Benchmark (After Fix)</strong></p>
+<table><thead><tr><th>Method</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Median</th><th>Ratio</th><th>RatioSD</th><th>Gen0</th><th>Allocated</th><th>Alloc Ratio</th></tr></thead><tbody><tr><td>Triangulate_Square</td><td>536.1 ns</td><td>12.41 ns</td><td>36.58 ns</td><td>547.1 ns</td><td>1.00</td><td>0.00</td><td>0.1574</td><td>496 B</td><td>1.00</td></tr><tr><td>Triangulate_Pentagon</td><td>889.6 ns</td><td>19.86 ns</td><td>58.26 ns</td><td>884.4 ns</td><td>1.67</td><td>0.17</td><td>0.1984</td><td>624 B</td><td>1.26</td></tr><tr><td>Triangulate_Circle16</td><td>8,009.7 ns</td><td>160.16 ns</td><td>288.79 ns</td><td>8,020.4 ns</td><td>15.39</td><td>1.11</td><td>0.6256</td><td>1984 B</td><td>4.00</td></tr></tbody></table>
+<p><strong>Benchmark Analysis (Allocations)</strong></p>
+<table><thead><tr><th>Shape</th><th>Before</th><th>After</th><th>Reduction</th></tr></thead><tbody><tr><td>Square (4v)</td><td>2.64 KB</td><td>496 B</td><td>81.65%</td></tr><tr><td>Pentagon (5v)</td><td>4.24 KB</td><td>624 B</td><td>85.63%</td></tr><tr><td>Circle16 (16v)</td><td>43.33 KB</td><td>1984 B</td><td>95.53%</td></tr></tbody></table>
+<p>Throughput improved as well since the boxing overhead in the hot loop was removed.</p>
+<p>The triangulator still allocates due to linked list node usage, and the documentation warning about per-frame usage remains. However, the pathological allocation behavior has been resolved.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="winding-order-fix">Winding Order Fix<a class="hash-link" aria-label="Direct link to Winding Order Fix" title="Direct link to Winding Order Fix" href="https://www.monogameextended.net/blog/version-5-4-0/#winding-order-fix">​</a></h3>
+<p>A separate issue was found in <code>DetermineWindingOrder</code>. The previous implementation counted clockwise versus counterclockwise turns and returned whichever count was higher.</p>
+<p>This approach failed for polygons that have an equal number of left and right turns, such as a 5-point star. In those cases, both the polygon and its reverse could produce the same result.</p>
+<p>The implementation was replaced with the standard signed-area, or shoelace, formula. The sign of the computed area determines winding order. This approach is more mathematically correct and, as a bonus, faster than the previous method.</p>
+<p>New unit tests were added to validate clockwise, counterclockwise, reversed polygons, and the specific star regression case.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="primitive-drawing-updates">Primitive Drawing Updates<a class="hash-link" aria-label="Direct link to Primitive Drawing Updates" title="Direct link to Primitive Drawing Updates" href="https://www.monogameextended.net/blog/version-5-4-0/#primitive-drawing-updates">​</a></h2>
+<p>Several improvements were made to the vector drawing system.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="alpha-rendering-fix">Alpha Rendering Fix<a class="hash-link" aria-label="Direct link to Alpha Rendering Fix" title="Direct link to Alpha Rendering Fix" href="https://www.monogameextended.net/blog/version-5-4-0/#alpha-rendering-fix">​</a></h3>
+<p>Two issues were contributing to incorrect rendering of semi-transparent shapes:</p>
+<ol>
+<li><code>PrimitiveBatch.Begin()</code> was not setting a blend state, leaving the device in <code>BlendState.Opaque</code> after a clear. This caused alpha values to be ignored.</li>
+<li>Filled shapes internally multiplied the provided color by <code>0.5f</code>, effectively halving the intended alpha value.</li>
+</ol>
+<p>The fixes include:</p>
+<ul>
+<li>Setting <code>BlendState.NonPremultiplied</code> by default in <code>PrimitiveBatch.Begin()</code> and restoring the previous blend state in <code>End()</code>.</li>
+<li>Removing the internal <code>color * 0.5f</code> multiplication.</li>
+<li>Refactoring single-color overloads to delegate to two-color overloads to remove duplication.</li>
+</ul>
+<p>Semi-transparent filled shapes now render correctly without the previous "pizza slice" seam artifacts.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="arc-drawing-support">Arc Drawing Support<a class="hash-link" aria-label="Direct link to Arc Drawing Support" title="Direct link to Arc Drawing Support" href="https://www.monogameextended.net/blog/version-5-4-0/#arc-drawing-support">​</a></h3>
+<p>Arc drawing was added to <code>PrimitiveDrawing</code>:</p>
+<ul>
+<li><code>DrawArc</code> for outline arcs.</li>
+<li><code>DrawSolidArc</code> for filled pie slices.</li>
+<li>Overloads supporting separate outline and fill colors.</li>
+</ul>
+<p>A matching <code>DrawArc</code> extension was also added to <code>ShapeExtensions</code> for SpriteBatch based debug drawing.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="outline-parameter-consistency">Outline Parameter Consistency<a class="hash-link" aria-label="Direct link to Outline Parameter Consistency" title="Direct link to Outline Parameter Consistency" href="https://www.monogameextended.net/blog/version-5-4-0/#outline-parameter-consistency">​</a></h3>
+<p><code>DrawSolidRectangle</code> and both <code>DrawSolidCircle</code> overloads now include a <code>bool outline = true</code> parameter, matching the API surface of <code>DrawSolidPolygon</code> and <code>DrawSolidEllipse</code>.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="batcher2d-deprecation">Batcher2D Deprecation<a class="hash-link" aria-label="Direct link to Batcher2D Deprecation" title="Direct link to Batcher2D Deprecation" href="https://www.monogameextended.net/blog/version-5-4-0/#batcher2d-deprecation">​</a></h3>
+<p>The <code>Batcher2D</code> cluster was marked obsolete. It was never completed, has no internal dependencies, and does not reach feature parity with <code>SpriteBatch</code>. It will be removed in the next major version.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="tweening-system-improvements">Tweening System Improvements<a class="hash-link" aria-label="Direct link to Tweening System Improvements" title="Direct link to Tweening System Improvements" href="https://www.monogameextended.net/blog/version-5-4-0/#tweening-system-improvements">​</a></h2>
+<p>The tweening system received both new functionality and API cleanup.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="onupdate-callback">OnUpdate Callback<a class="hash-link" aria-label="Direct link to OnUpdate Callback" title="Direct link to OnUpdate Callback" href="https://www.monogameextended.net/blog/version-5-4-0/#onupdate-callback">​</a></h3>
+<p>A new <code>OnUpdate</code> method was added to <code>Tween</code>. It fires after each interpolation step, including the final one. This enables patterns such as:</p>
+<ul>
+<li>Pushing tweened values into ECS struct components.</li>
+<li>Logging or inspecting values mid-animation.</li>
+<li>Driving external systems without modifying the tween target directly.</li>
+</ul>
+<p>Invocation order per update tick is now:</p>
+<ol>
+<li>Interpolate value.</li>
+<li>Invoke <code>OnUpdate</code>.</li>
+<li>Invoke <code>OnEnd</code> if complete.</li>
+</ol>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="exposing-active-tweens">Exposing Active Tweens<a class="hash-link" aria-label="Direct link to Exposing Active Tweens" title="Direct link to Exposing Active Tweens" href="https://www.monogameextended.net/blog/version-5-4-0/#exposing-active-tweens">​</a></h3>
+<p><code>Tweener</code> now exposes a <code>ActiveTweens</code> property returning a <code>ReadOnlySpan&lt;Tween&gt;</code>. This allows callers to:</p>
+<ul>
+<li>Check if all tweens are complete.</li>
+<li>Inspect active tweens without allocating.</li>
+<li>Avoid relying on the previous <code>AllocationCount</code> property.</li>
+</ul>
+<p><code>AllocationCount</code> has been marked obsolete and will be removed in the next major version.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="easing-combinators">Easing Combinators<a class="hash-link" aria-label="Direct link to Easing Combinators" title="Direct link to Easing Combinators" href="https://www.monogameextended.net/blog/version-5-4-0/#easing-combinators">​</a></h3>
+<p>Two new public easing helpers were added:</p>
+<ul>
+<li><code>Invert(Func&lt;float, float&gt;)</code></li>
+<li><code>Follow(Func&lt;float, float&gt;, Func&lt;float, float&gt;)</code></li>
+</ul>
+<p>These allow composing new easing curves from existing ones without writing additional math or allocating intermediate objects.</p>
+<p>The entire tweening subsystem now has complete XML documentation coverage.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="screen-lifecycle-hooks">Screen Lifecycle Hooks<a class="hash-link" aria-label="Direct link to Screen Lifecycle Hooks" title="Direct link to Screen Lifecycle Hooks" href="https://www.monogameextended.net/blog/version-5-4-0/#screen-lifecycle-hooks">​</a></h2>
+<p><code>Screen</code> now includes two new virtual methods:</p>
+<div class="language-csharp codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-csharp codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">public</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">virtual</span><span class="token plain"> </span><span class="token return-type class-name keyword" style="color:#00009f">void</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">OnActivated</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">}</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">public</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">virtual</span><span class="token plain"> </span><span class="token return-type class-name keyword" style="color:#00009f">void</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">OnDeactivated</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>These are invoked whenever a screen becomes the active top screen or stops being the top screen.</p>
+<p>Previously, <code>Initialize()</code> only ran once, which made it difficult to handle reactivation scenarios such as returning from a sub-menu. These new hooks solve that problem cleanly and align with the existing override based API design.</p>
+<p>Unit tests were added to validate first activation, push/deactivation, reactivation after close, and <code>ClearScreens</code> behavior.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="collision-layer-self-collision-fix">Collision Layer Self-Collision Fix<a class="hash-link" aria-label="Direct link to Collision Layer Self-Collision Fix" title="Direct link to Collision Layer Self-Collision Fix" href="https://www.monogameextended.net/blog/version-5-4-0/#collision-layer-self-collision-fix">​</a></h2>
+<p>A bug was discovered in the collision system where actors assigned to a named layer would not collide with other actors in the same named layer.</p>
+<p>The root cause was that the <code>(layer, layer)</code> collision pair was never registered for non-default layers. Only <code>(default, named)</code> pairs were added.</p>
+<p>A single line was added during layer registration to ensure each named layer registers a self-collision pair. Two new tests were added to validate:</p>
+<ul>
+<li>Actors in the same named layer collide.</li>
+<li>Actors in different named layers do not collide unless explicitly configured.</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="aot-and-trimming-support-for-content-readers">AOT and Trimming Support for Content Readers<a class="hash-link" aria-label="Direct link to AOT and Trimming Support for Content Readers" title="Direct link to AOT and Trimming Support for Content Readers" href="https://www.monogameextended.net/blog/version-5-4-0/#aot-and-trimming-support-for-content-readers">​</a></h2>
+<p>When publishing with <code>PublishAot</code> or trimming enabled, reflection-based fallback inside MonoGame's content reader resolution can fail.</p>
+<p>MonoGame preregisters its own readers using <code>ContentTypeReaderManager.AddTypeCreator</code>. MonoGame.Extended readers previously relied entirely on reflection.</p>
+<p>Each Extended <code>ContentTypeReader</code> now includes a static <code>Register()</code> method. Users targeting NativeAOT or trimming can explicitly register only the readers they use. This avoids reflection fallback and preserves trimming friendliness.  Providing an explicit register per reader avoids a global "register all" method, which would defeat the purpose of trimming.  To use this, the <code>ContentTypeReader</code> you are using in your project can be registered inside <code>Game.Initialize</code> before you do any content loading like so:</p>
+<div class="language-csharp codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-csharp codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">protected</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">override</span><span class="token plain"> </span><span class="token return-type class-name keyword" style="color:#00009f">void</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">Initialize</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token comment" style="color:#999988;font-style:italic">// Call Register() only for the Extended content types you actually load.</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token comment" style="color:#999988;font-style:italic">// This is only required when publishing with PublishAot or PublishTrimmed.</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    Texture2DAtlasReader</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">Register</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    BitmapFontContentReader</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">Register</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    TiledMapReader</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">Register</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    TiledMapTilesetReader</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">Register</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"> </span><span class="token comment" style="color:#999988;font-style:italic">// only needed if using external tilesets</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token comment" style="color:#999988;font-style:italic">// JsonContentTypeReader&lt;T&gt; must be registered per concrete type</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    JsonContentTypeReader</span><span class="token operator" style="color:#393A34">&lt;</span><span class="token plain">MyData</span><span class="token operator" style="color:#393A34">&gt;</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">Register</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token keyword" style="color:#00009f">base</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">Initialize</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="texture2datlasname-fix">Texture2DAtlas.Name Fix<a class="hash-link" aria-label="Direct link to Texture2DAtlas.Name Fix" title="Direct link to Texture2DAtlas.Name Fix" href="https://www.monogameextended.net/blog/version-5-4-0/#texture2datlasname-fix">​</a></h2>
+<p><code>Texture2DAtlas.Name</code> was incorrectly set to the internal file system relative path generated by TexturePacker, such as <code>"../textures/sprites_0"</code>.</p>
+<p>While the texture itself loaded correctly through <code>GetRelativeAssetName</code>, the atlas name should reflect the content asset path passed to <code>Content.Load</code>.</p>
+<p>The constructor now uses <code>reader.AssetName</code>, ensuring that <code>Texture2DAtlas.Name</code> matches the content asset path, aligning behavior with how <code>Texture2D.Name</code> works in MonoGame.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="boxingviewportadapter-and-camera-triage">BoxingViewportAdapter and Camera Triage<a class="hash-link" aria-label="Direct link to BoxingViewportAdapter and Camera Triage" title="Direct link to BoxingViewportAdapter and Camera Triage" href="https://www.monogameextended.net/blog/version-5-4-0/#boxingviewportadapter-and-camera-triage">​</a></h2>
+<p>Two reported issues involving <code>BoxingViewportAdapter</code> and <code>OrthographicCamera</code> were investigated.</p>
+<p>After stepping through the math and comparing against Nez's <code>BestFit</code> implementation, the current implementation was confirmed to be correct.</p>
+<p>In scenarios where bleed is enabled and the viewport slightly exceeds the window bounds, this is intentional behavior. It represents controlled cropping within the declared bleed allowance.</p>
+<p>No code changes were required.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="camera-fit-example">Camera Fit Example<a class="hash-link" aria-label="Direct link to Camera Fit Example" title="Direct link to Camera Fit Example" href="https://www.monogameextended.net/blog/version-5-4-0/#camera-fit-example">​</a></h2>
+<p>A question was posed in the issue asking for a working example demonstrating how to compute a camera center and zoom so that multiple world-space targets remain visible simultaneously.  For this, a small tutorial was written which can be found at:</p>
+<p><a href="https://itch.io/blog/1424054/fitting-all-players-on-screen-with-monogameextended-orthographiccamera" target="_blank" rel="noopener noreferrer">https://itch.io/blog/1424054/fitting-all-players-on-screen-with-monogameextended-orthographiccamera</a></p>
+<p>This provides a clear, production-ready pattern for local co-op or multi-entity camera scenarios.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="tilemap-overhaul-status">Tilemap Overhaul Status<a class="hash-link" aria-label="Direct link to Tilemap Overhaul Status" title="Direct link to Tilemap Overhaul Status" href="https://www.monogameextended.net/blog/version-5-4-0/#tilemap-overhaul-status">​</a></h2>
+<p>A large portion of the remaining open issues target the legacy <code>TiledMap</code> system. Much of the core and parser work is complete. Rendering system enhancements and performance benchmarking are ongoing.  You can now track the progress of this in the new tracking issue at</p>
+<p><a href="https://github.com/MonoGame-Extended/Monogame-Extended/issues/1113" target="_blank" rel="noopener noreferrer">https://github.com/MonoGame-Extended/Monogame-Extended/issues/1113</a></p>
+<p><strong>No new feature work will go into the legacy <code>TiledMap</code> implementation.</strong></p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="closing-thoughts">Closing Thoughts<a class="hash-link" aria-label="Direct link to Closing Thoughts" title="Direct link to Closing Thoughts" href="https://www.monogameextended.net/blog/version-5-4-0/#closing-thoughts">​</a></h2>
+<p>Version 5.4.0 is a stability and correctness release. It reduces allocations, fixes edge-case bugs, improves API clarity, and continues to shrink the backlog ahead of the next major version.</p>
+<p>The next major milestone is the new tilemap system. That is where development focus is now concentrated.</p>
+<p>As always, thank you to everyone who opens issues, submits PRs, provides reproduction projects, or supports the project in any way. Your feedback continues to shape the direction of MonoGame.Extended.</p>
+<p>- ❤️ Chris Whitley (<a href="https://github.com/aristurtledev" target="_blank" rel="noopener noreferrer">AristurtleDev</a>)</p>]]></content:encoded>
+            <category>Updates</category>
+            <category>Releases</category>
+            <category>five-oh</category>
+            <category>tilemaps</category>
+        </item>
         <item>
             <title><![CDATA[January 2025 Update]]></title>
             <link>https://www.monogameextended.net/blog/update-2025-01/</link>
