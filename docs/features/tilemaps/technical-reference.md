@@ -15,22 +15,8 @@ This document covers the internal architecture of the tilemap system: how maps a
 
 The tilemap system is divided into three layers: format parsers, an intermediate data model, and the runtime model.
 
-```
-+-------------------+   +-------------------+   +------------------+
-|   Format Parsers  |   | Intermediate Data |   |  Runtime Model   |
-|                   |   |                   |   |                  |
-|  TiledTmxParser   | ->|   TilemapData     | ->|    Tilemap       |
-|  LDtkJsonParser   |   |   TilemapLayer-   |   |    TilemapLayer  |
-|  OgmoJsonParser   |   |     Data          |   |    TilemapTile-  |
-|                   |   |   TilemapTileset- |   |      Layer       |
-|                   |   |     Data          |   |    TilemapObject-|
-|                   |   |   TilemapObject-  |   |      Layer       |
-+-------------------+   |     Data          |   |    TilemapTileset|
-                        +-------------------+   +------------------+
-                                  |                       ^
-                                  |      TilemapFactory   |
-                                  +---------------------->+
-```
+![Tilemap System Architecture](tilemap_system_architecture.svg)
+
 
 The format parsers each convert their source files into `TilemapData`, a format-agnostic intermediate representation. `TilemapFactory` then constructs the runtime `Tilemap` from that intermediate form. This separation means the renderers and game code never need to know which editor produced the map.
 
@@ -38,51 +24,13 @@ The format parsers each convert their source files into `TilemapData`, a format-
 
 ### Content Pipeline Path
 
-```
-.tmx / .ldtk / .ogmo
-        |
-        v
-+----------------+        +------------------+        +-------------+
-| Format-specific|        |  TilemapData     |        |  .xnb file  |
-| ContentImporter| -----> | (build time)     | -----> | (baked      |
-| (MGCB build)   |        |                  |        |  binary)    |
-+----------------+        +------------------+        +-------------+
-                                                              |
-                                                              v
-                                                    +------------------+
-                                                    |  TilemapReader   |
-                                                    | ContentTypeReader |
-                                                    +------------------+
-                                                              |
-                                                              v
-                                                    +------------------+
-                                                    | TilemapFactory   |
-                                                    |   .Build()       |
-                                                    +------------------+
-                                                              |
-                                                              v
-                                                       Tilemap (runtime)
-```
+![Content Pipeline Path](content_pipeline_path.svg)
 
 The content pipeline bakes the map data at build time. The `TilemapReader` deserializes the binary `.xnb` file at runtime. Textures are loaded as external references by the content pipeline, which means they are premultiplied by default.
 
 ### Runtime Parser Path
 
-```
-.tmx / .ldtk / .ogmo
-        |
-        v
-+----------------+        +------------------+        +----------------+
-| ITilemapParser |        |  TilemapData     |        |    Tilemap     |
-| ParseFromFile  | -----> | (runtime)        | -----> | (via Factory)  |
-|                |        |                  |        |                |
-+----------------+        +------------------+        +----------------+
-        |
-        v
-Textures loaded via
-Texture2D.FromStream()
-(not premultiplied)
-```
+![Runtime Parser Path](runtime_parser_path.svg)
 
 Runtime parsers read the map file and any referenced textures directly from disk. Textures loaded this way are not premultiplied, which is why the renderer defaults to `BlendState.NonPremultiplied`.
 
@@ -95,56 +43,6 @@ Runtime parsers read the map file and any referenced textures directly from disk
 3. For each layer, recursively build the layer object. Group layers are flattened: child layer names are prefixed with the parent group name using a forward slash separator (for example, a layer named `Walls` inside a group named `Level` becomes `Level/Walls`).
 4. For tile layers, decode each non-empty tile entry into a `TilemapTile` struct containing the global ID and flip flags.
 5. For object layers, construct the appropriate `TilemapObject` subclass for each object and populate its properties.
-
-## Class Hierarchy
-
-### Core Classes
-
-```
-Tilemap
-  +-- TilemapLayerCollection (Layers)
-  |     +-- TilemapTileLayer      (grid of tiles)
-  |     +-- TilemapObjectLayer    (shapes and tile objects)
-  |     +-- TilemapImageLayer     (single repeating texture)
-  |     +-- TilemapGroupLayer     (nested layers, flattened at load)
-  |     +-- TilemapDataLayer      (LDtk IntGrid and similar data)
-  +-- TilemapTilesetCollection (Tilesets)
-  |     +-- TilemapTileset
-  |           +-- TilemapTileData (per-tile metadata)
-  |                 +-- TilemapTileAnimation
-  |                 +-- TilemapObject[] (collision shapes)
-  +-- TilemapProperties (custom key-value pairs)
-```
-
-### Object Hierarchy
-
-```
-TilemapObject (abstract)
-  +-- TilemapRectangleObject   (Width, Height)
-  +-- TilemapEllipseObject     (Width, Height)
-  +-- TilemapPointObject       (Position only)
-  +-- TilemapPolygonObject     (Points[])
-  +-- TilemapPolylineObject    (Points[])
-  +-- TilemapTileObject        (GlobalId, FlipFlags, Size)
-  +-- TilemapTextObject        (Text, FontFamily, Color, alignment)
-```
-
-### Key Structs
-
-```
-TilemapTile (struct)
-  +-- GlobalId : int
-  +-- FlipFlags : TilemapTileFlipFlags
-
-TilemapTileEntry (struct)
-  +-- X : int
-  +-- Y : int
-  +-- Tile : TilemapTile
-
-TilemapTileAnimationFrame (struct)
-  +-- TileId : int
-  +-- Duration : float
-```
 
 ## Global ID (GID) System
 
@@ -166,16 +64,17 @@ A global ID of 0 means the tile cell is empty.
 
 Flip flags are stored in a three-bit flags enum: `FlipHorizontally`, `FlipVertically`, `FlipDiagonally`. The diagonal flag follows Tiled's convention where it encodes rotation rather than a true diagonal mirror. The eight combinations map to specific render operations:
 
-```
-H=0, V=0, D=0 -> no transformation
-H=1, V=0, D=0 -> flip horizontally
-H=0, V=1, D=0 -> flip vertically
-H=1, V=1, D=0 -> flip horizontally and vertically (180-degree rotation)
-H=0, V=1, D=1 -> rotate 90 degrees clockwise
-H=1, V=0, D=1 -> rotate 90 degrees counterclockwise
-H=1, V=1, D=1 -> rotate 90 degrees clockwise, then flip horizontally
-H=0, V=0, D=1 -> rotate 90 degrees counterclockwise, then flip horizontally
-```
+| Horizontal | Vertical | Diagonal |                                                            |
+| :----------: | :--------: | :--------: | ---------------------------------------------------------- |
+| 0          | 0        | 0        | no transformation                                          |
+| 1          | 0        | 0        | flip horizontally                                          |
+| 0          | 1        | 0        | flip vertically                                            |
+| 1          | 1        | 0        | flip horizontally and vertically (180 degree rotation)     |
+| 0          | 1        | 1        | rotate 90 degrees clockwise                                |
+| 1          | 0        | 1        | rotate 90 degrees counterclockwise                         |
+| 1          | 1        | 1        | rotate 90 degrees clockwise, then flip horizontally        |
+| 0          | 0        | 1        | rotate 90 degrees counterclockwise, then flip horizontally |
+
 
 The two renderers implement the diagonal flip case differently:
 
@@ -237,7 +136,7 @@ worldTop   = parallaxOrigin.Y + (cameraTop  - parallaxOrigin.Y) * parallax.Y - l
 
 startX = max(0, floor(worldLeft / tileWidth))
 startY = max(0, floor(worldTop  / tileHeight))
-endX   = min(layerWidth,  ceil((worldLeft + cameraWidth)  / tileWidth))
+endX   = min(layerWidth,  ceil((worldLeft + cameraWidth) / tileWidth))
 endY   = min(layerHeight, ceil((worldTop  + cameraHeight) / tileHeight))
 ```
 
@@ -260,9 +159,9 @@ During rendering, if a tile has an animation, the local tile ID used for the sou
 At `LoadTilemap`, the renderer iterates all tile layers and builds `VertexPositionColorTexture` arrays. Each tile produces a quad of four vertices:
 
 ```
-topLeft     = (worldX,         worldY)
-topRight    = (worldX + width, worldY)
-bottomLeft  = (worldX,         worldY + height)
+topLeft = (worldX, worldY)
+topRight = (worldX + width, worldY)
+bottomLeft = (worldX, worldY + height)
 bottomRight = (worldX + width, worldY + height)
 ```
 
@@ -321,13 +220,13 @@ At draw time, `DrawWorld(camera, worldDepth)` skips any level whose axis-aligned
 Within a `BeginDraw/EndDraw` block, calling `SpriteBatch.Begin/End` will overwrite `GraphicsDevice` state. To continue using the renderer after a SpriteBatch call, bracket the SpriteBatch usage with `SaveGraphicsDeviceState` and `RestoreGraphicsDeviceState`:
 
 ```
-BeginDraw(camera)           -- saves original GraphicsDevice state, sets effect matrices
-  DrawLayerGroup("BG")      -- draws using saved effect matrices
-  SaveGraphicsDeviceState() -- saves renderer's GraphicsDevice state
-  SpriteBatch.Begin/End     -- overwrites GraphicsDevice state
-  RestoreGraphicsDeviceState() -- restores renderer's GraphicsDevice state
-  DrawLayerGroup("FG")      -- draws correctly with restored state
-EndDraw()                   -- restores original GraphicsDevice state
+BeginDraw(camera)                 -- saves original GraphicsDevice state, sets effect matrices
+  DrawLayerGroup("BG")            -- draws using saved effect matrices
+  SaveGraphicsDeviceState()       -- saves renderer's GraphicsDevice state
+  SpriteBatch.Begin/End           -- overwrites GraphicsDevice state
+  RestoreGraphicsDeviceState()    -- restores renderer's GraphicsDevice state
+  DrawLayerGroup("FG")            -- draws correctly with restored state
+EndDraw()                         -- restores original GraphicsDevice state
 ```
 
 #### Oversized Tiles
