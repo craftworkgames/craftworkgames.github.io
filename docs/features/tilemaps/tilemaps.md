@@ -86,7 +86,6 @@ MonoGame.Extended provides two renderers with different performance characterist
 | Layer grouping | No | Yes (`DefineLayerGroup`) |
 | Dynamic tile changes | Instant (no rebuild) | Requires `MarkGroupDirty` |
 | Mixed drawing with SpriteBatch | Native: just call Draw before/after | Requires `SaveGraphicsDeviceState` |
-| LDtk world/GridVania mode | No | Yes (`LoadWorld` / `DrawWorld`) |
 | Disposable | No | Yes (holds GPU buffers) |
 
 **Use `TilemapSpriteBatchRenderer` when:**
@@ -98,7 +97,6 @@ MonoGame.Extended provides two renderers with different performance characterist
 **Use `TilemapRenderer` when:**
 - Your map is mostly static and most tiles are visible at once; the GPU buffer approach produces fewer draw calls at the cost of always submitting all tiles
 - You have many layers and want to merge several of them into a single draw call using layer groups
-- You are working with an LDtk GridVania world where multiple maps tile together
 - Profiling confirms that draw call count is a bottleneck
 
 :::note
@@ -309,37 +307,6 @@ _tilemapRenderer.MarkGroupDirty("Background");
 ```
 
 The rebuild happens automatically the next time `DrawLayerGroup` is called for the dirty group. You can also trigger the rebuild immediately (for example during a loading screen) by calling `RebuildLayerGroup("Background")`.
-
-### LDtk World Mode
-
-`TilemapRenderer` supports LDtk GridVania projects where multiple level files compose a seamless world. Load all levels as `Tilemap` objects and hand them to `LoadWorld`. The renderer reads the `LDtk_WorldX`, `LDtk_WorldY`, and `LDtk_WorldDepth` custom properties to position each level:
-
-```cs
-protected override void LoadContent()
-{
-    // Load each LDtk level as its own Tilemap
-    var levels = new List<Tilemap>
-    {
-        Content.Load<Tilemap>("maps/Level_0"),
-        Content.Load<Tilemap>("maps/Level_1"),
-        Content.Load<Tilemap>("maps/Level_2"),
-    };
-
-    _tilemapRenderer = new TilemapRenderer(GraphicsDevice);
-    _tilemapRenderer.BlendState = BlendState.AlphaBlend;
-    _tilemapRenderer.LoadWorld(levels);
-}
-
-protected override void Draw(GameTime gameTime)
-{
-    GraphicsDevice.Clear(Color.Black);
-
-    // Draw only levels at WorldDepth 0 (overworld)
-    _tilemapRenderer.DrawWorld(_camera, worldDepth: 0);
-}
-```
-
-Levels whose pixel bounds do not intersect the camera view are skipped automatically. WorldDepth 0 is the main overworld; positive values represent upper floors or overlays; negative values represent underground or basement areas.
 
 ### Configuration Properties
 
@@ -615,6 +582,127 @@ _tilemapRenderer.UnloadTilemap(); // also disposes GPU buffers for the old map
 _tilemap = Content.Load<Tilemap>("maps/level2");
 _tilemapRenderer.LoadTilemap(_tilemap);
 ```
+
+---
+
+## World Maps
+
+A world map combines multiple individual tilemap levels positioned in a shared coordinate space. Use world maps when your game world spans more than one tilemap file, for example a GridVania-style platformer with many rooms that tile together.
+
+### Loading a World Map
+
+Add the world file to the MGCB Editor with importer `Tilemap World Importer - MonoGame.Extended` and processor `TilemapWorldProcessor`:
+
+| Format | Extension | Notes |
+|--------|-----------|-------|
+| LDtk | `.ldtk` | All levels with world positions included in a single project file |
+| Tiled | `.world` | JSON file referencing multiple `.tmx` files with world coordinates |
+| Generic | `.tilemapworld` | Custom format for editors without a native world file (for example, Ogmo Editor) |
+
+:::note
+LDtk `.ldtk` files can be imported as either a single level (`LDtk Tilemap Importer` / `TilemapProcessor`) or as a complete world (`Tilemap World Importer` / `TilemapWorldProcessor`). Select the importer explicitly in the MGCB Editor because both importers register for the `.ldtk` extension.
+:::
+
+Load the asset at runtime as a `TilemapWorld`:
+
+```cs
+TilemapWorld world = Content.Load<TilemapWorld>("maps/world");
+```
+
+`TilemapWorld.Levels` exposes the levels as `IReadOnlyList<Tilemap>`. Each level has its `WorldPosition` and `WorldDepth` already set from the world file data.
+
+### TilemapWorldRenderer
+
+The `TilemapWorldRenderer` uses `GraphicsDevice` directly and pre-bakes all tile geometry into world-space vertex buffers at load time. Animated tiles are not supported. Because it holds GPU buffers, it implements `IDisposable`.
+
+```cs
+private TilemapWorldRenderer _worldRenderer;
+
+protected override void LoadContent()
+{
+    TilemapWorld world = Content.Load<TilemapWorld>("maps/world");
+
+    _worldRenderer = new TilemapWorldRenderer(GraphicsDevice);
+    _worldRenderer.BlendState = BlendState.AlphaBlend; // for content pipeline textures
+    _worldRenderer.Load(world);
+}
+
+protected override void Draw(GameTime gameTime)
+{
+    GraphicsDevice.Clear(Color.Black);
+    _worldRenderer.Draw(_camera, worldDepth: 0);
+}
+
+protected override void UnloadContent()
+{
+    _worldRenderer?.Dispose();
+    base.UnloadContent();
+}
+```
+
+### TilemapWorldSpriteBatchRenderer
+
+The `TilemapWorldSpriteBatchRenderer` uses `SpriteBatch` and applies per-room and per-tile frustum culling. It supports animated tiles.
+
+```cs
+private TilemapWorldSpriteBatchRenderer _worldRenderer;
+
+protected override void LoadContent()
+{
+    TilemapWorld world = Content.Load<TilemapWorld>("maps/world");
+
+    _worldRenderer = new TilemapWorldSpriteBatchRenderer();
+    _worldRenderer.BlendState = BlendState.AlphaBlend;
+    _worldRenderer.Load(world);
+
+    _spriteBatch = new SpriteBatch(GraphicsDevice);
+}
+
+protected override void Update(GameTime gameTime)
+{
+    _worldRenderer.Update(gameTime);
+}
+
+protected override void Draw(GameTime gameTime)
+{
+    GraphicsDevice.Clear(Color.Black);
+    _worldRenderer.Draw(_spriteBatch, _camera, worldDepth: 0);
+}
+```
+
+### World Depth Layers
+
+The `worldDepth` parameter controls which levels are rendered. LDtk sets depth from each level's depth field in the project. Tiled's `.world` format has no depth field, so all levels load with `WorldDepth = 0`.
+
+Assign `WorldDepth` manually after loading when the source format does not carry depth information:
+
+```cs
+TilemapWorld world = Content.Load<TilemapWorld>("maps/world");
+foreach (Tilemap level in world.Levels)
+{
+    if (level.Name == "Basement")
+        level.WorldDepth = -1;
+}
+```
+
+### The .tilemapworld Format
+
+For editors without a native world file (such as Ogmo Editor), define a `.tilemapworld` JSON file:
+
+```json
+{
+  "format": "ogmo",
+  "project": "game.ogmo",
+  "maps": [
+    { "source": "levels/cave.json",    "x": 0,   "y": 0,   "depth": 0 },
+    { "source": "levels/dungeon.json", "x": 256, "y": 0,   "depth": 0 }
+  ]
+}
+```
+
+The `format` field is `"ogmo"` or `"tiled"`. The `project` field is required for Ogmo and points to the `.ogmo` project file relative to the `.tilemapworld` file. The `x` and `y` fields are world-space pixel coordinates. The `depth` field defaults to 0 if omitted.
+
+---
 
 ## Performance Tips
 

@@ -207,11 +207,13 @@ The renderer tracks which groups contain animated tile layers. When `Update` det
 
 This means animated tiles inside large groups cause a full group buffer rebuild on every frame change. To minimize this cost, isolate animated tile layers in their own small groups so only the affected buffers need rebuilding.
 
-#### World Mode (LDtk GridVania)
+#### World Mode
 
-`LoadWorld` accepts a collection of `Tilemap` objects and reads their `LDtk_WorldX`, `LDtk_WorldY`, and `LDtk_WorldDepth` custom properties to determine each level's position in the shared world coordinate space. For each level's tile layers, it builds vertex buffers with the world position offset pre-applied to every tile vertex.
+World rendering is handled by the dedicated `TilemapWorldRenderer` class, not by `TilemapRenderer`. `TilemapWorldRenderer.Load` accepts a `TilemapWorld` (or `IEnumerable<Tilemap>`) and reads each tilemap's `WorldPosition` and `WorldDepth` properties, which are set by the content pipeline from the world file data. For each level's tile layers it builds vertex buffers with the world-space position offset pre-applied to every tile vertex, grouping batches by `(WorldDepth, texture, parallaxFactor)`.
 
-At draw time, `DrawWorld(camera, worldDepth)` skips any level whose axis-aligned bounding rectangle does not intersect the camera's bounding rectangle, providing coarse level-of-detail culling without per-tile frustum testing.
+At draw time, `Draw(camera, worldDepth)` skips any level whose axis-aligned bounding rectangle does not intersect the camera's bounding rectangle, providing coarse level culling without per-tile frustum testing.
+
+`TilemapWorldSpriteBatchRenderer` provides the same world-rendering capability with SpriteBatch. It adds per-room and per-tile frustum culling and animated tile support. Draw batches are grouped by `(WorldDepth, parallaxFactor)` and one `SpriteBatch.Begin/End` pair is issued per group.
 
 #### Mixing with SpriteBatch
 

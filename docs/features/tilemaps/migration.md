@@ -50,7 +50,7 @@ The new system uses different importers in the MGCB Editor. Open your `.mgcb` fi
 | Setting | Old Value | New Value |
 |---------|-----------|-----------|
 | Importer | `TiledMapImporter - MonoGame.Extended` | `Tiled Tilemap Importer - MonoGame.Extended` |
-| Processor | `TiledMapProcessor - MonoGame.Extended` | `TiledTilemapProcessor - MonoGame.Extended` |
+| Processor | `TiledMapProcessor - MonoGame.Extended` | `TilemapProcessor - MonoGame.Extended` |
 
 Tileset files (`.tsx`) also need their importer and processor updated:
 

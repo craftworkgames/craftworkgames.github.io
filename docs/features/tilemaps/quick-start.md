@@ -160,5 +160,6 @@ For a complete guide to the camera system, see the [Orthographic Camera](/docs/f
 ## What's Next
 
 - [Full Usage Guide](tilemaps) for layers, objects, properties, and coordinate conversion
+- [World Maps](tilemaps#world-maps) for loading multi-room worlds from LDtk, Tiled, or Ogmo
 - [Technical Reference](technical-reference) for architecture details and rendering internals
 - [Migration Guide](migration) if you are migrating from `MonoGame.Extended.Tiled`
