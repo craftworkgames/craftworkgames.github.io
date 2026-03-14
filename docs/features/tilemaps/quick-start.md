@@ -14,7 +14,7 @@ Samples are available in the [`version/6.0.0` branch of MonoGame-Extended-Sample
 The MonoGame.Extended tilemap system loads and renders maps created with Tiled, LDtk, or Ogmo Editor through a single unified API. This guide shows the minimal steps to get a map rendering on screen using the `TilemapSpriteBatchRenderer`.
 
 :::tip
-Two renderers are available. `TilemapSpriteBatchRenderer` integrates directly with `SpriteBatch` and applies frustum culling to submit only visible tiles. `TilemapRenderer` pre-bakes all tiles into GPU vertex buffers and supports layer grouping for fewer draw calls on complex static maps. See the [full usage guide](tilemaps#rendering) for a side-by-side comparison and guidance on when to use each.
+Two renderers are available. `TilemapSpriteBatchRenderer` integrates directly with `SpriteBatch` and applies frustum culling to submit only visible tiles. `TilemapRenderer` pre-bakes all tiles into GPU vertex buffers and supports layer grouping for fewer draw calls on complex static maps. See the [full usage guide](./tilemaps.md#rendering) for a side-by-side comparison and guidance on when to use each.
 :::
 
 ## Prerequisites
@@ -163,11 +163,11 @@ protected override void Update(GameTime gameTime)
 }
 ```
 
-For a complete guide to the camera system, see the [Orthographic Camera](/docs/features/camera/orthographic-camera/orthographiccamera) documentation.
+For a complete guide to the camera system, see the [Orthographic Camera](../camera/orthographic-camera/orthographic-camera.md) documentation.
 
 ## What's Next
 
-- [Full Usage Guide](tilemaps) for layers, objects, properties, and coordinate conversion
-- [World Maps](tilemaps#world-maps) for loading multi-room worlds from LDtk, Tiled, or Ogmo
-- [Technical Reference](technical-reference) for architecture details and rendering internals
-- [Migration Guide](migration) if you are migrating from `MonoGame.Extended.Tiled`
+- [Full Usage Guide](./tilemaps.md) for layers, objects, properties, and coordinate conversion
+- [World Maps](./tilemaps.md#world-maps) for loading multi-room worlds from LDtk, Tiled, or Ogmo
+- [Technical Reference](./technical-reference.md) for architecture details and rendering internals
+- [Migration Guide](./migration.md) if you are migrating from `MonoGame.Extended.Tiled`
