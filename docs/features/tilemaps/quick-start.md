@@ -7,6 +7,8 @@ description: Get a tilemap loading and rendering in your MonoGame game in minute
 
 :::note[Preview release]
 This feature is currently only available in the preview release **6.0.0-preview.1**. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+
+Samples are available in the [`version/6.0.0` branch of MonoGame-Extended-Samples](https://github.com/MonoGame-Extended/MonoGame-Extended-Samples/tree/version/6.0.0/src/Tilemaps).
 :::
 
 The MonoGame.Extended tilemap system loads and renders maps created with Tiled, LDtk, or Ogmo Editor through a single unified API. This guide shows the minimal steps to get a map rendering on screen using the `TilemapSpriteBatchRenderer`.
@@ -32,6 +34,12 @@ Open the MGCB Editor and add your tilemap file. The importer is selected automat
 | Ogmo   | `.ogmo`   | Ogmo Tilemap Importer - MonoGame.Extended  |
 
 For Tiled maps, also add any `.tsx` tileset files referenced by the map. Tileset image files (`.png`) should be copied to the content directory but do not need to be added as content items.
+
+:::caution[Ogmo: Level Name is required]
+An Ogmo `.ogmo` file is a project file, not a level file. Level data lives in separate `.json` files that the importer discovers automatically. Because a project can contain multiple levels, you must set the **Level Name** processor property to the filename of the level you want to load (without the `.json` extension). If left empty, the first discovered level is used, and file system ordering may not be consistent across platforms.
+:::
+
+
 
 :::note
 The new tilemap system uses different importers from the older `MonoGame.Extended.Tiled` namespace. Make sure you are selecting the importers listed in the table above and not the legacy Tiled importer.

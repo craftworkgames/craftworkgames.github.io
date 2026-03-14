@@ -7,6 +7,8 @@ description: Architecture, rendering internals, coordinate systems, and class hi
 
 :::note[Preview release]
 This feature is currently only available in the preview release **6.0.0-preview.1**. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+
+Samples are available in the [`version/6.0.0` branch of MonoGame-Extended-Samples](https://github.com/MonoGame-Extended/MonoGame-Extended-Samples/tree/version/6.0.0/src/Tilemaps).
 :::
 
 This document covers the internal architecture of the tilemap system: how maps are loaded, how the runtime object graph is constructed, how rendering works at a low level, and how coordinate conversions are implemented for each orientation.
@@ -321,5 +323,6 @@ The `Object` type stores an integer ID that refers to another object in the same
 
 ### Ogmo
 
+- An Ogmo `.ogmo` file is a project file that defines layer templates, entity templates, and tileset configurations. It does not contain level data. Level data lives in separate `.json` files discovered from the directories listed in the project's `levelPaths` field. When using the content pipeline, add the `.ogmo` file as the content item and set the **Level Name** processor property to the filename of the desired level (without the `.json` extension). If left empty, the first discovered level is used.
 - Ogmo tileset images can be embedded as base64-encoded PNG data URIs in the project file. The factory decodes these and creates a `Texture2D` directly from the data.
 - Ogmo entity layers are converted to `TilemapObjectLayer`. Entity template properties are merged with instance values, with instance values taking precedence.
