@@ -1,7 +1,7 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 
 const globalVariables = {
-  'mgeversion': '5.3.1'
+  'mgeversion': '5.4.0'
 }
 
 /** @type {import('@docusaurus/types').Config} */

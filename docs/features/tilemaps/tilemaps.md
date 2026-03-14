@@ -5,8 +5,8 @@ title: Tilemaps
 description: Load and render tilemap files from Tiled, LDtk, and Ogmo Editor using a single unified API.
 ---
 
-:::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+:::note[Preview release]
+This feature is currently only available in the preview release **6.0.0-preview.1**. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
 The `MonoGame.Extended.Tilemaps` namespace provides a format-agnostic tilemap system that loads and renders maps from Tiled, LDtk, and Ogmo Editor. All three formats share a single runtime API, so you can switch editors without rewriting your game code.

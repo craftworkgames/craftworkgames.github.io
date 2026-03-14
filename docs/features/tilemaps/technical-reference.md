@@ -5,8 +5,8 @@ title: Tilemaps Technical Reference
 description: Architecture, rendering internals, coordinate systems, and class hierarchy for the MonoGame.Extended tilemap system.
 ---
 
-:::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+:::note[Preview release]
+This feature is currently only available in the preview release **6.0.0-preview.1**. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
 This document covers the internal architecture of the tilemap system: how maps are loaded, how the runtime object graph is constructed, how rendering works at a low level, and how coordinate conversions are implemented for each orientation.
@@ -43,6 +43,8 @@ Runtime parsers read the map file and any referenced textures directly from disk
 3. For each layer, recursively build the layer object. Group layers are flattened: child layer names are prefixed with the parent group name using a forward slash separator (for example, a layer named `Walls` inside a group named `Level` becomes `Level/Walls`).
 4. For tile layers, decode each non-empty tile entry into a `TilemapTile` struct containing the global ID and flip flags.
 5. For object layers, construct the appropriate `TilemapObject` subclass for each object and populate its properties.
+6. For image layers, load the texture from disk and apply the repeat-tiling flags.
+7. For data layers, record the grid dimensions but produce no tile data. These represent LDtk IntGrid layers, which carry numeric cell values rather than renderable tiles.
 
 ## Global ID (GID) System
 
@@ -173,12 +175,12 @@ The resulting buffers are uploaded to the GPU as `BufferUsage.WriteOnly` static 
 
 #### Layer Groups
 
-Layer groups allow multiple tile layers to be merged into a single set of vertex and index buffers, reducing draw calls further. When a group is drawn, its tile quads are sorted by texture to minimize GPU texture binds. The result is one `DrawIndexedPrimitives` call per unique tileset texture used across all layers in the group.
+Layer groups allow multiple tile layers to be merged into a single set of vertex and index buffers, reducing draw calls further. When a group is drawn, tiles are processed in layer order and batched into contiguous runs that share the same texture and parallax factor. A new draw call is issued whenever either changes. This preserves back-to-front draw order while minimizing GPU texture binds.
 
 ```
 group "Background" contains layers: Sky, Clouds, Mountains
-  -> all tiles from all three layers are sorted by texture
-  -> one draw call per unique tileset texture in the combined set
+  -> tiles processed in layer order, batched by (texture, parallax factor)
+  -> one DrawIndexedPrimitives call per contiguous batch
 ```
 
 A group is marked dirty when:

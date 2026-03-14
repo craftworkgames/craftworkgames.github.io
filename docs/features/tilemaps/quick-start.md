@@ -5,8 +5,8 @@ title: Tilemaps Quick Start
 description: Get a tilemap loading and rendering in your MonoGame game in minutes.
 ---
 
-:::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+:::note[Preview release]
+This feature is currently only available in the preview release **6.0.0-preview.1**. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
 The MonoGame.Extended tilemap system loads and renders maps created with Tiled, LDtk, or Ogmo Editor through a single unified API. This guide shows the minimal steps to get a map rendering on screen using the `TilemapSpriteBatchRenderer`.

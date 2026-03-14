@@ -5,8 +5,8 @@ sidebar_label: Tiled
 description: Load and render map files created with the Tiled Map Editor.
 ---
 
-:::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+:::danger[Removed in version 6.0.0]
+The `MonoGame.Extended.Tiled` namespace has been removed in version 6.0.0. It has been replaced by the new unified tilemap system. See the [Tilemaps](/docs/features/tilemaps) documentation for the updated API.
 :::
 
 [![Tiled Logo](tiled-logo.png)](https://www.mapeditor.org/)
