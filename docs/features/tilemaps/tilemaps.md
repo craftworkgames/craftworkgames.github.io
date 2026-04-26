@@ -54,6 +54,48 @@ ITilemapParser parser = new LDtkJsonParser();
 Tilemap tilemap = parser.ParseFromFile("Content/maps/world.ldtk", GraphicsDevice);
 ```
 
+Runtime parsers can also resolve external resources through a callback. Use this when map dependencies are not available through the normal file system, such as when loading from `TitleContainer`, a virtual file system, an archive, or a platform-specific asset store.
+
+```cs
+using Microsoft.Xna.Framework;
+using MonoGame.Extended.Tilemaps;
+using MonoGame.Extended.Tilemaps.Tiled;
+
+TiledTmxParser parser = new TiledTmxParser(
+    baseDirectory: "maps",
+    resourceResolver: path =>
+    {
+        // Resolve the requested dependency however your game stores it.
+        // This example uses TitleContainer, but the callback can also read
+        // from an archive, embedded resource, virtual file system, or asset service.
+        return TitleContainer.OpenStream(path);
+    });
+
+using Stream stream = TitleContainer.OpenStream("maps/level1.tmx");
+Tilemap tilemap = parser.ParseFromStream(stream, GraphicsDevice, "maps");
+```
+
+The resolver is used for dependencies referenced by the parser and factory:
+
+- Tiled: external `.tsx` tilesets and texture files
+- LDtk: external level files and texture files
+- Ogmo: project files, level files, tileset image probing, and texture files
+
+The root stream passed to `ParseFromStream` remains owned by your code; streams returned by the resolver are disposed by the parser after they are read.
+
+If you do not need custom logic, MonoGame.Extended includes two built-in resolver methods:
+
+```cs
+using MonoGame.Extended.Content;
+
+TiledTmxParser fileParser = new TiledTmxParser(
+    resourceResolver: ExternalResourceResolvers.OpenFile);
+
+TiledTmxParser titleContainerParser = new TiledTmxParser(
+    baseDirectory: "maps",
+    resourceResolver: ExternalResourceResolvers.OpenTitleContainerStream);
+```
+
 :::tip
 When using runtime parsers, textures are loaded directly from PNG files and their alpha has not been premultiplied. The renderer default `BlendState.NonPremultiplied` is correct for this case. When using the content pipeline, set `BlendState = BlendState.AlphaBlend` because the pipeline premultiplies alpha.
 :::

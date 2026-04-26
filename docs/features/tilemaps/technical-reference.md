@@ -34,7 +34,9 @@ The content pipeline bakes the map data at build time. The `TilemapReader` deser
 
 ![Runtime Parser Path](runtime_parser_path.svg)
 
-Runtime parsers read the map file and any referenced textures directly from disk. Textures loaded this way are not premultiplied, which is why the renderer defaults to `BlendState.NonPremultiplied`.
+Runtime parsers read the map file and any referenced textures directly from streams. By default, those streams are opened from disk. Textures loaded this way are not premultiplied, which is why the renderer defaults to `BlendState.NonPremultiplied`.
+
+External dependencies can be opened through an `ExternalResourceResolver` instead of direct file access. The parser still receives the root source as either a file path or stream, but dependent files and textures are opened through the configured resolver. This keeps runtime loading compatible with file-system projects while allowing callers to route dependencies through `TitleContainer`, a virtual file system, or another platform-specific stream source.
 
 ## TilemapFactory: Building the Runtime Graph
 
@@ -311,18 +313,20 @@ The `Object` type stores an integer ID that refers to another object in the same
 ### Tiled
 
 - Tile layer data supports CSV, base64 (uncompressed), base64 (gzip), and base64 (zlib) encoding. All formats are decoded transparently.
-- External tilesets (`.tsx`) are resolved relative to the `.tmx` file path.
+- External tilesets (`.tsx`) are resolved relative to the `.tmx` file path by default. Runtime loading can override dependency loading by passing an `ExternalResourceResolver` to `TiledTmxParser`.
 - Group layers are supported and flattened during factory construction.
 - Tile objects support all flip flags and an independent size that may differ from the source tile's natural dimensions.
 
 ### LDtk
 
 - LDtk's IntGrid layers are loaded as `TilemapDataLayer`, which stores dimension information but contains no renderable tiles. Access the raw integer grid values through custom properties or by parsing the original file if needed.
+- External LDtk level files are resolved relative to the `.ldtk` project path by default. Runtime loading can override dependency loading by passing an `ExternalResourceResolver` to `LDtkJsonParser`.
 - LDtk entities are converted to `TilemapObject` instances within object layers. Entity field values are stored as custom properties on each object.
 - LDtk layers are stored in reverse order in the project file. The converter reverses them so they render top-to-bottom in the same order as displayed in the LDtk editor.
 
 ### Ogmo
 
 - An Ogmo `.ogmo` file is a project file that defines layer templates, entity templates, and tileset configurations. It does not contain level data. Level data lives in separate `.json` files discovered from the directories listed in the project's `levelPaths` field. When using the content pipeline, add the `.ogmo` file as the content item and set the **Level Name** processor property to the filename of the desired level (without the `.json` extension). If left empty, the first discovered level is used.
+- Runtime loading can override dependency loading by passing an `ExternalResourceResolver` to `OgmoJsonParser`. The resolver is used for the project file, level files, tileset image dimension probing, and texture loading.
 - Ogmo tileset images can be embedded as base64-encoded PNG data URIs in the project file. The factory decodes these and creates a `Texture2D` directly from the data.
 - Ogmo entity layers are converted to `TilemapObjectLayer`. Entity template properties are merged with instance values, with instance values taking precedence.
