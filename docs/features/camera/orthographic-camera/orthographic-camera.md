@@ -422,7 +422,7 @@ _camera.Origin = new Vector2(100, 100);
 
 ## Constraining Camera Movement with World Bounds
 
-In many game,s you want to prevent the camera from showing areas outside your playable world.  The `OrthographicCamera` provides world bounds constraints that automatically clamp the camera position and zoom to keep the view within a defined rectangular area.
+In many games you want to prevent the camera from showing areas outside your playable world.  The `OrthographicCamera` provides world bounds constraints that automatically clamp the camera position and zoom to keep the view within a defined rectangular area.
 
 ### Enabling World Bounds Constraints
 
