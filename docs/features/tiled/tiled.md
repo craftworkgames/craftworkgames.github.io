@@ -5,8 +5,8 @@ sidebar_label: Tiled
 description: Load and render map files created with the Tiled Map Editor.
 ---
 
-:::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+:::danger[Removed in version 6.0.0]
+The `MonoGame.Extended.Tiled` namespace has been removed in version 6.0.0. It has been replaced by the new unified tilemap system. See the [Tilemaps](/docs/features/tilemaps) documentation for the updated API.
 :::
 
 [![Tiled Logo](tiled-logo.png)](https://www.mapeditor.org/)
@@ -19,7 +19,7 @@ The `MonoGame.Extended.Tiled` namespace allows you to load and render map files 
 
 MonoGame.Extended Tiled support includes:
 
-- ✅ Orthogonal and Isometric maps  
+- ✅ Orthogonal and Isometric maps
 - ✅ Multiple layer types (Tile, Object, Image, Group)
 - ✅ All object types (Rectangle, Ellipse, Polygon, Polyline, Tile)
 - ✅ Tile animations
@@ -33,7 +33,7 @@ MonoGame.Extended Tiled support includes:
 
 Current limitations include:
 
-- ❌ Hexagonal and Staggered map orientations  
+- ❌ Hexagonal and Staggered map orientations
 - ❌ Infinite maps (chunked data)
 - ❌ Wang tiles/terrain sets
 - ❌ Collection of Images tilesets (use single image tilesets instead)
@@ -43,7 +43,7 @@ Current limitations include:
 The following prerequisites are required when using Tiled maps with MonoGame.Extended:
 
 - A MonoGame project with MonoGame.Extended installed.
-- Content Pipeline Extensions configured (see [Installation Guide: Setup up MGC BEditor](/docs/getting-started/installation-monogame/#optional-set-up-mgcb-editor)).
+- Content Pipeline Extensions configured (see [Installation Guide: Set up MGC BEditor](/docs/getting-started/installation-monogame/#optional-set-up-mgcb-editor)).
 - Basic understanding of the [Tiled Map Editor](https://www.mapeditor.org/docs)
 
 ## File Organization
@@ -51,7 +51,7 @@ The following prerequisites are required when using Tiled maps with MonoGame.Ext
 Tiled projects consist of multiple interconnected files:
 
 - **`.tmx` files** - The main tilemap file containing layer and map data
-- **`.tsx` files** - External tileset files referenced by the tilemap  
+- **`.tsx` files** - External tileset files referenced by the tilemap
 - **`.png` files** - Image files used by the tilesets
 
 These files use relative paths to reference each other:
@@ -82,7 +82,7 @@ When working with Tiled maps in MonoGame.Extended, you need to add your files to
 
 The `.png` tileset images must be copied to your content directory maintaining the same relative path structure as your Tiled project, but they should **not** be added as content items in the MGCB Editor. The MonoGame.Extended Content Pipeline will automatically detect and process these images when it processes the `.tsx` files that reference them.
 
-For reference, here are the assets from the demo files setup in the MGCB Editor and what it looks like in the directory structure
+For reference, here are the assets from the demo files setup in the MGCB Editor and what it looks like in the directory structure:
 
 ![MGCB Setup](./mgcb-setup.png)
 
@@ -224,7 +224,7 @@ protected override void Initialize()
 MonoGame.Extended provides several viewport adapter types for different scaling needs:
 
 - **`BoxingViewportAdapter`** - Maintains aspect ratio with letterboxing/pillarboxing (recommended for most games)
-- **`DefaultViewportAdapter`** - Uses the current graphics device viewport as-is  
+- **`DefaultViewportAdapter`** - Uses the current graphics device viewport as-is
 - **`ScalingViewportAdapter`** - Stretches to fill the entire screen (may distort aspect ratio)
 - **`WindowViewportAdapter`** - Adapts to window size changes
 
@@ -331,7 +331,7 @@ foreach (TiledMapLayer layer in _tiledMap.Layers)
     Console.WriteLine($"Layer: {layer.Name}, Type: {layer.GetType().Name}");
 }
 
-// Only tile layers  
+// Only tile layers
 foreach (TiledMapTileLayer tileLayer in _tiledMap.TileLayers)
 {
     Console.WriteLine($"Tile Layer: {tileLayer.Name}");
@@ -515,16 +515,16 @@ MonoGame.Extended includes several built-in optimizations that work automaticall
 
 ### Content Pipeline Issues
 
-**Problem**: "Could not find ContentTypeReader" error.  
-**Solution**: Ensure MonoGame.Extended.Content.Pipeline is added to your MGCB Editor references.  If you did not use the `<MonoGameExtendedPipelineReferencePath>` method as described in the [Installation Guide: Setup up MGC BEditor](/docs/getting-started/installation-monogame/#optional-set-up-mgcb-editor) and instead added the dll directly from the NuGet download directory, ensure it is the `.dll` found in the `tools` directory of the NuGet package, not the one in the `lib` directory.
+**Problem**: "Could not find ContentTypeReader" error.
+**Solution**: Ensure MonoGame.Extended.Content.Pipeline is added to your MGCB Editor references. If you did not use the `<MonoGameExtendedPipelineReferencePath>` method as described in the [Installation Guide: Setup up MGC BEditor](/docs/getting-started/installation-monogame/#optional-set-up-mgcb-editor) and instead added the dll directly from the NuGet download directory, ensure it is the `.dll` found in the `tools` directory of the NuGet package, not the one in the `lib` directory.
 
-**Problem**: "File not found" errors during content processing.  
-**Solution**: Verify all .tmx, .tsx, and .png files are added to the MGCB Editor and maintain proper relative paths.  
+**Problem**: "File not found" errors during content processing.
+**Solution**: Verify all .tmx, .tsx, and .png files are added to the MGCB Editor and maintain proper relative paths.
 
 ### Runtime Issues
 
-**Problem**: Map renders incorrectly or tiles are missing.  
-**Solution**: Check that all required tileset images are included in your content project and have been processed by the pipeline.  
+**Problem**: Map renders incorrectly or tiles are missing.
+**Solution**: Check that all required tileset images are included in your content project and have been processed by the pipeline.
 
-**Problem**: Poor performance with large maps.  
-**Solution**: Consider using fewer, larger tilesets and ensure you're only updating animated tiles when necessary.  
+**Problem**: Poor performance with large maps.
+**Solution**: Consider using fewer, larger tilesets and ensure you're only updating animated tiles when necessary.

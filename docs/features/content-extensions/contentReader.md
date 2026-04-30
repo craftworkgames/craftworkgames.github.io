@@ -6,7 +6,7 @@ description: Extensions for the MonoGame ContentReader class.
 ---
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
 # ContentReader extensions
@@ -30,7 +30,7 @@ public class MyTypeReader : ContentTypeReader<MyType>
 ```
 
 :::note
-This `ContentReader.GetGraphicsDevice` already exists in `Monogame` and `KNI`.  It does not exist in `FNA`. This method remains in `Monogame.Extended` for `FNA` only.
+This `ContentReader.GetGraphicsDevice` already exists in `MonoGame` and `KNI`. It does not exist in `FNA`. This method remains in `MonoGame.Extended` for `FNA` only.
 :::
 
 ## ContentReader.GetRelativeAssetName

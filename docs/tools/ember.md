@@ -6,7 +6,7 @@ sidebar_label: Ember Editor
 
 ![Ember Logo](ember-banner.png)
 
-The Ember editor is a visual particle effect editor for MonoGame Extended's particle system. It provides an intuitive interface for creating, configuring,a nd previewing particle effects without writing code.
+The Ember editor is a visual particle effect editor for MonoGame Extended's particle system. It provides an intuitive interface for creating, configuring, and previewing particle effects without writing code.
 
 ## Download
 
@@ -14,7 +14,7 @@ Download ember from the latest release tag at https://github.com/MonoGame-Extend
 
 ## Getting Started
 
-When you launch Ember, you will be greeted with an empty workspace.  The editor requires a project to be created or opened before you can begin working with particle effects.
+When you launch Ember, you will be greeted with an empty workspace. The editor requires a project to be created or opened before you can begin working with particle effects.
 
 ### Creating a New Project
 
@@ -23,7 +23,7 @@ To create a new particle effect project:
 1. Select **File > New Project** from the main menu
 2. In the New Project dialog:
    - Enter a **Project Name** for your project (e.g. "Fire Effect", "Explosion").
-   - Choose a **Project DirectorY** where the project file will be saved.
+   - Choose a **Project Directory** where the project file will be saved.
    - Optionally, check **Create Project Directory** to create a subfolder with the project name.
 3. Click **Create** to create the project.
 
@@ -41,7 +41,7 @@ The editor will load the particle effect and display it in the viewport.
 
 ### Saving Your Work
 
-The editor tracks unsaved changes with a `*` indicator in the window title.  To save your project, select **File > Save Project** from the main menu.
+The editor tracks unsaved changes with a `*` indicator in the window title. To save your project, select **File > Save Project** from the main menu.
 
 ### Exiting the Editor
 
@@ -53,7 +53,7 @@ If you attempt to close the editor, open another project, or create a new projec
 
 ### Loading Project in MonoGame Extended
 
-Once you've created a particle effect in Ember, you can load it into your MonoGame project using one of two methods.  Refer to the [MonoGame Extended Particle System: Loading Ember Files](../features/particles/loading_ember_files.md) documentation for more information.
+Once you've created a particle effect in Ember, you can load it into your MonoGame project using one of two methods. Refer to the [MonoGame Extended Particle System: Loading Ember Files](../features/particles/loading_ember_files.md) documentation for more information.
 
 ## Editor Interface
 
@@ -65,8 +65,8 @@ The Ember Editor uses a docked window layout that provides quick access to all e
 
 The main menu bar provides access to editor functions
 
-- **File**: Project management (New, Open Save, Exit)
-  - **New Project**:  Create a new project.
+- **File**: Project management (New, Open, Save, Exit)
+  - **New Project**: Create a new project.
   - **Open Project**: Open an existing Ember project.
   - **Save Project**: Saves the currently open project.
   - **Exit**: Exit and close the editor.
@@ -77,25 +77,25 @@ The main menu bar provides access to editor functions
 
 ### Viewport
 
-The viewport displays a live preview of your particle effect.  The viewport shows exactly how particles will appear when rendered in your game using MonoGame Extended.
+The viewport displays a live preview of your particle effect. The viewport shows exactly how particles will appear when rendered in your game using MonoGame Extended.
 
-Left-clicking anywhere within the viewport will trigger particle emitters to emit at the clicked position.  
+Left-clicking anywhere within the viewport will trigger particle emitters to emit at the clicked position.
 
 ### Particle Effect Panel
 
-The Particle Effect panel is the primary workspace for configuring your particle effect and its emitters.  This panel is organized into collapsible sections for easy navigation.
+The Particle Effect panel is the primary workspace for configuring your particle effect and its emitters. This panel is organized into collapsible sections for easy navigation.
 
 ![Particle Effect panel showing emitter list and properties](particle-effect-panel.png)
 
 ### Modifiers Panel
 
-The Modifiers panel provides control for adding and configuring particle modifiers and interpolators.  Modifiers control particle behavior over time, while interpolators creates smooth property transitions.
+The Modifiers panel provides control for adding and configuring particle modifiers and interpolators. Modifiers control particle behavior over time, while interpolators creates smooth property transitions.
 
 ![Modifiers panel showing modifier list and properties](modifiers-panel.png)
 
 ## Working with Particle Effects
 
-A particle effect is a container that holds one or more emitters.  The effect itself has properties that apply to all emitters within it.
+A particle effect is a container that holds one or more emitters. The effect itself has properties that apply to all emitters within it.
 
 ### Particle Effect Properties
 
@@ -109,14 +109,14 @@ The **Particle Effect Properties** section controls effect-wide settings.
 | **Auto Trigger Frequency** | How often emitters auto-trigger (in seconds).     |
 
 :::tip
-**Auto Trigger** is particularly useful for continuous effects like fire, smoke, or waterfalls.  When enabled, all emitters in the effect will release particle automatically at the specific frequency.
+**Auto Trigger** is particularly useful for continuous effects like fire, smoke, or waterfalls. When enabled, all emitters in the effect will release particle automatically at the specific frequency.
 :::
 
 For more information about particle effects, see the [MonoGame Extended Particle System documentation](../features/particles/quick_start_guide.md)
 
 ## Working with Particle Emitters
 
-Particle emitters are the core components that create and manage particles.  Each emitter has its own appearance, behavior, and lifecycle settings.
+Particle emitters are the core components that create and manage particles. Each emitter has its own appearance, behavior, and lifecycle settings.
 
 ### Managing Emitters
 
@@ -126,23 +126,23 @@ The **Emitter List** section displays all emitters in your effect and allows you
 
 #### Adding Emitters
 
-To add a new emitter, click the **Add Emitter* button.  A new emitter with default settings will be added to the list and automatically selected for editing.
+To add a new emitter, click the **Add Emitter** button. A new emitter with default settings will be added to the list and automatically selected for editing.
 
 #### Selecting Emitters
 
-To select an emitter for editing, click the emitter in the **Emitter List**.  Only one emitter can be selected at a time.
+To select an emitter for editing, click the emitter in the **Emitter List**. Only one emitter can be selected at a time.
 
 #### Reordering Emitters
 
-Emitters can be reordered by click-and-dragging their position within the list.  Emitter order affects the visual layering of particles when multiple emitters are active.  Emitters at the top of the list are emitted first and will appear behind those lower on the list.
+Emitters can be reordered by click-and-dragging their position within the list. Emitter order affects the visual layering of particles when multiple emitters are active. Emitters at the top of the list are emitted first and will appear behind those lower on the list.
 
 #### Locking Emitters
 
-To lock an emitter so that accidental edits are not made, click the **Lock** button next to the emitter.  When an emitter is locked, edits are not allowed to be made to any of its properties or modifiers.
+To lock an emitter so that accidental edits are not made, click the **Lock** button next to the emitter. When an emitter is locked, edits are not allowed to be made to any of its properties or modifiers.
 
 #### Adjusting Emitter Visibility
 
-To change the visibility of an emitter, click the **Visibility** button next to the emitter.  This will hide the emitter from being displayed in the viewport. This is useful when there are multiple layered emitters and you need to work with a specific one without the visuals of another distracting you.
+To change the visibility of an emitter, click the **Visibility** button next to the emitter. This will hide the emitter from being displayed in the viewport. This is useful when there are multiple layered emitters and you need to work with a specific one without the visuals of another distracting you.
 
 #### Removing Emitters
 
@@ -166,33 +166,33 @@ When an emitter is selected, the **Emitter Properties** section displays its set
 
 **Important Property Notes:**
 
-- **Source Rectangle** determines the rectangular bounds within the **Texture** used when rendering the particles.  This is useful when using a texture atlas that contains the particle textures for each emitter to reduce the amount of texture swapping.
-- **Capacity** determines the maximum number of active particles.  If you reach capacity, older particles wll need to expire before new ones can be created.
-- **Lifespan**: controls how long each particle exists.  Shorter life spans create burst effects, while longer lifespans create sustained effects.
+- **Source Rectangle** determines the rectangular bounds within the **Texture** used when rendering the particles. This is useful when using a texture atlas that contains the particle textures for each emitter to reduce the amount of texture swapping.
+- **Capacity** determines the maximum number of active particles. If you reach capacity, older particles will need to expire before new ones can be created.
+- **Lifespan**: controls how long each particle exists. Shorter life spans create burst effects, while longer lifespans create sustained effects.
 
 ### Emitter Textures
 
-Each emitter requires a texture that defines how individual particle look.  The **Texture*8 property in the **Emitter Properties** section controls this.
+Each emitter requires a texture that defines how individual particle look. The **Texture** property in the **Emitter Properties** section controls this.
 
 ![Texture selection showing current texture preview and select texture button](texture-selection.png)
 
 #### Assigning Textures
 
-To assign a texture to a particle emitter, click the **Select Texture** button in the **Emitter Properties**.  If a texture was previously assigned, then instead of **Select Texture** it will show the name of the texture already added.  In the file dialog, navigate to and select an image file to use.  The texture will be loaded and applied to the emitter.
+To assign a texture to a particle emitter, click the **Select Texture** button in the **Emitter Properties**. If a texture was previously assigned, then instead of **Select Texture** it will show the name of the texture already added. In the file dialog, navigate to and select an image file to use. The texture will be loaded and applied to the emitter.
 
 :::note
-When a texture is assigned, the image file will be copied locally to the project directory.  If an image file already exists with this name in the project directory, a confirmation box will be displayed to confirm overwriting the exiting file.
+When a texture is assigned, the image file will be copied locally to the project directory. If an image file already exists with this name in the project directory, a confirmation box will be displayed to confirm overwriting the existing file.
 :::
 
 :::tip
 When a texture is assigned, a small preview appears when hovering over the select texture button.
 :::
 
-For effects like explosions or complex visuals, you may want to use a texture atlas texture.  The editor currently support single-texture assignments per emitter, but you can adjust the source rectangle within the texture to use when using an atlas.
+For effects like explosions or complex visuals, you may want to use a texture atlas texture. The editor currently support single-texture assignments per emitter, but you can adjust the source rectangle within the texture to use when using an atlas.
 
 ### Emitter Profiles
 
-The **Emitter Profile** section determines where particles spawn an their initial direction.  MonoGame Extended provides several emission profiles, each creating different spatial patterns.
+The **Emitter Profile** section determines where particles spawn and their initial direction. MonoGame Extended provides several emission profiles, each creating different spatial patterns.
 
 ![Profile selection dropdown showing available emission profiles](profile-selection.png)
 
@@ -205,11 +205,11 @@ The **Emitter Profile** section determines where particles spawn an their initia
 | **Line**        | Particles spawn along a line between two points.                                | Axis, Length, Radiate, Direction |
 | **Point**       | All particles spawn at the emitter position and move in random directions.      | *No configuration*               |
 | **Ring**        | Particles spawn along the edge of a circular area                               | Radiate, Radius                  |
-| **Spray**       | Particles pray in a cone-shaped direction                                       | Spread, Direction                |
+| **Spray**       | Particles spray in a cone-shaped direction                                       | Spread, Direction                |
 
 #### Configuration Profiles
 
-After selecting a profile type, configuration properties appear below it.  These properties control the shape and size of the emission pattern.
+After selecting a profile type, configuration properties appear below it. These properties control the shape and size of the emission pattern.
 
 ![Example of profile properties for the Line profile showing the axis, length, radiate, and direction properties](profile-properties.png)
 
@@ -217,7 +217,7 @@ For detailed information about each profile type and their use cases, see the [E
 
 ### EmitterRelease Parameters
 
-The **Emitter Release Parameters** section controls the physical and visual properties of newly created particles.  These parameters use a specialized system that allows both constant and random values.
+The **Emitter Release Parameters** section controls the physical and visual properties of newly created particles. These parameters use a specialized system that allows both constant and random values.
 
 ![Release parameters showing quantity, speed, color, and other particle properties](release-parameters.png)
 
@@ -232,7 +232,7 @@ Toggle between modes using the **Constant**/**Random** selector for each paramet
 
 #### Available Parameters
 
-The following parameters are available to be configured for each emitter:
+The following parameters are available for configuration for each emitter:
 
 | Parameter    | Description                                             |
 | ------------ | ------------------------------------------------------- |
@@ -249,13 +249,13 @@ The Color parameter uses HSL (Hue, Saturation, Lightness) color space for intuit
 
 ![Color picker showing HSL sliders and color preview](color-picker.png)
 
-When using **Random** mode for colors, you can set different HSL values for hte minimum and maximum range, allowing particles to vary across a spectrum of colors.
+When using **Random** mode for colors, you can set different HSL values for the minimum and maximum range, allowing particles to vary across a spectrum of colors.
 :::
 
 #### Parameter Tips
 
-- Use Random ranges to add natural variation to effects.  Real-world phenomena like fire and smoke are never perfectly uniform.
-- Speed and Scale parameters significantly impact the visual feel.  Experiment with different values.
+- Use Random ranges to add natural variation to effects. Real-world phenomena like fire and smoke are never perfectly uniform.
+- Speed and Scale parameters significantly impact the visual feel. Experiment with different values.
 - For explosion effects, use high Speed values with Random ranges.
 - For subtle ambient effects, use lower Speed values and longer Lifespans
 - Opacity can create fade-in effects with combined with interpolators (covered in the Interpolators section).
@@ -264,17 +264,17 @@ For more technical details about release parameters, see the [MonoGame Extended 
 
 ## Working with Modifiers
 
-Modifiers control how particles change and behave over time. While release parameters set initial particle properties, modifiers transform these properties through the particles lifetime.
+Modifiers control how particles change and behave over time. While release parameters set initial particle properties, modifiers transform these properties through the particle's lifetime.
 
 ### Managing Modifiers
 
-Modifiers are managed in the **Modifiers** panel. before you can add modifiers, you must have at least one emitter created and selected.
+Modifiers are managed in the **Modifiers** panel. Before you can add modifiers, you must have at least one emitter created and selected.
 
 ![Modifier list showing multiple modifiers](modifier-list.png)
 
 #### Adding Modifiers
 
-To add a new modifier, click the **Add Modifier** button.  A popup will appear with a choice of which modifier you would like to add.  Choose the desired modifier from the popup and click the **Select** button. The new modifier will appear in the list and is automatically selected.
+To add a new modifier, click the **Add Modifier** button. A popup will appear with a choice of which modifier you would like to add. Choose the desired modifier from the popup and click the **Select** button. The new modifier will appear in the list and is automatically selected.
 
 ![Choose modifier popup](choose-modifier.png)
 
@@ -294,23 +294,23 @@ To add a new modifier, click the **Add Modifier** button.  A popup will appear w
 
 #### Selecting Modifiers
 
-To select a modifier, click the modifier in the **Modifier List**.  Only one modifier can be selected at a time.
+To select a modifier, click the modifier in the **Modifier List**. Only one modifier can be selected at a time.
 
 #### Reordering Modifiers
 
-Modifiers can be reordered by click-and-dragging their position within the list.  Modifier order in the list affects the order in which the modifiers are applied to particles.
+Modifiers can be reordered by click-and-dragging their position within the list. Modifier order in the list affects the order in which the modifiers are applied to particles.
 
 :::warning
-**Modifier execution order matters!**  Modifiers are applied sequentially, so later modifiers see changes from earlier ones.
+**Modifier execution order matters!** Modifiers are applied sequentially, so later modifiers see changes from earlier ones.
 :::
 
 #### Locking Modifiers
 
-To lock a modifier so accidental edits are not made, click the **Lock** button next to the modifier.  When a modifier is locked, editors are not allowed to be made to any of its properties.  If the modifier supports interpolators, then editing its interpolators are also locked.
+To lock a modifier so accidental edits are not made, click the **Lock** button next to the modifier. When a modifier is locked, editors are not allowed to be made to any of its properties. If the modifier supports interpolators, then editing its interpolators are also locked.
 
 #### Disabling Modifiers
 
-To disable a modifier without removing it, click the **Disable** button next to the modifier.  Disabling a modifier will prevent it from affecting the particles in the emitter.
+To disable a modifier without removing it, click the **Disable** button next to the modifier. Disabling a modifier will prevent it from affecting the particles in the emitter.
 
 #### Removing Modifiers
 
@@ -328,24 +328,24 @@ All modifiers have the following properties:
 | **Frequency** | How often the modifiers updates particles per second. |
 
 :::tip
-Frequency controls the update rate.  Lower values (e.g. 30.0) reduce CPU usage but make the modifier less smooth. Higher values (e.g. 120.0) create smoother results but use more CPU.  The default 60.0 works well for most effects.
+Frequency controls the update rate. Lower values (e.g. 30.0) reduce CPU usage but make the modifier less smooth. Higher values (e.g. 120.0) create smoother results but use more CPU. The default 60.0 works well for most effects.
 :::
 
-Each modifier type has additional properties specific to its function.  For detailed information about each modifier type and its properties, see the [MonoGame Extended Modifiers documentation](../features/particles/modifiers.md)
+Each modifier type has additional properties specific to its function. For detailed information about each modifier type and its properties, see the [MonoGame Extended Modifiers documentation](../features/particles/modifiers.md)
 
 ## Working with Interpolators
 
-Interpolators create smooth transitions of particle properties over time.  They work in conjunction with the **Age Modifier** and **Velocity Modifier** to create effects like fading, color shifts, scaling, and more.
+Interpolators create smooth transitions of particle properties over time. They work in conjunction with the **Age Modifier** and **Velocity Modifier** to create effects like fading, color shifts, scaling, and more.
 
 ### Managing Interpolators
 
-Interpolators are added to either an **Age Modifier** or **Velocity Modifier**.  You must have on of these modifier types added and selected before you can create interpolators.
+Interpolators are added to either an **Age Modifier** or **Velocity Modifier**. You must have one of these modifier types added and selected before you can create interpolators.
 
 ![Interpolator list showing multiple interpolators](interpolator-list.png)
 
 #### Adding Interpolators
 
-To add a new interpolator, click the **Add Interpolator** button.  A popup will appear with a choice of which interpolator you would like to add.  Choose the desired interpolator from the popup and click the **Select** button.  Te new interpolator will appear in the list and is automatically selected.
+To add a new interpolator, click the **Add Interpolator** button. A popup will appear with a choice of which interpolator you would like to add. Choose the desired interpolator from the popup and click the **Select** button. The new interpolator will appear in the list and is automatically selected.
 
 ![Choose interpolator popup](choose-interpolator.png)
 
@@ -364,7 +364,7 @@ To select an interpolator, click the interpolator in the **Interpolator List**. 
 
 #### Reordering Interpolators
 
-Interpolators can be reordered by click-and-dragging their position within the list.  Unlike emitters and modifiers, interpolator order typically doesn't affect the visual result, as each interpolator operates on different particle properties independently.
+Interpolators can be reordered by click-and-dragging their position within the list. Unlike emitters and modifiers, interpolator order typically doesn't affect the visual result, as each interpolator operates on different particle properties independently.
 
 #### Locking Interpolators
 
@@ -372,7 +372,7 @@ To lock an interpolator so that accidental edits are not made, click the **Lock*
 
 #### Disabling Interpolators
 
-To disable an interpolator without removing it, click the **Disable** button next to the interpolator.  Disabling an interpolator will prevent it from affecting the particles in the emitter.
+To disable an interpolator without removing it, click the **Disable** button next to the interpolator. Disabling an interpolator will prevent it from affecting the particles in the emitter.
 
 #### Removing Interpolators
 
@@ -420,3 +420,4 @@ For more information about the MonoGame Extended particle system:
 For editor issues, feature requests, or contributions:
 
 - [GitHub Repository](https://github.com/monogame-extended/ember)
+

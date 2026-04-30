@@ -11,10 +11,10 @@ import ResultScreenShot from './result.png'
 import SpritesheetImage from './spritesheet.png'
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
-In the [previous](../texture2dregion/texture2dregion.md) article we discussed what a `Texture2DRegion` is.  When you combine all the texture regions into a single collection, this is called a texture atlas. By using a texture atlas it gives us an easy way to create and manage our collection of regions
+In the [previous](../texture2dregion/texture2dregion.md) article we discussed what a `Texture2DRegion` is. When you combine all the texture regions into a single collection, this is called a texture atlas. By using a texture atlas it gives us an easy way to create and manage our collection of regions
 
 Let's take a look at the image of all the cards again.
 
@@ -30,7 +30,7 @@ Let's take a look at the image of all the cards again.
 Let's recreate the example from the [Texture2DRegion](/docs/features/texture-handling/texture2dregion/texture2dregion.md) document, but this time using a `Texture2DAtlas`.
 
 ## Using `Texture2DAtlas` with grid layout
-When creating a `Texture2DAtlas`, if all of the regions within your texture are uniform, then you can use the `Texture2DAtlas.Create` method to automatically generate every region.  Then you can access the regions by index. For instance:
+When creating a `Texture2DAtlas`, if all of the regions within your texture are uniform, then you can use the `Texture2DAtlas.Create` method to automatically generate every region. Then you can access the regions by index. For instance:
 
 ```cs
 private Texture2DAtlas _atlas;
@@ -52,7 +52,7 @@ protected override void LoadContent()
 }
 ```
 
-Then we can draw the regions just like in the other example
+Then we can draw the regions just like in the other example.
 
 ```cs
 protected override void Draw(GameTime gameTime)
@@ -80,7 +80,7 @@ protected override void Draw(GameTime gameTime)
 </figure>
 
 :::note
-Regions that are automatically generated are automatically assigned a name in the format of `"{Texture2D.Name}({x}, {y}, {width}, {height})"`.  So in the instance of our cards, since the name of the image is `cards.png`, the Ace of Hearts would be generated as `"cards(384, 0, 32, 32)"`
+Regions that are automatically generated are automatically assigned a name in the format of `"{Texture2D.Name}({x}, {y}, {width}, {height})"`. So in the instance of our cards, since the name of the image is `cards.png`, the Ace of Hearts would be generated as `"cards(384, 0, 32, 32)"`
 :::
 
 ## Loading tightly packed sprite sheets
@@ -127,7 +127,7 @@ The JSON file describes each sprite's location, size, rotation, and other proper
 ```
 
 Each frame entry contains:
-- `frame`: The rectangle coordinates and size within the texture (required)
+- `frame`: The rectangle coordinates and size within the texture atlas (required)
 - `size`: The original sprite size before trimming (optional)
 - `offset`: How much transparent space was removed on the top-left corner (optional)
 - `pivot`: The sprite's origin, used for placement and rotation (optional)
@@ -145,7 +145,7 @@ The PNG and JSON files must either have **different filenames** or be located in
 - `spritesheet-texture.png` + `spritesheet.json` (✅ different filenames)
 
 **Invalid configuration:**
-- `spritesheet.png` + `spritesheet.json`  (❌ same directory, same base name)
+- `spritesheet.png` + `spritesheet.json` (❌ same directory, same base name)
 :::
 
 When loading the atlas, you must call `Content.Load<Texture2DAtlas>()` with the **JSON data file's base name**. The JSON file contains a reference to the image file to use, so MonoGame.Extended will automatically load the corresponding PNG texture.
@@ -159,7 +159,7 @@ protected override void LoadContent()
     // Load the atlas using the JSON data file name
     _spriteAtlas = Content.Load<Texture2DAtlas>("spritesheet");
     
-    // Create a sprite by name, corresponding region is defined in JSON data file
+    // Create a sprite by name; the corresponding region is defined in JSON data file
     _walkSprite = _spriteAtlas.CreateSprite("capguy/walk_0001");
 }
 
@@ -167,7 +167,7 @@ protected override void LoadContent()
 
 ## Manually creating regions
 
-If you want more fine grained control over the creation of TextureRegions, you can create them programmatically by calling the `Texture2DAtlas.CreateRegion()` method
+If you want more fine-grained control over the creation of TextureRegions, you can create them programmatically by calling the `Texture2DAtlas.CreateRegion()` method
 
 ```cs
 protected override void LoadContent()
@@ -185,4 +185,4 @@ When naming a texture region, the name of each region added to the texture atlas
 
 
 ## Conclusion
-We've now learned to use a `Texture2DAtlas` to create and retrieve the `Texture2DRegion` instances for our `Texture2D`.  Next, let's take a look at the `Sprite` class and how we can use the `Texture2DAtlas` to generate the sprites for us based on the regions.
+We've now learned to use a `Texture2DAtlas` to create and retrieve the `Texture2DRegion` instances for our `Texture2D`. Next, let's take a look at the `Sprite` class and how we can use the `Texture2DAtlas` to generate the sprites for us based on the regions.

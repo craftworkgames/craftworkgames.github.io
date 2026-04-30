@@ -10,10 +10,10 @@ import AdventurerAttackFrames from './attack-frames.png'
 import AttackAnimation from './attack_animation.gif'
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
-A `SpriteSheet` is a wrapper around a [Texture2DAtlas](/docs/features/texture-handling/texture2datlas/texture2datlas.md) that provides additional methods for defining frame based animations based on the regions within the `Texture2DAtlas`.  
+A `SpriteSheet` is a wrapper around a [Texture2DAtlas](/docs/features/texture-handling/texture2datlas/texture2datlas.md) that provides additional methods for defining frame based animations based on the regions within the `Texture2DAtlas`.
 
 Take a look at the following example texture atlas of an adventurer character.
 
@@ -26,7 +26,7 @@ Take a look at the following example texture atlas of an adventurer character.
     </figcaption>
 </figure>
 
-We can see that this texture atlas has 16 separate regions, some of which can be grouped together to form an animation.  For instance, the following 6 regions can be grouped together to form an attack animation.
+We can see that this texture atlas has 16 separate regions, some of which can be grouped together to form an animation. For instance, the following 6 regions can be grouped together to form an attack animation.
 Their positions and region names are specified in a [JSON data file](./adventurer.json), as described [here](/docs/features/texture-handling/texture2datlas/texture2datlas.md#loading-tightly-packed-sprite-sheets).
 
 <figure>
@@ -91,7 +91,7 @@ When giving the name for an animation definition, the name must be unique across
 :::
 
 ## Getting An Animation
-Once you have defined the animations in the `SpriteSheet`, you can retrieve them by using the name you gave them when defining them.  This will give you an instance of `SpriteSheetAnimation` which is an implementation of the `IAnimation` interface
+Once you have defined the animations in the `SpriteSheet`, you can retrieve them by using the name you gave them when defining them. This will give you an instance of `SpriteSheetAnimation` which is an implementation of the `IAnimation` interface
 
 ```cs
 private SpriteSheet _spriteSheet;
@@ -163,7 +163,7 @@ protected override void Update(GameTime gameTime)
 
 ## Drawing the Animation
 
-The `AnimationController` has a `CurrentFrame` property you can use to get the region index of the current frame of the animation.  You can use this to know which `Texture2DRegion` from the source `Texture2DAtlas` of the `SpriteSheet` to draw
+The `AnimationController` has a `CurrentFrame` property you can use to get the region index of the current frame of the animation. You can use this to know which `Texture2DRegion` from the source `Texture2DAtlas` of the `SpriteSheet` to draw
 
 ```cs
 protected override void Draw(GameTime gameTime)
@@ -193,4 +193,4 @@ protected override void Draw(GameTime gameTime)
 </figure>
 
 ## Conclusion
-We have now learned how to create a new `SpriteSheet` based on a `Texture2DAtlas`, define animations within the `SpriteSheet`, then retrieve the animations and use them with an `AnimationController`.  However, creating a controller for each possible animation can be tedious and a nightmare to maintain.  In the next document, we'll discuss the `AnimatedSprite` class which provides a convenient encapsulation of the `SpriteSheet` where we can set what animation we want to play.
+We have now learned how to create a new `SpriteSheet` based on a `Texture2DAtlas`, define animations within the `SpriteSheet`, then retrieve the animations and use them with an `AnimationController`. However, creating a controller for each possible animation can be tedious and a nightmare to maintain. In the next document, we'll discuss the `AnimatedSprite` class which provides a convenient encapsulation of the `SpriteSheet` where we can set what animation we want to play.

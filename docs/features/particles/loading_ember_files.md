@@ -5,7 +5,7 @@ sidebar_label: Loading Ember Files
 ---
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
 Ember files (`.ember`) are XML-based particle effect files created by the [Ember Editor](../../tools/ember.md), a visual particle effect editor for MonoGame Extended. These files contain complete particle effect configurations including emitter settings, modifiers, interpolators, and texture references.
@@ -70,7 +70,7 @@ The Content Pipeline will automatically:
 - Rebuild the `.ember` file if any texture changes
 
 :::warning
-The texture files must be in the same directory at the `.ember` file.  They do not have to be added to the content project.  However, if you wish to add them to the content project, ensure that they are in the same directory in the content project as the `.ember` file.  If a referenced texture is missing, you will get a build error. This is intentional to catch missing assets before runtime.
+The texture files must be in the same directory as the `.ember` file. They do not have to be added to the content project. However, if you wish to add them to the content project, ensure that they are in the same directory in the content project as the `.ember` file. If a referenced texture is missing, you will get a build error. This is intentional to catch missing assets before runtime.
 :::
 
 ### Step 3: Load the Particle Effect in Your Game

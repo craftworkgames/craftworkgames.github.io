@@ -5,7 +5,7 @@ sidebar_label: Modifiers
 ---
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
 While [emission profiles](./emission_profiles.md) determine where particles begin their journey, modifiers control how particles behave and change throughout their lifetime. Modifiers are the dynamic components that bring particle effects to life by applying forces, changing visual properties, and creating complex behaviors over time.
@@ -227,12 +227,12 @@ The `VortexModifier` creates vortex effects by applying rotated gravitational fo
 :::tip
 The `RotationAngle` determines the motion pattern created by the vortex.
 
-- 0° = Pure gravitation attraction (particles pulled straight inward)
+- 0° = Pure gravitational attraction (particles pulled straight inward)
 - Small Angles (5°-20°) = Inward spirals and temporary orbital motions
 - Medium Angles (30°-60°) = Wide deflection arcs around the vortex
 - Large Angles (90°+) = Particles deflect around the vortex perimeter without entering
 
-Positive angle values create counterclockwise rotations, where as negative angle values create clockwise rotations.
+Positive angle values create counterclockwise rotations, whereas negative angle values create clockwise rotations.
 :::
 
 ```cs title="VortexModifier Code Example
@@ -296,7 +296,7 @@ emitter.Modifiers.Add(new RectangleContainerModifier
 
 ### Rectangle Loop Container Modifier
 
-The `RectangleLoopContainerModifier` wraps particles to the opposite side when they exit the rectangular boundary, creating  seamless looping effects.
+The `RectangleLoopContainerModifier` wraps particles to the opposite side when they exit the rectangular boundary, creating seamless looping effects.
 
 | Property | Description                            |
 | -------- | -------------------------------------- |
@@ -316,7 +316,7 @@ emitter.Modifiers.Add(new RectangleLoopContainerModifier
 
 ## Combining Modifiers
 
-Modifiers can be combined to create complex, layered effects.  The order that the modifiers are added is important since each modifier sees the results of the previous modifications.
+Modifiers can be combined to create complex, layered effects. The order that the modifiers are added is important since each modifier sees the results of the previous modifications.
 
 ```cs title="Fire Effect Example"
 // 1. Upward force (hot air rises)
@@ -366,7 +366,7 @@ For high-performance effects, prefer simpler modifiers and limit the number of a
 
 ## Choosing the Right Modifiers
 
-Select modifiers based on the behavior you want to achive:
+Select modifiers based on the behavior you want to achieve:
 
 - **Physics Effects** `LinearGravityModifier`, `DragModifier`, `VortexModifier`
 - **Visual Transitions**: `AgeModifier`, `VelocityModifier`, `VelocityColorModifier`
@@ -375,6 +375,6 @@ Select modifiers based on the behavior you want to achive:
 
 ## Conclusion
 
-Modifiers ar the heart of the particle system, transforming static particles into living effects.  Understanding how each modifier works and how they can be combined helps you create interesting particle effects.
+Modifiers are the heart of the particle system, transforming static particles into living effects. Understanding how each modifier works and how they can be combined helps you create interesting particle effects.
 
-The key to effective particle design is experimenting with different modifier combinations and understanding how their execution order affects the final result.  Start with simple effects and gradually layer on additional modifiers to achieve the exact behavior you need.
+The key to effective particle design is experimenting with different modifier combinations and understanding how their execution order affects the final result. Start with simple effects and gradually layer on additional modifiers to achieve the exact behavior you need.

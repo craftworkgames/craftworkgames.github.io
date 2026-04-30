@@ -11,12 +11,12 @@ import AttackNoIdle from './attack_no_idle.gif'
 import EventTrigger from './event_trigger.gif'
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
-In the [previous document](/docs/features/2d-animations/spritesheet/spritesheet.md) about `SpriteSheets` we went over how to create a `SpriteSheet`, define animations, and retrieve the animations from it.  Doing this only gives us the `SpriteSheetAnimation` instance for that animation, which we then have to create an `AnimationController` with to manage that single animation.
+In the [previous document](/docs/features/2d-animations/spritesheet/spritesheet.md) about `SpriteSheets` we went over how to create a `SpriteSheet`, define animations, and retrieve the animations from it. Doing this only gives us the `SpriteSheetAnimation` instance for that animation, which we then have to create an `AnimationController` to manage that single animation.
 
-However, typically a `SpriteSheet` is going to contain several animations related to a single concept, like all of the animations for a player.  To better manage controlling the animations from the `SpriteSheet` we can use the `AnimatedSprite` class.
+However, typically a `SpriteSheet` is going to contain several animations related to a single concept, like all of the animations for a player. To better manage controlling the animations from the `SpriteSheet` we can use the `AnimatedSprite` class.
 
 Let's use the same example adventurer character from the `SpriteSheet` document.
 
@@ -30,7 +30,7 @@ Let's use the same example adventurer character from the `SpriteSheet` document.
 </figure>
 
 ## Creating an `AnimatedSprite`
-To create an `AnimatedSprite` first a `SpriteSheet` needs to be created with the animations defined.  Building off of our previous example, it would look like this
+To create an `AnimatedSprite` first a `SpriteSheet` needs to be created with the animations defined.  Building off our previous example, it would look like this
 
 ```cs
 protected override void LoadContent()
@@ -76,7 +76,7 @@ protected override void LoadContent()
 }
 ```
 
-This creates the `Texture2DAtlas` based on a JSON data file that automatically generates the regions, creates a `SpriteSheet` using the atlas, then defines the animations for the `attack`, `idle`, and `run` animations.  **Note that the `attack` animation is set to `false` for looping.  This will be important later.**
+This creates the `Texture2DAtlas` based on a JSON data file that automatically generates the regions, creates a `SpriteSheet` using the atlas, then defines the animations for the `attack`, `idle`, and `run` animations. **Note that the `attack` animation is set to `false` for looping. This will be important later.**
 
 Now that we have the `SpriteSheet` defined, let's use it to create an `AnimatedSprite`
 
@@ -170,9 +170,9 @@ protected override void Draw(GameTime gameTime)
 </figure>
 
 ## Using Animation Event Triggers
-Internally the `AnimatedSprite` uses the `IAnimationController` to control and manage the playback of the current animation.  The `IAnimationController` interface provides an event that can be subscribed to that will trigger on various events.
+Internally the `AnimatedSprite` uses the `IAnimationController` to control and manage the playback of the current animation. The `IAnimationController` interface provides an event that can be subscribed to that will trigger on various events.
 
-For instance, in our example above, we set the `attack` animation to non looping. So let's update our code so that when we press the enter key, it performs the `attack` animation.
+For instance, in our example above, we set the `attack` animation to non-looping. So let's update our code so that when we press the Enter key, it performs the `attack` animation.
 
 ```cs
 // highlight-next-line
@@ -206,18 +206,18 @@ protected override void Update(GameTime gameTime)
 }
 ```
 
-Now, if we run our sample and press the `Enter` key, the attack animation will play, but then when it ends, nothing happens.  This is because we told it to be a non-looping animation when we defined it.
+Now, if we run our sample and press the `Enter` key, the attack animation will play, but then when it ends, nothing happens. This is because we told it to be a non-looping animation when we defined it.
 
 <figure>
     <img src={AttackNoIdle} style={{width: '100%', imageRendering: 'pixelated'}}/>
     <figcaption>
         <small>
-            When we hit enter to set the attack animation, the attack animation plays, but since it's non-looping, it stops and does nothing after.
+            When we hit Enter to set the attack animation, the attack animation plays, but since it's non-looping, it stops and does nothing after.
         </small>
     </figcaption>
 </figure>
 
-Instead, we would like to tell it that when the animation completes, it should go back to the `idle` animation.  We can do this using the `IAnimationController.OnAnimationEvent` event.
+Instead, we would like to tell it that when the animation completes, it should go back to the `idle` animation. We can do this using the `IAnimationController.OnAnimationEvent` event.
 
 ### Event Handler Management - Important Considerations
 

@@ -5,20 +5,20 @@ sidebar_label: Object Pooling
 ---
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
-Object pooling is an optimization pattern. It's used to improve performance, in certain cases, by re-using objects instead of allocating memory for them on demand. In C/C++, one the things object pooling has to offer is a solution to avoid [memory fragmentation](http://stackoverflow.com/questions/3770457/what-is-memory-fragmentation). In C#, we don't have to worry about memory fragmentation thanks to [garbage collection](https://msdn.microsoft.com/en-us/library/ee787088). However, garbage collection can be still be too expensive for certain parts of real-time applications, especially on mobile devices with slower CPUs and simpler garbage collectors. [More details on object pooling here](http://gameprogrammingpatterns.com/object-pool.html).
+Object pooling is an optimization pattern. It's used to improve performance, in certain cases, by re-using objects instead of allocating memory for them on demand. In C/C++, one of the things object pooling has to offer is a solution to avoid [memory fragmentation](http://stackoverflow.com/questions/3770457/what-is-memory-fragmentation). In C#, we don't have to worry about memory fragmentation thanks to [garbage collection](https://msdn.microsoft.com/en-us/library/ee787088). However, garbage collection can still be too expensive for certain parts of real-time applications, especially on mobile devices with slower CPUs and simpler garbage collectors. [More details on object pooling here](http://gameprogrammingpatterns.com/object-pool.html).
 
-:::note[Abstract Analogy]  
-You can think about an object pool like desks in a classroom.  There are a designated number of desks in each room for students to use.  When a student takes over a desk for the class period, their information is assigned to that spot, and they place their items in the desk.  When the student leaves for their next class, the desk still remains (_The pool still has the object_).  When a student arrives for the next class, the old desk isn't tossed in the trash (_Garbage collected_), nor is a new desk created (_Class instantiation_), and then installed in the class (_stored in a list_).  Instead the new student simply uses one of the open desks (_object reuse/pooling_).  This saves on time, just like with Object Pooling.
+:::note[Abstract Analogy]
+You can think about an object pool like desks in a classroom. There are a designated number of desks in each room for students to use. When a student takes over a desk for the class period, their information is assigned to that spot, and they place their items in the desk. When the student leaves for their next class, the desk still remains (_The pool still has the object_). When a student arrives for the next class, the old desk isn't tossed in the trash (_Garbage collected_), nor is a new desk created (_Class instantiation_), and then installed in the class (_stored in a list_). Instead, the new student simply uses one of the open desks (_object reuse/pooling_). This saves on time, just like with Object Pooling.
 :::
 
-`Monogame.Extended` has 2 different Object Pooling options you can utilize.
+`MonoGame.Extended` has 2 different Object Pooling options you can utilize.
  - `Pool<T>` where T is any class
  - `ObjectPool<T>` where T is a class that implements the `IPoolable` interface
 
-The main difference between these two is that `Pool<T>` does not track the "alive" objects.  It is simply a facility to manage a list of your objects, that are available to use from the pool, that are "dead".
+The main difference between these two is that `Pool<T>` does not track the "alive" objects. It is simply a facility to manage a list of your objects, that are available to use from the pool, that are "dead".
 
 :::caution
 Always profile the game for performance problems!
@@ -27,7 +27,7 @@ Using a `Pool<T>`/`ObjectPool<T>` without first profiling for the need of one ma
 
 ## Pool
 
-This is a simplified Pooling system that uses a [`Deque`](/docs/features/collections/collections.md#deque) for the dead objects.  Since this collection doesn't contain a way to track the alive objects, you'll need to do that yourself.  This example uses a List to keep track of the alive objects.
+This is a simplified Pooling system that uses a [`Deque`](/docs/features/collections/collections.md#deque) for the dead objects. Since this collection doesn't contain a way to track the alive objects, you'll need to do that yourself. This example uses a List to keep track of the alive objects.
 
 ### Create example Enemy class for Pool
 This class is just an example for demonstration purposes.
@@ -50,7 +50,7 @@ public class Enemy
 
 ### Creating the Pool
 
-Here we create an instance of `Pool<T>` where `T` is `Enemy`.  We pass in the function that is used to create new instances of Enemy, the reset function for when an enemy is placed back in the pool with the `Free` method, and the maximum capacity.
+Here we create an instance of `Pool<T>` where `T` is `Enemy`. We pass in the function that is used to create new instances of Enemy, the reset function for when an enemy is placed back in the pool with the `Free` method, and the maximum capacity.
 
 ```csharp
 Pool<Enemy> enemyPool = new Pool<Enemy>(

@@ -6,24 +6,24 @@ description: 2D grid-based collision system.
 ---
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
 ## Requirements
 
 To use the Collision code, you need to perform the following 4 steps:
 1. Create a class that implements the `ICollisionActor` interface.
-1. Implement the `OnCollision` method in the class created in step 1.  This defines what happens when something hits your object.
+1. Implement the `OnCollision` method in the class created in step 1. This defines what happens when something hits your object.
 1. Create an instance of `CollisionComponent` which defines the bounds where collisions are checked.
 1. `Insert` an instance of your class into the CollisionComponent.
 
 ### ICollisionActor
 
-This is an interface you need to create a class from and implement the method and override the properties.  At minimum you need to implement `OnCollision` and override `Bounds` so you can provide the rectangle that is used to perform collision detection.
+This is an interface you need to create a class from and implement the method and override the properties. At minimum you need to implement `OnCollision` and override `Bounds` so you can provide the rectangle that is used to perform collision detection.
 
-In the below example, you can see that `LayerName` overrides the interfaces implementation so we can state the layer this entity will belong to.  `Layers` are discussed in the [Advanced Topics](#advanced-topics-optional) section at the bottom.
+In the below example, you can see that `LayerName` overrides the interfaces implementation so we can state the layer this entity will belong to. `Layers` are discussed in the [Advanced Topics](#advanced-topics-optional) section at the bottom.
 
-The `OnCollision` method was implemented and simply reverses the direction of object by flipping it's velocity and moving it back the way it came.
+The `OnCollision` method was implemented and simply reverses the direction of object by flipping its velocity and moving it back the way it came.
 
 ```csharp
 public class MyEntity : ICollisionActor
@@ -51,13 +51,13 @@ public class MyEntity : ICollisionActor
 
 ### CollisionComponent
 
-This is the main driver that manages the collide-able entities.  This class passes the entities position updates down to the [`Space Algorithm`](#space-algorithms).  Finally it does the collision checks between entities in layers.  All entities in each layer are always checked against the entities in the default layer.  
+This is the main driver that manages the collidable entities. This class passes the entities position updates down to the [`Space Algorithm`](#space-algorithms). Finally it does the collision checks between entities in layers. All entities in each layer are always checked against the entities in the default layer.
 
-If you `Insert` entities into the `CollisionComponent`, it inserts them to a default layer, named appropriately "default".  `CollisionComponent` uses a `QuadTree` in the Default layer.  However if you create your own Layer, you can use a `SpatialHash` instead.
+If you `Insert` entities into the `CollisionComponent`, it inserts them to a default layer, named appropriately "default". `CollisionComponent` uses a `QuadTree` in the Default layer. However if you create your own Layer, you can use a `SpatialHash` instead.
 
-This allows you to add layers where you don't want certain elements to interact with each-other by adding them to different layers.  For instance if your game has a water layer, ground layer, and sky layer.  Each of those would only compare objects against the default layer.  
+This allows you to add layers where you don't want certain elements to interact with each other by adding them to different layers. For instance if your game has a water layer, ground layer, and sky layer. Each of those would only compare objects against the default layer.
 
-Entities within the same layer are not compared against each-other, except the default layer.
+Entities within the same layer are not compared against each other, except the default layer.
 
 Comparisons are done:
 1. `default` against `default`
@@ -73,7 +73,7 @@ CollisionComponent collisionComponent = new CollisionComponent("ground", myQuadL
 
 In this example, we will make a simple sandbox where shapes can move and collide with each other.
 
-We start by defining an `IEntity` interface that inherits `ICollisionActor`, so we can insert the entities into our `CollisionComponent`.  This is optional, but has benefits.
+We start by defining an `IEntity` interface that inherits `ICollisionActor`, so we can insert the entities into our `CollisionComponent`. This is optional, but has benefits.
 
 ```csharp
 public interface IEntity : ICollisionActor
@@ -266,7 +266,7 @@ Currently there are 2 Space Algorithms implemented:
 
 #### Space Algorithms: QuadTree
 
-A `QuadTree` is a data structure that starts off with a single rectangular area.  Entities are added, and if they reach the maximum number for that rectangular area (25 by default), the area is split up into 4 equal size parts or Quadrants.  This can continue until the maximum depth is reached (7 by default).
+A `QuadTree` is a data structure that starts off with a single rectangular area. Entities are added, and if they reach the maximum number for that rectangular area (25 by default), the area is split up into 4 equal size parts or Quadrants. This can continue until the maximum depth is reached (7 by default).
 
 The benefit is that you reduce the number of entities you have to check collisions on, since you keep partitioning the screen into smaller and smaller sets of entities.
 
@@ -280,7 +280,7 @@ See [QuadTrees](https://en.wikipedia.org/wiki/Quadtree) on Wikipedia for generic
 
 #### Space Algorithms: SpatialHash
 
-Think of mipmaps or approximations.  The screen is split up into N sections, and the object is either in that large section or not.
+Think of mipmaps or approximations. The screen is split up into N sections, and the object is either in that large section or not.
 
 Example creation of a SpatialHash:
 ```csharp
@@ -290,7 +290,7 @@ See [Spatial Hashing](https://www.gamedev.net/tutorials/programming/general-and-
 
 ### Layer
 
-You can create a Layer and `Insert` "entities" (Instances of classes that extend `ICollisionAgent`).  Once you've added the entities, you can `Add` the Layer into a `CollisionComponent`.  Additionally, you may also add the layer without entities, so long as in your `ICollisionAgent` class you override the `LayerName` property so you can modify it to match the name of the layer you pass into the `CollisionComponent`.
+You can create a Layer and `Insert` "entities" (Instances of classes that extend `ICollisionAgent`). Once you've added the entities, you can `Add` the Layer into a `CollisionComponent`. Additionally, you may also add the layer without entities, so long as in your `ICollisionAgent` class you override the `LayerName` property so you can modify it to match the name of the layer you pass into the `CollisionComponent`.
 
 ```csharp
 QuadTreeSpace quadTreeSpace = new QuadTreeSpace(new RectangleF(x, y, width, height));

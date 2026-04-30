@@ -9,7 +9,7 @@ import FreehandCamera from './camera.svg'
 import CameraExample from './cameraExample.png'
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
 A camera in a 2D game provides a viewport into your game world, controlling what portion of the world is visible on screen and how it appears. Rather than manually repositioning every game object to simulate camera movement, the camera system uses transformation matrices to efficiently control the rendering view while your game objects remain at their world positions.
@@ -94,7 +94,7 @@ This approach is far superior:
 The camera doesn't move your game objects. It transforms how they're rendered to the screen. Your objects stay at their world positions while the camera determines which portion of the world is visible and how it appears.
 :::
 
-The purpose of a camera is to provide a quick way show the game world from a different position in space.  The way the camera does this is by using a transformation matrix that changes the way a sprite batch is rendered to the screen.  This allows no movement of objects, and instead, moves the projected image on screen space.
+The purpose of a camera is to provide a quick way show the game world from a different position in space. The way the camera does this is by using a transformation matrix that changes the way a sprite batch is rendered to the screen. This allows no movement of objects, and instead, moves the projected image on screen space.
 
 ## Understanding Transformation Matrices
 

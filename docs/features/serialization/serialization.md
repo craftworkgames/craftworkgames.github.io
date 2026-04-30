@@ -6,7 +6,7 @@ description: JSON serialization helpers
 ---
 
 :::warning[Not up to date]
-This page **is not** up to date for MonoGame.Extended `@mgeversion@`.  If you would like to contribute to updating this document, please [create a new PR](https://github.com/monogame-extended/monogame-extended.github.io/pulls)
+This page **is not** up to date for MonoGame.Extended `@mgeversion@`. If you would like to contribute to updating this document, please [create a new PR](https://github.com/monogame-extended/monogame-extended.github.io/pulls)
 :::
 
 MonoGame.Extended contains various serialization helpers that work with [Newtonsoft Json.NET](http://www.newtonsoft.com/json/help/html/SerializingJSON.htm).
@@ -38,7 +38,7 @@ struct Thing {
     public Vector2 Position;
 }
 var data = @"{
-    'BootStrapBlue':'#428bca00',
+    'BootStrapBlue':'#428bcaFF',
     'Position':'1.1 4',
 }";
 
@@ -48,12 +48,12 @@ var thing = JsonConvert.DeserializeObject<Thing>(data,
 );
 
 thing.BootStrapBlue; // "{R:66 G:139 B:202 A:0}"
-thing.Posistion; // "{X:1.1 Y:4}"
+thing.Position; // "{X:1.1 Y:4}"
 ```
 
 ## Color JsonConverter
 
-ColorJsonConverter tells Newtonsoft Json.NET now to convert string hex values into XNA `Color` objects.
+ColorJsonConverter tells Newtonsoft Json.NET how to convert string hex values into XNA `Color` objects.
 
 Given the JSON string value
 ```json
@@ -97,7 +97,7 @@ Given the JSON object value
 A new `NinePatchRegion2D` is created and the TextureRegion is looked up in the TextureRegionService.
 
 ```csharp
-new NinePatchRegion2D(TextureRegion2D('Center',...), 1, 2, 3, 4)
+new NinePatchRegion2D(TextureRegion2D("Center",...), 1, 2, 3, 4)
 ```
 
 The format is not a string value, but a nested JSON object where `Padding` is a `Thickness` value.
@@ -110,7 +110,7 @@ Given the JSON string value
 ```json
 "10 4"
 ```
-A new `Size2` object is created.  Understood, good buddy.
+A new `Size2` object is created.
 ```csharp
 new Size2(10f, 4f)
 ```
@@ -161,7 +161,7 @@ The format is a JSON string containing a value to be parsed by Thickness.
 * `"1 2 3 4"` is left:1, top:2, right:3, bottom:4
 * `"2 4"` is left:2, top:4, right:2, bottom:4
 * `"8"` is left:8, top:8, right:8, bottom:8
-* `"1,2"` is left:1, top:2, right:1, top:2
+* `"1,2"` is left:1, top:2, right:1, top:2, bottom:2
 
 # Extensions
 

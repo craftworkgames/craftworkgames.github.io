@@ -6,7 +6,7 @@ description: High performance, Artemis based, Entity Component System (ECS)
 ---
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
 The Entities package is a modern high performance Artemis based Entity Component System. Many of the features found in this implementation were inspired by artemis-odb. Although, many others were also studied during development. As you'll see the systems are designed to feel familiar to MonoGame developers.
@@ -33,11 +33,11 @@ __Examples of Components are:__
 
 ### 2. Entities Overview
 
-An entity is a composition of components identified by an ID. Often you only need the ID of the entity to work with it. For performance reasons, an entity ID is only valid while the entity is alive. Once the entity is destroyed, it's ID may be recycled.  In Monogame.Extended, Entities are created for you when you call `CreateEntity` on the `World` instance.
+An entity is a composition of components identified by an ID. Often you only need the ID of the entity to work with it. For performance reasons, an entity ID is only valid while the entity is alive. Once the entity is destroyed, its ID may be recycled. In MonoGame.Extended, Entities are created for you when you call `CreateEntity` on the `World` instance.
 
 ### 3. Systems Overview
 
-A system is a class that will run during the game's `Update` or `Draw` calls. They usually contain the game logic about how to manage a filtered collection of entities and their components. This is where the primary logic for functionality of an ECS lives.  
+A system is a class that will run during the game's `Update` or `Draw` calls. They usually contain the game logic about how to manage a filtered collection of entities and their components. This is where the primary logic for functionality of an ECS lives.
 
 __Examples of Systems are:__
 
@@ -57,7 +57,7 @@ Since the `Systems` act upon the `Entities` set of `Components`, and the `world`
 
 ## Components
 
-Since this is just a class with data properties it can be anything.  It can even be a classes like the `Monogame.Extended.Transform2` or `Microsoft.Xna.Framework.Graphics.Texture2D`.  Generally you want your components to make up the individual pieces of an entity.  You need to decouple common functionality into individual grouped components.
+Since this is just a class with data properties it can be anything. It can even be a class like the `MonoGame.Extended.Transform2` or `Microsoft.Xna.Framework.Graphics.Texture2D`. Generally you want your components to make up the individual pieces of an entity. You need to decouple common functionality into individual grouped components.
 
 Component Examples:
 1. Positional information
@@ -65,9 +65,9 @@ Component Examples:
 3. Health information
 4. Shield information
 
-The reason is that you want your `Systems` to act upon all entities that have a that component.  Player characters, enemies, bullets, all have positional information.
+The reason is that you want your `Systems` to act upon all entities that have a that component. Player characters, enemies, bullets, all have positional information.
 
-The other beauty with separating out components this way, could be that you could later on decide you want bullets to potentially have a shield.  All you'd have to do is add the shield component to the bullet entity and all the functionality would be already built for you.
+The other beauty with separating out components this way, could be that you could later on decide you want bullets to potentially have a shield. All you'd have to do is add the shield component to the bullet entity and all the functionality would be already built for you.
 
 :::warning
 Currently, there is a limit of 32 Components that can be returned by a ComponentMapper. You'll want to architect your game and components in a way that you do not go above that limit when using a ComponentMapper.
@@ -75,7 +75,7 @@ Currently, there is a limit of 32 Components that can be returned by a Component
 
 ### Creating a Component
 
-Below are two example components.  In `Enemy`, it has a speed variable and a TimeLeft variable.  In `Raindrop`, it has a Velocity and Size.
+Below are two example components. In `Enemy`, it has a speed variable and a TimeLeft variable. In `Raindrop`, it has a Velocity and Size.
 
 ```csharp
 public class Enemy
@@ -91,9 +91,9 @@ public class Raindrop
 }
 ```
 
-No logic is put into either component.  Notice that these are lacking a constructor.  In a pure ECS, these would all be structs only, it is possible to include a constructor if you wish.  
+No logic is put into either component. Notice that these are lacking a constructor. In a pure ECS, these would all be structs only, it is possible to include a constructor if you wish.
 
-Below is an example with a constructor.  Notice there is still no logic, it's just setting the variables for us.
+Below is an example with a constructor. Notice there is still no logic, it's just setting the variables for us.
 
 ```csharp
 public class Player
@@ -215,7 +215,7 @@ The `Put` method will replace an existing component of the same type if it alrea
 
 #### Retrieving an Entity from a Component by the EntityID:
 
-There are a few different ways to do this.  The recommended way is to use `TryGet`.  This reduces the code bloat from a null check or Has check.
+There are a few different ways to do this. The recommended way is to use `TryGet`. This reduces the code bloat from a null check or Has check.
 
 ```csharp
 if(_buffMapper.TryGet(entityId, out Entity entity))
@@ -224,7 +224,7 @@ if(_buffMapper.TryGet(entityId, out Entity entity))
 }
 ```
 
-This is essentially doing the same thing as either of these alternatives below.  Again, use the `TryGet` instead.
+This is essentially doing the same thing as either of these alternatives below. Again, use the `TryGet` instead.
 
 ```csharp
 if(_buffMapper.Has(entityId))
@@ -365,13 +365,13 @@ When you're inside an `EntitySystem` there are helper methods for creating or de
 
 ### Simple Example
 
-This is the example from the Samples called "Entities".  It will allow you to control an image with your keyboards arrow keys.  All movement logic is done inside the PlayerSystem.cs file.
+This is the example from the Samples called "Entities". It will allow you to control an image with your keyboards arrow keys. All movement logic is done inside the PlayerSystem.cs file.
 
-Start by following the getting started guide for a basic Monogame.Extended project.
+Start by following the getting started guide for a basic MonoGame.Extended project.
 
 Then inside the project create 2 folders, (Components, Systems).
 
-Next we will create a single component for the position of the player.  We'll wrap in the speed also and just call it Player.  To do this, create a new class named `Player` and place it in the subfolder `Components`. In our examples we will use the root namespace Entities.  Use your root namespace instead.
+Next we will create a single component for the position of the player. We'll wrap in the speed also and just call it Player. To do this, create a new class named `Player` and place it in the subfolder `Components`. In our examples we will use the root namespace Entities. Use your root namespace instead.
 
 ```csharp
 namespace Entities.Components

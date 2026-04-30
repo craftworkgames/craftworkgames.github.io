@@ -5,16 +5,16 @@ sidebar_label: Collections
 ---
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
 ## What is a collection?
 
-A collection is a data structure with functionality built around it.  Think about a collection as a grouping of similar things.  All the enemies in a game, the items in the inventory, the textures being drawn, images in an animation, or bullets on the screen.
+A collection is a data structure with functionality built around it. Think about a collection as a grouping of similar things. All the enemies in a game, the items in the inventory, the textures being drawn, images in an animation, or bullets on the screen.
 
-Collections are more advanced than a simple array or list, and each one can provide unique functionality.  There are benefits and disadvantages to each collection type.  Don't use a collection without a reason, especially if a simple array or list will suffice.  Make sure the collection you are choosing has a purpose that is advantageous to you and your project.
+Collections are more advanced than a simple array or list, and each one can provide unique functionality. There are benefits and disadvantages to each collection type. Don't use a collection without a reason, especially if a simple array or list will suffice. Make sure the collection you are choosing has a purpose that is advantageous to you and your project.
 
-.NET has many default Collection types (List, Dictionary, Queue, Stack, and many more).  These are a few additional collections.
+.NET has many default Collection types (List, Dictionary, Queue, Stack, and many more). These are a few additional collections.
 
 ## General requirements for all collections
 
@@ -30,7 +30,7 @@ A `Bag` is an un-ordered array of items with fast `Add` and `Remove` properties.
 ### Bag Functionality and Behavior
 - It is much faster than an array when removing items.
 - Takes less space than a linked list.
-- Bag will resize itself (grow by 1.5 times current size) only when it needs to.  
+- Bag will resize itself (grow by 1.5 times current size) only when it needs to.
 - Used space won't shrink after removing elements.
 - You can clear the bag.
 - Can't sort the bag.
@@ -58,9 +58,9 @@ bag.Remove(4);
 // bag is now [15, 16] with a capacity of 4
 ```
 
-Notice in the example when we removed the the second element (value 8) with `RemoveAt(1)` the last item (value 16) moved to it's place.  This is because when an item is removed the `bag` will reposition the last element into the removed spot.  This is to prevent the code from needing to move every element in the bag.  Meaning, **_do not count on the order of the items in the bag!_** 
+Notice in the example when we removed the second element (value 8) with `RemoveAt(1)` the last item (value 16) moved to its place. This is because when an item is removed the `bag` will reposition the last element into the removed spot. This is to prevent the code from needing to move every element in the bag. Meaning, **_do not count on the order of the items in the bag!_** 
 
-This happens again when we use `Remove` to look for a specific VALUE in the bag, and remove that item.  15, the last element is swapped into the removed spot.
+This happens again when we use `Remove` to look for a specific VALUE in the bag, and remove that item. 15, the last element is swapped into the removed spot.
 
 ## Deque
 Represents a collection of objects in which elements can be added to or removed either from the front or back. See [double ended queue](https://en.wikipedia.org/wiki/Double-ended_queue).
@@ -105,7 +105,7 @@ Result
 
 `KeyedCollection` is a wrapper around the `Dictionary` class where the key is obtained by a [delegate](https://www.tutorialspoint.com/csharp/csharp_delegates.htm).
 
-This allows you to use a function as the key.  While this could be any function, a good example would be using a property of the class in the collection as the key, like an ID field.
+This allows you to use a function as the key. While this could be any function, a good example would be using a property of the class in the collection as the key, like an ID field.
 
 ### Keyed Collection Functionality and Behavior
 
@@ -139,11 +139,11 @@ keyedCollection.Add(new MyEntity {Id = 2, Name = "Player2"});
 keyedCollection.TryGetValue(1, out MyEntity entity); // gets Player1
 ```
 
-Above we created a new KeyedCollection using the `Id` field as the key, and storing the `MyEntity` as the value.  In the example we added two new instances for MyEntity, and then retrieved an item from the collection using the ID field.
+Above we created a new KeyedCollection using the `Id` field as the key, and storing the `MyEntity` as the value. In the example we added two new instances for MyEntity, and then retrieved an item from the collection using the ID field.
 
 ## Object Pooling
 
-Pooling of Objects allows reuse of memory for a group of items to avoid Garbage Collection.  These are a bit more advanced, and an entire page is dedicated to them.
+Pooling of Objects allows reuse of memory for a group of items to avoid Garbage Collection. These are a bit more advanced, and an entire page is dedicated to them.
 
 More information is in the [Object Pooling](docs/features/object-pooling/object-pooling.md) documentation.
 
@@ -151,7 +151,7 @@ More information is in the [Object Pooling](docs/features/object-pooling/object-
 
 `ObservableCollection<T>` manages an `IList<T>` of items firing `ItemAdded`, `ItemRemoved`, `Clearing`, and `Cleared` events when the collection is changed.
 
-This allows you to monitor when items are added, removed, being clearing, or cleared.  You could then perform an action whenever this happens.  If you're familiar with databases, this would be similar to insert/update/delete triggers.
+This allows you to monitor when items are added, removed, being clearing, or cleared. You could then perform an action whenever this happens. If you're familiar with databases, this would be similar to insert/update/delete triggers.
 
 It's for a more [event-driven architecture](https://en.wikipedia.org/wiki/Event-driven_programming) common in GUIs.
 
@@ -267,11 +267,11 @@ List is now cleared!
 
 ## Extensions to existing .NET collections
 
-`MonoGame.Extended` contains `Collections` extensions to the C# collections that are useful for game programming.  An [extension](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods) in .NET is essentially just adding additional functionality to an existing Type Class, without needing to re-compile the source code for .NET 8.0.  Read more about them in the link above.
+`MonoGame.Extended` contains `Collections` extensions to the C# collections that are useful for game programming. An [extension](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods) in .NET is essentially just adding additional functionality to an existing Type Class, without needing to re-compile the source code for .NET 8.0. Read more about them in the link above.
 
 ### ListExtensions
 
-Adds `Shuffle(Random)` to all `IList<>` classes.  This extension requires that you pass in an instance of the `System.Random` class.
+Adds `Shuffle(Random)` to all `IList<>` classes. This extension requires that you pass in an instance of the `System.Random` class.
 
 ```csharp
 // .... setup example 
@@ -287,11 +287,11 @@ using MonoGame.Extended.Collections;
 nums.Shuffle(random);
 ```
 
-The list `nums` will now be randomly shuffled.  We didn't have to recompile .NET either.
+The list `nums` will now be randomly shuffled. We didn't have to recompile .NET either.
 
 ### DictionaryExtensions
 
-Extends all `Dictionary<>` classes with `GetValueOrDefault(key, default)`.  It allows you to specify a default to return when the key is not found.
+Extends all `Dictionary<>` classes with `GetValueOrDefault(key, default)`. It allows you to specify a default to return when the key is not found.
 
 ```csharp
 // .... setup example 
@@ -305,4 +305,4 @@ using MonoGame.Extended.Collections;
 int zipCode = zipCodeLookupByCity.GetValueOrDefault("typo city name", 90210);
 ```
 
-The above code has a made up situation where we want to be able to lookup zipcodes (Postal Codes) by the city name.  In this case, someone typed the city name wrong, but we want to always default the zip code to Beverly Hills zip code of 90210.
+The above code has a made up situation where we want to be able to lookup zipcodes (Postal Codes) by the city name. In this case, someone typed the city name wrong, but we want to always default the zip code to Beverly Hills zip code of 90210.

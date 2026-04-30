@@ -6,7 +6,7 @@ description: Used to manage the spatial representation of objects.
 ---
 
 :::warning[Not up to date]
-This page **is not** up to date for MonoGame.Extended `@mgeversion@`.  If you would like to contribute to updating this document, please [create a new PR](https://github.com/monogame-extended/monogame-extended.github.io/pulls)
+This page **is not** up to date for MonoGame.Extended `@mgeversion@`. If you would like to contribute to updating this document, please [create a new PR](https://github.com/monogame-extended/monogame-extended.github.io/pulls)
 :::
 
 The `SceneGraph` is used to manage the spatial representation of objects. It is a tree structure in which the transformations of the parent nodes are applied to the child nodes.
@@ -75,7 +75,7 @@ First we declare a `_speed` field that is used to update the `SceneGraph`
 private float _speed = 0.15f;
 ```
 
-Then, we add the following code to the `Update` function to update the potition of the Car and the rotation of the Wheels
+Then, we add the following code to the `Update` function to update the position of the Car and the rotation of the Wheels
 
 ```cs
 var keyboardState = Keyboard.GetState();
@@ -138,7 +138,7 @@ Which we then assign in the `Update` function
 _hoveredNode = _sceneGraph.GetSceneNodeAt(new Vector2(mouseState.X, mouseState.Y));
 ```
 
-Finally, We add the following code between `_spriteBatch` `Begin` and `End` to draw it
+Finally, we add the following code between `_spriteBatch` `Begin` and `End` to draw it
 
 ```cs
 if (_hoveredNode != null)

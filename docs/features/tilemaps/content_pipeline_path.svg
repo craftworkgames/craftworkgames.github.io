@@ -1,0 +1,63 @@
+<svg width="1259.8" height="666" version="1.1" viewBox="0 0 1259.8 666" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <style>.title { font: 700 24px Arial, sans-serif; fill: #172033; } .label { font: 700 16px Arial, sans-serif; fill: #172033; } .text { font: 14px Arial, sans-serif; fill: #24324a; text-anchor: middle; dominant-baseline: middle; } .small { font: 12px Arial, sans-serif; fill: #51607a; text-anchor: middle; dominant-baseline: middle; } .phaseText { font: 12px Arial, sans-serif; fill: #7b8798; text-anchor: middle; dominant-baseline: middle; } .card { fill:#ffffff; stroke:#e6ebf2; stroke-width:2; rx:20; } .panel { fill:#f8fafc; stroke:#d6deea; stroke-width:2; rx:18; } .source { fill:#ecfdf3; stroke:#35a164; stroke-width:2; rx:12; } .importer { fill:#ecfdf3; stroke:#35a164; stroke-width:2; rx:12; } .data { fill:#fff8e6; stroke:#e0a100; stroke-width:2; rx:12; } .artifact { fill:#f0f4f8; stroke:#7b8aa0; stroke-width:2; rx:12; } .runtime { fill:#eaf4ff; stroke:#2f80ed; stroke-width:2; rx:12; } .line { stroke:#6b7a90; stroke-width:2.5; fill:none; } .phase { stroke:#e4e9f2; stroke-width:2; stroke-dasharray:6 6; } .handoff { stroke:#c4cfdd; stroke-width:3; stroke-dasharray:10 8; }</style>
+  <marker id="arrow" markerHeight="12" markerWidth="12" orient="auto" refX="10" refY="6">
+   <path d="m0 0 12 6-12 6z" fill="#6b7a90"/>
+  </marker>
+  <marker id="arrow-7" markerHeight="12" markerWidth="12" orient="auto" refX="10" refY="6">
+   <path d="m0 0 12 6-12 6z" fill="#6b7a90"/>
+  </marker>
+ </defs>
+ <g transform="translate(16 16)">
+  <rect class="card" x="1" y="1" width="1225.8" height="632"/>
+  <path class="line" d="m652 223h64" fill="none" marker-end="url(#arrow-7)" stroke="#6b7a90" stroke-width="2.5"/>
+  <g font-family="Arial, sans-serif">
+   <text class="title" x="31" y="33" font-size="24px" font-weight="700" style="line-height:normal">Content Pipeline Path</text>
+   <g font-size="12px">
+    <text class="phaseText" x="73.483398" y="73" style="line-height:normal">Source Input</text>
+    <text class="phaseText" x="377.13184" y="73" style="line-height:normal">Build Time</text>
+    <text class="phaseText" x="1013.3984" y="73" style="line-height:normal">Runtime</text>
+   </g>
+  </g>
+  <line class="phase" x1="291" x2="291" y1="63" y2="603"/>
+  <line class="phase" x1="947" x2="947" y1="63" y2="603"/>
+  <rect class="panel" x="41" y="93" width="220" height="230"/>
+  <text class="label" x="61" y="118" font-family="Arial, sans-serif" font-size="16px" font-weight="700" style="line-height:normal">Source Input</text>
+  <rect class="source" x="61" y="143" width="180" height="44"/>
+  <text class="text" x="151" y="165" font-family="Arial, sans-serif" font-size="14px" style="line-height:normal">Tiled (.tmx)</text>
+  <rect class="source" x="61" y="203" width="180" height="44"/>
+  <text class="text" x="151" y="225" font-family="Arial, sans-serif" font-size="14px" style="line-height:normal">LDtk (.ldtk)</text>
+  <rect class="source" x="61" y="263" width="180" height="44"/>
+  <text class="text" x="151" y="285" font-family="Arial, sans-serif" font-size="14px" style="line-height:normal">Ogmo (.ogmo)</text>
+  <rect class="panel" x="351" y="93" width="300" height="260"/>
+  <text class="label" x="371" y="118" font-family="Arial, sans-serif" font-size="16px" font-weight="700" style="line-height:normal">Content Importers</text>
+  <rect class="importer" x="381" y="143" width="240" height="44"/>
+  <text class="text" x="501" y="165" font-family="Arial, sans-serif" font-size="14px" style="line-height:normal">TiledTilemapImporter</text>
+  <rect class="importer" x="381" y="203" width="240" height="44"/>
+  <text class="text" x="501" y="225" font-family="Arial, sans-serif" font-size="14px" style="line-height:normal">LDtkTilemapImporter</text>
+  <rect class="importer" x="381" y="263" width="240" height="44"/>
+  <text class="text" x="501" y="285" font-family="Arial, sans-serif" font-size="14px" style="line-height:normal">OgmoTilemapImporter</text>
+  <path class="line" d="m241 165h140" marker-end="url(#arrow)"/>
+  <path class="line" d="m241 225h140" marker-end="url(#arrow)"/>
+  <path class="line" d="m241 285h140" marker-end="url(#arrow)"/>
+  <g transform="translate(22,15)">
+   <rect class="data" x="700" y="180" width="180" height="56"/>
+   <text class="text" x="790" y="208" font-family="Arial, sans-serif" font-size="14px" style="line-height:normal">TilemapData</text>
+   <rect class="artifact" x="700" y="300" width="180" height="56"/>
+   <text class="text" x="790" y="328" font-family="Arial, sans-serif" font-size="14px" style="line-height:normal">XNB File</text>
+   <path class="line" d="m790 236v64" marker-end="url(#arrow)"/>
+  </g>
+  <rect class="artifact" x="1013" y="93" width="180" height="56"/>
+  <text class="text" x="1103" y="121" font-family="Arial, sans-serif" font-size="14px" style="line-height:normal">XNB File</text>
+  <rect class="runtime" x="993" y="213" width="220" height="60"/>
+  <text class="text" x="1103" y="243" font-family="Arial, sans-serif" font-size="14px" style="line-height:normal">TilemapReader</text>
+  <rect class="runtime" x="993" y="333" width="220" height="60"/>
+  <text class="text" x="1103" y="363" font-family="Arial, sans-serif" font-size="14px" style="line-height:normal">TilemapFactory</text>
+  <rect class="runtime" x="993" y="453" width="220" height="60"/>
+  <text class="text" x="1103" y="483" font-family="Arial, sans-serif" font-size="14px" style="line-height:normal">Tilemap</text>
+  <path class="handoff" d="m902 343 111-222"/>
+  <path class="line" d="m1103 149v64" marker-end="url(#arrow)"/>
+  <path class="line" d="m1103 273v60" marker-end="url(#arrow)"/>
+  <path class="line" d="m1103 393v60" marker-end="url(#arrow)"/>
+ </g>
+</svg>

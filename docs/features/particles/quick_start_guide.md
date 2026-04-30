@@ -5,7 +5,7 @@ sidebar_label: Quick Start Guide
 ---
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
 Visual effects bring games to life. Fire crackling, explosions bursting, stars sparkling, and magic spells shimmering all rely on particle systems to create these captivating moments. MonoGame Extended provides a particle system that makes creating these effects straightforward and flexible.
@@ -53,7 +53,7 @@ public class Game1 : Game
 }
 ```
 
-For this guide, we will create a simple white pixel texture.  In a real game, you would probably want to use a more interesting texture, but this will work perfectly for learning.  In your `LoadContent` method, add the following to create a simple 1x1 white pixel texture:
+For this guide, we will create a simple white pixel texture. In a real game, you would probably want to use a more interesting texture, but this will work perfectly for learning. In your `LoadContent` method, add the following to create a simple 1x1 white pixel texture:
 
 ```cs
 protected override void LoadContent()
@@ -118,7 +118,7 @@ private void CreateParticleEffect()
             // Random speed between 10-40
             Speed = new ParticleFloatParameter(10.0f, 40.0f),
 
-            // Red color  using HSL values (Hue=0°, Saturation = 100%, Lightness=60%)
+            // Red color using HSL values (Hue=0°, Saturation = 100%, Lightness=60%)
             Color = new ParticleColorParameter(new Vector3(0.0f, 1.0f, 0.6f)),
 
             // Make them 10x bigger
@@ -409,7 +409,7 @@ private void CreateParticleEffect()
 }
 ```
 
-Now if you run the game you'll see a shimmering sparkle effect of particles spawning and changing color until fading out.
+Now if you run the game, you'll see a shimmering sparkle effect of particles spawning and changing color until fading out.
 
 ![Sparkling particle effect](./images/quick_start/sparkle.gif)
 
@@ -453,7 +453,7 @@ The `AgeModifier` supports various interpolators that can change different parti
 Particle systems can impact performance with thousands of particles. Consider these optimization tips:
 
 - Use appropriate capacity limits for your emitters
-- Adjust `LifeSpan` to balance visual quality with performance  
+- Adjust `LifeSpan` to balance visual quality with performance
 - Test on target hardware to ensure smooth framerates
 - Consider reducing particle counts on lower-end devices
 

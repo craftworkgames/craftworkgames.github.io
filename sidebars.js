@@ -337,6 +337,32 @@ const tiledCategory = {
   ]
 }
 
+////////////////////////////////////////////////////////////////////////////////
+/// "Tilemaps" category
+////////////////////////////////////////////////////////////////////////////////
+const tilemapsCategory = {
+  type: 'category',
+  label: 'Tilemaps',
+  items: [
+    {
+      type: 'doc',
+      id: 'features/tilemaps/quick-start'
+    },
+    {
+      type: 'doc',
+      id: 'features/tilemaps/tilemaps'
+    },
+    {
+      type: 'doc',
+      id: 'features/tilemaps/migration'
+    },
+    {
+      type: 'doc',
+      id: 'features/tilemaps/technical-reference'
+    }
+  ]
+}
+
 const features = {
   type: 'category',
   label: 'Features',
@@ -357,7 +383,8 @@ const features = {
     screenManagement,
     serializationCategory,
     tweeningCategory,
-    tiledCategory
+    tiledCategory,
+    tilemapsCategory
   ]
 };
 

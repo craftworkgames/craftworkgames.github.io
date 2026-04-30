@@ -6,14 +6,14 @@ description: Tweening to generate values for position, size, color, opacity, etc
 ---
 
 :::warning[Not up to date]
-This page **is not** up to date for MonoGame.Extended `@mgeversion@`.  If you would like to contribute to updating this document, please [create a new PR](https://github.com/monogame-extended/monogame-extended.github.io/pulls)
+This page **is not** up to date for MonoGame.Extended `@mgeversion@`. If you would like to contribute to updating this document, please [create a new PR](https://github.com/monogame-extended/monogame-extended.github.io/pulls)
 :::
 
-Inbetweening, or just tweening for short, allows you to generate values for position, size, color, opacity, etc in intermediate frames giving the illusion of animation.
+Inbetweening, or just tweening for short, allows you to generate values for position, size, color, opacity, etc in intermediate frames, giving the illusion of animation.
 
 ## Example
 
-The assets used in the example don't have any unique assets to download.
+This example does not require any external assets to be downloaded.
 
 ### Usage
 
@@ -43,7 +43,7 @@ Then we order the `Tweener` to tween the position.
 The Tween method requires a target object and an expression that refers to a property of that object.
 
 ```csharp
-_tweener.TweenTo(target: _player, expression: player => _player.Position, toValue: new Vector2(550, 50), duration: 2, delay: 1)
+_tweener.TweenTo(target: _player, expression: player => player.Position, toValue: new Vector2(550, 50), duration: 2, delay: 1)
                 .RepeatForever(repeatDelay: 0.2f)
                 .AutoReverse()
                 .Easing(EasingFunctions.Linear);
@@ -59,7 +59,7 @@ protected override void Update(GameTime gameTime)
 }
 ```
 
-And last but not least we draw.
+And last but not least, we draw.
 
 ```csharp
 protected override void Draw(GameTime gameTime)

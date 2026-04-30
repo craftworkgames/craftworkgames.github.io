@@ -6,7 +6,7 @@ description: Extensions for the MonoGame ContentManager class.
 ---
 
 :::tip[Up to date]
-This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
+This page is **up to date** for MonoGame.Extended `@mgeversion@`. If you find outdated information, [please open an issue](https://github.com/monogame-extended/monogame-extended.github.io/issues).
 :::
 
 # ContentManager extensions
@@ -15,9 +15,9 @@ This page is **up to date** for MonoGame.Extended `@mgeversion@`.  If you find o
 
 `System.IO.Stream ContentManager.OpenStream(string filename)`
 
-**OpenStream** allows easy access to load data from files.  Files loaded this way should be in the content folder defined by `Content.RootDirectory`.
+**OpenStream** allows easy access to load data from files. Files loaded this way should be in the content folder defined by `Content.RootDirectory`.
 
-Example below loads a text file "song-lyrics" directly.  This file is assumed to have it's properties set to "Copy to Output Directory".
+Example below loads a text file "song-lyrics" directly. This file is assumed to have its properties set to "Copy to Output Directory".
 ```csharp
 // Put this in your Game1 class
 private string songLyrics;
@@ -35,7 +35,7 @@ using (var stream = Content.OpenStream("song-lyrics.txt"))
 }
 ```
 
-In this next example, it is loading a PNG file, and creating a `Texture2D` from that stream.  This file is also assumed to have it's properties set to "Copy to Output Directory".
+In this next example, it is loading a PNG file, and creating a `Texture2D` from that stream. This file is also assumed to have it's properties set to "Copy to Output Directory".
 
 ```csharp
 // Put this in your Game1 class

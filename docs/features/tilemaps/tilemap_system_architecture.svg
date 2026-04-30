@@ -1,0 +1,73 @@
+<svg width="1296" height="516" version="1.1" viewBox="0 0 1296 516" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <style>.title { font: 700 24px Inter, Segoe UI, Arial, sans-serif; fill: #172033; }
+      .label { font: 700 16px Inter, Segoe UI, Arial, sans-serif; fill: #172033; }
+      .text { font: 14px Inter, Segoe UI, Arial, sans-serif; fill: #24324a; }
+      .small { font: 12px Inter, Segoe UI, Arial, sans-serif; fill: #51607a; }
+
+      .panel { fill: #f8fafc; stroke: #d6deea; stroke-width: 2; rx: 18; }
+      .source { fill: #ecfdf3; stroke: #35a164; stroke-width: 2; rx: 12; }
+      .data { fill: #fff8e6; stroke: #e0a100; stroke-width: 2; rx: 12; }
+      .runtime { fill: #eaf4ff; stroke: #2f80ed; stroke-width: 2; rx: 12; }
+      .factory { fill: #f3ecff; stroke: #8b5cf6; stroke-width: 2; rx: 12; }
+
+      .line { stroke: #6b7a90; stroke-width: 2.5; fill: none; }
+
+      .layer { stroke:#e4e9f2; stroke-width:2; stroke-dasharray:6 6; }
+
+      .card { fill:#ffffff; stroke:#e6ebf2; stroke-width:2; rx:20; }</style>
+  <marker id="arrow" markerHeight="12" markerWidth="12" orient="auto" refX="10" refY="6">
+   <path d="m0 0 12 6-12 6z" fill="#6b7a90"/>
+  </marker>
+ </defs>
+ <g transform="translate(17,17)">
+  <rect class="card" x="1" y="1" width="1260" height="480"/>
+  <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
+   <text class="title" x="41" y="33" font-size="24px" font-weight="700" style="line-height:normal">Tilemap System Architecture</text>
+   <g font-size="12px">
+    <text class="small" x="111" y="73" style="line-height:normal">Editor Formats</text>
+    <text class="small" x="511" y="73" style="line-height:normal">Intermediate Model</text>
+    <text class="small" x="1041" y="73" style="line-height:normal">Runtime System</text>
+   </g>
+  </g>
+  <line class="layer" x1="371" x2="371" y1="61" y2="441"/>
+  <line class="layer" x1="853" x2="853" y1="61" y2="441"/>
+  <rect class="panel" x="31" y="81" width="300" height="350"/>
+  <text class="label" x="51" y="113" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="16px" font-weight="700" style="line-height:normal">Format Parsers</text>
+  <rect class="source" x="51" y="131" width="260" height="44"/>
+  <text class="text" x="71" y="158" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="14px" style="line-height:normal">TiledTmxParser</text>
+  <rect class="source" x="51" y="187" width="260" height="44"/>
+  <text class="text" x="71" y="214" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="14px" style="line-height:normal">LDtkJsonParser</text>
+  <rect class="source" x="51" y="243" width="260" height="44"/>
+  <text class="text" x="71" y="270" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="14px" style="line-height:normal">OgmoJsonParser</text>
+  <rect class="source" x="51" y="299" width="260" height="44"/>
+  <text class="text" x="71" y="326" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="14px" style="line-height:normal">ITilemapParser</text>
+  <rect class="panel" x="421" y="81" width="300" height="350"/>
+  <text class="label" x="441" y="113" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="16px" font-weight="700" style="line-height:normal">Intermediate Data</text>
+  <rect class="data" x="441" y="136" width="260" height="52"/>
+  <text class="text" x="461" y="168" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="14px" style="line-height:normal">TilemapData</text>
+  <rect class="data" x="441" y="203" width="260" height="40"/>
+  <text class="text" x="461" y="228" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="14px" style="line-height:normal">TilemapLayerData</text>
+  <rect class="data" x="441" y="253" width="260" height="40"/>
+  <text class="text" x="461" y="278" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="14px" style="line-height:normal">TilemapTilesetData</text>
+  <rect class="data" x="441" y="303" width="260" height="40"/>
+  <text class="text" x="461" y="328" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="14px" style="line-height:normal">TilemapObjectData</text>
+  <rect class="factory" x="781" y="234" width="150" height="44"/>
+  <text class="text" x="809" y="261" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="14px" style="line-height:normal">TilemapFactory</text>
+  <rect class="panel" x="971" y="81" width="260" height="350"/>
+  <text class="label" x="991" y="113" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="16px" font-weight="700" style="line-height:normal">Runtime Model</text>
+  <rect class="runtime" x="991" y="136" width="220" height="40"/>
+  <text class="text" x="1011" y="161" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="14px" style="line-height:normal">Tilemap</text>
+  <rect class="runtime" x="991" y="196" width="220" height="40"/>
+  <text class="text" x="1011" y="221" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="14px" style="line-height:normal">TilemapLayer</text>
+  <rect class="runtime" x="991" y="256" width="220" height="40"/>
+  <text class="text" x="1011" y="281" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="14px" style="line-height:normal">TilemapTileLayer</text>
+  <rect class="runtime" x="991" y="316" width="220" height="40"/>
+  <text class="text" x="1011" y="341" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="14px" style="line-height:normal">TilemapObjectLayer</text>
+  <rect class="runtime" x="991" y="376" width="220" height="40"/>
+  <text class="text" x="1011" y="401" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="14px" style="line-height:normal">TilemapTileset</text>
+  <path class="line" d="m331 256h90" marker-end="url(#arrow)"/>
+  <path class="line" d="m721 256h60" marker-end="url(#arrow)"/>
+  <path class="line" d="m931 256h40" marker-end="url(#arrow)"/>
+ </g>
+</svg>
