@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-features/collision/technical-reference" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.4.0">
+<title data-rh="true">Collision Technical Reference | MonoGame.Extended</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://www.monogameextended.net/img/monogame-extended-social-card.png"><meta data-rh="true" name="twitter:image" content="https://www.monogameextended.net/img/monogame-extended-social-card.png"><meta data-rh="true" property="og:url" content="https://www.monogameextended.net/docs/features/collision/technical-reference/"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Collision Technical Reference | MonoGame.Extended"><meta data-rh="true" name="description" content="Architecture, query flow, layer lifecycle, and performance design for the MonoGame.Extended 6.0 collision system."><meta data-rh="true" property="og:description" content="Architecture, query flow, layer lifecycle, and performance design for the MonoGame.Extended 6.0 collision system."><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://www.monogameextended.net/docs/features/collision/technical-reference/"><link data-rh="true" rel="alternate" href="https://www.monogameextended.net/docs/features/collision/technical-reference/" hreflang="en"><link data-rh="true" rel="alternate" href="https://www.monogameextended.net/docs/features/collision/technical-reference/" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="MonoGame.Extended RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="MonoGame.Extended Atom Feed">
+
+
+
+<link rel="me" href="https://mastodon.gamedev.place/@monogameextended">
+<meta name="fediverse:creator" content="@monogameextended@mastodon.gamedev.place"><link rel="stylesheet" href="/assets/css/styles.4c6840d2.css">
+<script src="/assets/js/runtime~main.67e779ac.js" defer="defer"></script>
+<script src="/assets/js/main.7f98e1f2.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();t(null!==e?e:"light")}(),function(){try{const a=new URLSearchParams(window.location.search).entries();for(var[t,e]of a)if(t.startsWith("docusaurus-data-")){var n=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(n,e)}}catch(t){}}(),document.documentElement.setAttribute("data-announcement-bar-initially-dismissed",function(){try{return"true"===localStorage.getItem("docusaurus.announcement.dismiss")}catch(t){}return!1}())</script><div id="__docusaurus"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><div class="announcementBar_mb4j" role="banner"><div class="announcementBarPlaceholder_vyr4"></div><div class="content_knG7 announcementBarContent_xLdY">⚠ Documentation is currently being updated for V5. There may be missing or incomplete information while they are updated.</div><button type="button" aria-label="Close" class="clean-btn close closeButton_CVFx announcementBarClose_gvF7"><svg viewBox="0 0 15 15" width="14" height="14"><g stroke="currentColor" stroke-width="3.1"><path d="M.75.75l13.5 13.5M14.25.75L.75 14.25"></path></g></svg></button></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/logo.png" alt="MonoGame.Extended Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/logo.png" alt="MonoGame.Extended Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">MonoGame.Extended</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/docs/about/introduction/">Docs</a><a class="navbar__item navbar__link" href="/blog/">Blog</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/monogame-extended/Monogame-Extended" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG menuWithAnnouncementBar_GW3s"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/about/introduction/">MonoGame.Extended</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/getting-started/installation-monogame/">Getting Started</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/docs/features/texture-handling/texture2dregion/">Features</a></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/features/texture-handling/texture2dregion/">Texture Handling</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/features/2d-animations/spritesheet/">2D Animations</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/features/fonts/bitmapfont/">Fonts</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/features/input/keyboardextended/">Input</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/features/camera/">Camera</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/features/collections/">Collections</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/features/object-pooling/">Object Pooling</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/features/ui/gum/gum-forms/">User Interface</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" tabindex="0" href="/docs/features/collision/">Collisions</a></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/features/collision/">Collision</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/features/collision/quick-start/">Quick Start</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/features/collision/migration/">Migration Guide</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/features/collision/technical-reference/">Technical Reference</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/features/collision/2d-geometry/">2D Geometry</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/features/content-extensions/contentManager/">Content Extensions</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/features/entities/">Entities</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/features/particles/quick_start/">Particles</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/features/scene-graphs/">Scene Graphs</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/features/screen-management/">Screen Management</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/features/serialization/">Serialization</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/features/tweening/">Tweening</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/features/tiled/">Tiled</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/features/tilemaps/quick-start/">Tilemaps</a></div></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/tools/ember/">Tools</a></div></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Features</span><meta itemprop="position" content="1"></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Collisions</span><meta itemprop="position" content="2"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link" itemprop="name">Technical Reference</span><meta itemprop="position" content="3"></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>Collision Technical Reference</h1></header><div class="theme-admonition theme-admonition-note admonition_xJq3 alert alert--secondary"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 14 16"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 0 1-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 0 1-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg></span>Preview release</div><div class="admonitionContent_BuS1"><p>This feature is currently only available in the preview release &gt;= <strong>6.0.0-preview.5</strong>. If you find outdated information, <a href="https://github.com/monogame-extended/monogame-extended.github.io/issues" target="_blank" rel="noopener noreferrer">please open an issue</a>.</p></div></div>
+<p>This document covers the technical architecture of the 6.0 collision system: how the low level geometry layer relates to the actor/world layer, how collision queries flow through broadphase and narrowphase, how layer membership and rebuild timing work, and where the current performance and result shape boundaries are.</p>
+<p>Use this page when you want design rationale and lifecycle details rather than setup instructions.</p>
+<p>For other entry points, use:</p>
+<ul>
+<li><a href="/docs/features/collision/">Collision Overview</a> for the main API roles</li>
+<li><a href="/docs/features/collision/quick-start/">Collision Quick Start</a> for step-by-step setup</li>
+<li><a href="/docs/features/collision/migration/">Migration Guide</a> for upgrading from 5.5.1</li>
+<li><a href="/docs/features/collision/2d-geometry/">2D Geometry</a> for low level shape and <code>Collision2D</code> reference details</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="system-architecture-overview">System Architecture Overview<a class="hash-link" aria-label="Direct link to System Architecture Overview" title="Direct link to System Architecture Overview" href="/docs/features/collision/technical-reference/#system-architecture-overview">​</a></h2>
+<p>The collision system is divided into two layers:</p>
+<ul>
+<li>a low level geometry layer built around explicit bounding volume types and <code>Collision2D</code></li>
+<li>an actor/world layer built around <code>ICollisionActor</code>, <code>CollisionShape2D</code>, <code>Layer</code>, and <code>CollisionWorld2D</code></li>
+</ul>
+<p>This separation lets low level shape math remain explicit and allocation conscious while the higher level world API handles actor queries, broadphase organization, and layer filtering.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="low-level-geometry-layer">Low Level Geometry Layer<a class="hash-link" aria-label="Direct link to Low Level Geometry Layer" title="Direct link to Low Level Geometry Layer" href="/docs/features/collision/technical-reference/#low-level-geometry-layer">​</a></h3>
+<p>The low level layer lives in the <code>MonoGame.Extended</code> namespace and is responsible for shape representation and shape-to-shape math.</p>
+<p>The core pieces are:</p>
+<ul>
+<li>bounding volume types such as <code>BoundingBox2D</code>, <code>BoundingCircle2D</code>, <code>OrientedBoundingBox2D</code>, <code>BoundingCapsule2D</code>, and <code>BoundingPolygon2D</code></li>
+<li><code>Collision2D</code> as a lower level library of collision helpers and shape pair routines</li>
+<li><code>CollisionResult2D</code> as the shared result type for overlap state and resolution data</li>
+</ul>
+<p>This layer does not know anything about actors, worlds, layers, or frame timing. Its job is to answer geometry questions such as:</p>
+<ul>
+<li>do these two shapes overlap?</li>
+<li>does one shape contain another?</li>
+<li>if a supported pair overlaps, what normal, penetration depth, and minimum translation vector describe that overlap?</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="actorworld-layer">Actor/World Layer<a class="hash-link" aria-label="Direct link to Actor/World Layer" title="Direct link to Actor/World Layer" href="/docs/features/collision/technical-reference/#actorworld-layer">​</a></h3>
+<p>The actor/world layer builds on top of the geometry layer for gameplay collision management.</p>
+<p>The core pieces are:</p>
+<ul>
+<li><code>ICollisionActor</code> as the actor contract</li>
+<li><code>CollisionShape2D</code> as the actor facing wrapper over the supported bounding volume types</li>
+<li><code>Layer</code> as the combination of a broadphase structure plus layer level lifecycle flags</li>
+<li><code>CollisionWorld2D</code> as the query oriented world API</li>
+</ul>
+<p>This layer is responsible for:</p>
+<ul>
+<li>storing actors in named layers</li>
+<li>resolving actor membership per world</li>
+<li>querying a broadphase before narrowphase work</li>
+<li>applying explicit layer pair rules</li>
+<li>returning collision data in query oriented forms such as <code>CollisionEvent2D</code> and <code>CollisionPair2D</code></li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="type-responsibilities">Type Responsibilities<a class="hash-link" aria-label="Direct link to Type Responsibilities" title="Direct link to Type Responsibilities" href="/docs/features/collision/technical-reference/#type-responsibilities">​</a></h3>
+<p><code>CollisionShape2D</code> bridges the two layers. It belongs to the actor/world side of the API surface, but it is built directly on the low level shape types.</p>
+<p>Its responsibilities are:</p>
+<ul>
+<li>wrapping one supported shape kind without using the old <code>IShapeF</code> abstraction</li>
+<li>caching an axis aligned <code>BoundingBox</code> for broadphase queries</li>
+<li>dispatching <code>Intersects(...)</code> and <code>TryGetCollision(...)</code> calls to the appropriate low level shape pair</li>
+</ul>
+<p><code>Layer</code> is intentionally small. It does not own actor identity or query policy. It groups:</p>
+<ul>
+<li>one <code>ICollisionBroadphase2D</code> implementation</li>
+<li>one <code>IsDynamic</code> flag that controls whether the broadphase rebuilds during reset</li>
+</ul>
+<p><code>CollisionWorld2D</code> owns the highest level orchestration in this system, but it is still intentionally narrow in scope. It owns:</p>
+<ul>
+<li>the registered layer collection</li>
+<li>actor-to-layer membership within that world</li>
+<li>the enabled layer pair rule set</li>
+<li>candidate, collision, and pair query APIs</li>
+</ul>
+<p>It does not own:</p>
+<ul>
+<li>actor movement</li>
+<li>game loop timing</li>
+<li>physics integration</li>
+<li>automatic frame stepping</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="query-pipeline">Query Pipeline<a class="hash-link" aria-label="Direct link to Query Pipeline" title="Direct link to Query Pipeline" href="/docs/features/collision/technical-reference/#query-pipeline">​</a></h2>
+<p>The actor/world collision path is query oriented. <code>CollisionWorld2D</code> does not push collisions into actors. Instead, callers ask the world for candidates, collisions, or colliding pairs.</p>
+<p>At a high level, the query pipeline is:</p>
+<ol>
+<li>resolve the actor or layer membership involved in the query</li>
+<li>use a broadphase query to collect candidate actors by overlapping axis aligned bounds</li>
+<li>apply explicit layer pair filtering</li>
+<li>run narrowphase shape tests on the remaining candidates</li>
+<li>return query results in a receiver relative or pair relative form</li>
+</ol>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="broadphase-input-collisionshape2dboundingbox">Broadphase Input: <code>CollisionShape2D.BoundingBox</code><a class="hash-link" aria-label="Direct link to broadphase-input-collisionshape2dboundingbox" title="Direct link to broadphase-input-collisionshape2dboundingbox" href="/docs/features/collision/technical-reference/#broadphase-input-collisionshape2dboundingbox">​</a></h3>
+<p>Every <code>CollisionShape2D</code> stores a cached axis aligned <code>BoundingBox</code>.</p>
+<p>That cached box is used as the broadphase input regardless of the underlying shape kind:</p>
+<ul>
+<li>box</li>
+<li>circle</li>
+<li>oriented box</li>
+<li>capsule</li>
+<li>polygon</li>
+</ul>
+<p>This keeps the broadphase API simple and uniform. Layer broadphases only need axis aligned bounds, while the exact shape kind is deferred to narrowphase.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="candidate-queries-by-bounds">Candidate Queries by Bounds<a class="hash-link" aria-label="Direct link to Candidate Queries by Bounds" title="Direct link to Candidate Queries by Bounds" href="/docs/features/collision/technical-reference/#candidate-queries-by-bounds">​</a></h3>
+<p>The lowest level query entry point in <code>CollisionWorld2D</code> is:</p>
+<div class="language-cs codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-cs codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token return-type class-name">IEnumerable</span><span class="token return-type class-name punctuation" style="color:#393A34">&lt;</span><span class="token return-type class-name">ICollisionActor</span><span class="token return-type class-name punctuation" style="color:#393A34">&gt;</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">QueryCandidates</span><span class="token punctuation" style="color:#393A34">(</span><span class="token class-name">BoundingBox2D</span><span class="token plain"> bounds</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token class-name keyword" style="color:#00009f">string</span><span class="token plain"> layerName </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">null</span><span class="token punctuation" style="color:#393A34">)</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>This asks one resolved layer broadphase for actors whose broadphase bounds overlap the supplied axis aligned query box.</p>
+<p>At this stage:</p>
+<ul>
+<li>no narrowphase shape test has happened yet</li>
+<li>no actor relative result data has been computed yet</li>
+<li>no layer pair rule check is needed because the caller already chose the target layer directly</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="candidate-queries-by-actor">Candidate Queries by Actor<a class="hash-link" aria-label="Direct link to Candidate Queries by Actor" title="Direct link to Candidate Queries by Actor" href="/docs/features/collision/technical-reference/#candidate-queries-by-actor">​</a></h3>
+<p>Actor based candidate queries add world membership and layer rule filtering:</p>
+<div class="language-cs codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-cs codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token return-type class-name">IEnumerable</span><span class="token return-type class-name punctuation" style="color:#393A34">&lt;</span><span class="token return-type class-name">ICollisionActor</span><span class="token return-type class-name punctuation" style="color:#393A34">&gt;</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">QueryCandidates</span><span class="token punctuation" style="color:#393A34">(</span><span class="token class-name">ICollisionActor</span><span class="token plain"> actor</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token class-name keyword" style="color:#00009f">string</span><span class="token plain"> otherLayerName</span><span class="token punctuation" style="color:#393A34">)</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>The flow is:</p>
+<ol>
+<li>resolve the actor&#x27;s current layer through world owned membership</li>
+<li>resolve the target layer by name</li>
+<li>check whether collision is enabled for that layer pair</li>
+<li>if the pair is disabled, return no candidates</li>
+<li>if the pair is enabled, query the target layer broadphase using <code>actor.Shape.BoundingBox</code></li>
+</ol>
+<p>This means broadphase work is already reduced by two independent mechanisms:</p>
+<ul>
+<li>spatial broadphase bounds</li>
+<li>explicit layer pair filtering</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="narrowphase-intersects-vs-trygetcollision">Narrowphase: <code>Intersects(...)</code> vs <code>TryGetCollision(...)</code><a class="hash-link" aria-label="Direct link to narrowphase-intersects-vs-trygetcollision" title="Direct link to narrowphase-intersects-vs-trygetcollision" href="/docs/features/collision/technical-reference/#narrowphase-intersects-vs-trygetcollision">​</a></h3>
+<p>Once candidates are available, the world moves into narrowphase.</p>
+<p>There are two important narrowphase APIs on <code>CollisionShape2D</code>:</p>
+<ul>
+<li><code>Intersects(...)</code> answers the yes/no overlap question</li>
+<li><code>TryGetCollision(...)</code> answers the overlap question only for supported result producing shape pairs and returns <code>CollisionResult2D</code></li>
+</ul>
+<p><code>CollisionWorld2D.QueryCollisions(...)</code> and <code>CollisionWorld2D.QueryCollisionPairs(...)</code> use <code>TryGetCollision(...)</code>, not <code>Intersects(...)</code>, because they need result data rather than a boolean only.</p>
+<p>That has an important consequence:</p>
+<ul>
+<li>a candidate pair can overlap at the <code>Intersects(...)</code> level</li>
+<li>but still produce no world collision result if that shape pair does not currently support <code>CollisionResult2D</code></li>
+</ul>
+<p>That support boundary is part of the current preview design and is discussed again later in this document.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="receiver-relative-actor-queries">Receiver Relative Actor Queries<a class="hash-link" aria-label="Direct link to Receiver Relative Actor Queries" title="Direct link to Receiver Relative Actor Queries" href="/docs/features/collision/technical-reference/#receiver-relative-actor-queries">​</a></h3>
+<p><code>QueryCollisions(actor, otherLayerName)</code> returns <code>CollisionEvent2D</code> values.</p>
+<p>Each returned <code>CollisionEvent2D.Result</code> is relative to the queried actor, not to the candidate actor.</p>
+<p>In other words:</p>
+<ul>
+<li><code>collision.Other</code> is the candidate actor</li>
+<li><code>collision.Result.MinimumTranslationVector</code> moves the queried actor out of <code>collision.Other</code></li>
+</ul>
+<p>This receiver relative convention makes actor-by-actor response code straightforward, because the caller can immediately apply the returned minimum translation vector to the actor they queried.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="pair-queries">Pair Queries<a class="hash-link" aria-label="Direct link to Pair Queries" title="Direct link to Pair Queries" href="/docs/features/collision/technical-reference/#pair-queries">​</a></h3>
+<p><code>QueryCollisionPairs(firstLayerName, secondLayerName)</code> works at the layer pair level instead of the actor level.</p>
+<p>Its flow is:</p>
+<ol>
+<li>resolve the two layers</li>
+<li>check whether the layer pair is enabled</li>
+<li>iterate actors in the first layer</li>
+<li>broadphase query the second layer with each actor&#x27;s cached bounding box</li>
+<li>run <code>TryGetCollision(...)</code> on each candidate pair</li>
+<li>suppress duplicates through an unordered actor pair key</li>
+<li>return <code>CollisionPair2D</code> results</li>
+</ol>
+<p>Each <code>CollisionPair2D</code> contains:</p>
+<ul>
+<li><code>First</code></li>
+<li><code>Second</code></li>
+<li><code>FirstResult</code>, which moves <code>First</code> out of <code>Second</code></li>
+<li><code>SecondResult</code>, derived by inverting <code>FirstResult</code></li>
+</ul>
+<p>That means pair queries still preserve directional result data even though the layer rule itself is symmetric.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="why-duplicate-suppression-exists">Why Duplicate Suppression Exists<a class="hash-link" aria-label="Direct link to Why Duplicate Suppression Exists" title="Direct link to Why Duplicate Suppression Exists" href="/docs/features/collision/technical-reference/#why-duplicate-suppression-exists">​</a></h3>
+<p>Broadphase implementations can legally return the same candidate relationship more than once across different buckets or traversal paths, especially when large actors span multiple cells.</p>
+<p>For same layer queries there is a second duplication risk: the pair <code>(A, B)</code> and the pair <code>(B, A)</code> should not both be emitted as separate unordered collision pairs.</p>
+<p><code>CollisionWorld2D.QueryCollisionPairs(...)</code> suppresses both forms of duplication through an unordered actor pair key, while still returning a directional result relative to the <code>First</code> actor in the emitted pair.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="world-owned-layer-membership">World Owned Layer Membership<a class="hash-link" aria-label="Direct link to World Owned Layer Membership" title="Direct link to World Owned Layer Membership" href="/docs/features/collision/technical-reference/#world-owned-layer-membership">​</a></h2>
+<p>In the final 6.0 preview design, layer membership belongs to <code>CollisionWorld2D</code>, not to <code>ICollisionActor</code>.</p>
+<p>That means the actor contract is intentionally small:</p>
+<ul>
+<li><code>int Id</code></li>
+<li><code>CollisionShape2D Shape</code></li>
+</ul>
+<p>The actor does not declare which layer it belongs to. Instead, layer membership is established when the actor is inserted into a specific collision world.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="why-membership-was-moved-into-the-world">Why Membership Was Moved Into the World<a class="hash-link" aria-label="Direct link to Why Membership Was Moved Into the World" title="Direct link to Why Membership Was Moved Into the World" href="/docs/features/collision/technical-reference/#why-membership-was-moved-into-the-world">​</a></h3>
+<p>The older actor owned design had a structural problem: layer membership is not intrinsic actor data. It is a placement decision made by a particular world.</p>
+<p>Moving membership into <code>CollisionWorld2D</code> solves several problems:</p>
+<ul>
+<li>the actor contract no longer mixes shape data with world placement state</li>
+<li>the same actor can participate in more than one world without carrying one shared layer value</li>
+<li>relayering becomes an explicit world operation instead of a mutation on the actor</li>
+<li>one world, not the actor, becomes the single source of truth for membership</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="membership-is-per-world">Membership Is Per World<a class="hash-link" aria-label="Direct link to Membership Is Per World" title="Direct link to Membership Is Per World" href="/docs/features/collision/technical-reference/#membership-is-per-world">​</a></h3>
+<p>Each <code>CollisionWorld2D</code> owns its own actor-to-layer mapping.</p>
+<p>That means:</p>
+<ul>
+<li>one actor can exist in multiple worlds</li>
+<li>the same actor can belong to different layers in different worlds</li>
+<li>within one world, the actor can exist only once</li>
+</ul>
+<p>This is a world scoped membership model, not a global actor scoped one.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="insert-remove-and-reassign">Insert, Remove, and Reassign<a class="hash-link" aria-label="Direct link to Insert, Remove, and Reassign" title="Direct link to Insert, Remove, and Reassign" href="/docs/features/collision/technical-reference/#insert-remove-and-reassign">​</a></h3>
+<p>The membership API is intentionally explicit:</p>
+<ul>
+<li><code>Insert(actor)</code> adds the actor to the default layer</li>
+<li><code>Insert(actor, &quot;layerName&quot;)</code> adds the actor to a specific registered layer</li>
+<li><code>Remove(actor)</code> removes the actor from its current layer in that world</li>
+<li><code>MoveToLayer(actor, &quot;layerName&quot;)</code> changes the actor&#x27;s layer within that world</li>
+</ul>
+<p>One important behavior change from the older design is that <code>Insert(...)</code> is not a reassignment API.</p>
+<p>If an actor is already present in a world:</p>
+<ul>
+<li>inserting it again into the same world throws</li>
+<li>callers must use <code>MoveToLayer(...)</code> if the goal is to change membership</li>
+</ul>
+<p>That design makes &quot;add membership&quot; and &quot;change membership&quot; separate operations instead of overloading insertion with replacement semantics.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="membership-inspection">Membership Inspection<a class="hash-link" aria-label="Direct link to Membership Inspection" title="Direct link to Membership Inspection" href="/docs/features/collision/technical-reference/#membership-inspection">​</a></h3>
+<p>Because <code>ICollisionActor</code> no longer exposes layer state directly, membership inspection happens through the world:</p>
+<ul>
+<li><code>Contains(...)</code></li>
+<li><code>TryGetLayerName(...)</code></li>
+<li><code>GetLayerName(...)</code></li>
+</ul>
+<p>These APIs answer a world specific question:</p>
+<p>&quot;What is this actor&#x27;s membership in this collision world?&quot;</p>
+<p>That distinction matters because the same actor may not even be present in another world, or may be present there under a different layer assignment.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="layer-rules-and-filtering">Layer Rules and Filtering<a class="hash-link" aria-label="Direct link to Layer Rules and Filtering" title="Direct link to Layer Rules and Filtering" href="/docs/features/collision/technical-reference/#layer-rules-and-filtering">​</a></h2>
+<p>Layer filtering in 6.0 preview is explicit and world owned.</p>
+<p><code>CollisionWorld2D</code> stores:</p>
+<ul>
+<li>a named layer collection</li>
+<li>a set of enabled layer pair rules</li>
+</ul>
+<p>Queries only consider collisions for layer pairs that are enabled in that world.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="named-layers">Named Layers<a class="hash-link" aria-label="Direct link to Named Layers" title="Direct link to Named Layers" href="/docs/features/collision/technical-reference/#named-layers">​</a></h3>
+<p>Each world contains a dictionary of named <code>Layer</code> instances.</p>
+<p>The default layer name is:</p>
+<div class="language-cs codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-cs codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">CollisionWorld2D</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">DefaultLayerName</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>which currently resolves to <code>&quot;default&quot;</code>.</p>
+<p>Actors are inserted into:</p>
+<ul>
+<li>the default layer through <code>Insert(actor)</code></li>
+<li>a named layer through <code>Insert(actor, &quot;layerName&quot;)</code></li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="default-rule-behavior">Default Rule Behavior<a class="hash-link" aria-label="Direct link to Default Rule Behavior" title="Direct link to Default Rule Behavior" href="/docs/features/collision/technical-reference/#default-rule-behavior">​</a></h3>
+<p><code>CollisionWorld2D</code> still provides a small amount of convenience behavior when layers are registered:</p>
+<ul>
+<li>when the default layer is set, self collision is enabled for it</li>
+<li>when a non default layer is added, self collision is enabled for that new layer</li>
+<li>when a non default layer is added and a default layer already exists, collision between the default layer and that new layer is enabled</li>
+</ul>
+<p>No other cross layer rules are added automatically.</p>
+<p>That means explicit rule management is still required for:</p>
+<ul>
+<li>non default to non default layer pairs</li>
+<li>disabling default/self behavior that the caller does not want</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="explicit-rule-apis">Explicit Rule APIs<a class="hash-link" aria-label="Direct link to Explicit Rule APIs" title="Direct link to Explicit Rule APIs" href="/docs/features/collision/technical-reference/#explicit-rule-apis">​</a></h3>
+<p>The public rule management APIs are:</p>
+<ul>
+<li><code>EnableCollisionBetweenLayers(...)</code></li>
+<li><code>DisableCollisionBetweenLayers(...)</code></li>
+<li><code>IsCollisionEnabledBetweenLayers(...)</code></li>
+</ul>
+<p>These APIs operate on layer names, but the world internally resolves those names to actual <code>Layer</code> instances before checking or changing the rule set.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="symmetric-rule-behavior">Symmetric Rule Behavior<a class="hash-link" aria-label="Direct link to Symmetric Rule Behavior" title="Direct link to Symmetric Rule Behavior" href="/docs/features/collision/technical-reference/#symmetric-rule-behavior">​</a></h3>
+<p>Layer pair rules are symmetric.</p>
+<p>In practice that means:</p>
+<ul>
+<li>enabling collision for layer A and layer B also enables it for B and A</li>
+<li>disabling collision for layer A and layer B also disables it for B and A</li>
+<li>self collision is just the special case where both entries in the pair are the same layer</li>
+</ul>
+<p>Internally, the world stores layer pair rules in an unordered <code>LayerPair</code> key so <code>(A, B)</code> and <code>(B, A)</code> are treated as the same rule.</p>
+<p>This symmetry is important because:</p>
+<ul>
+<li>rule storage is simpler</li>
+<li>callers do not need to think about directional rule duplication</li>
+<li>actor and pair queries can still return directional collision results without requiring directional rule records</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="filtering-happens-before-narrowphase">Filtering Happens Before Narrowphase<a class="hash-link" aria-label="Direct link to Filtering Happens Before Narrowphase" title="Direct link to Filtering Happens Before Narrowphase" href="/docs/features/collision/technical-reference/#filtering-happens-before-narrowphase">​</a></h3>
+<p>The rule set is not just documentation. It actively gates work during queries.</p>
+<p>For actor based candidate queries:</p>
+<ul>
+<li>the world resolves the actor&#x27;s current layer</li>
+<li>resolves the target layer</li>
+<li>checks whether the pair is enabled</li>
+<li>returns no candidates immediately if the pair is disabled</li>
+</ul>
+<p>For pair queries:</p>
+<ul>
+<li>the world resolves the two layers</li>
+<li>checks whether the pair is enabled</li>
+<li>yields no results at all if the pair is disabled</li>
+</ul>
+<p>This means layer filtering reduces work before narrowphase shape tests begin.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="how-this-differs-from-the-older-model">How This Differs from the Older Model<a class="hash-link" aria-label="Direct link to How This Differs from the Older Model" title="Direct link to How This Differs from the Older Model" href="/docs/features/collision/technical-reference/#how-this-differs-from-the-older-model">​</a></h3>
+<p>Compared to the older collision API, the 6.0 preview model is more explicit in two ways:</p>
+<ul>
+<li>membership is no longer read from the actor</li>
+<li>layer pair behavior is no longer treated as a mostly implicit side effect of actor state and world setup</li>
+</ul>
+<p>The result is a collision world whose grouping and filtering behavior can be inspected and changed directly from one place.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="broadphase-lifecycle">Broadphase Lifecycle<a class="hash-link" aria-label="Direct link to Broadphase Lifecycle" title="Direct link to Broadphase Lifecycle" href="/docs/features/collision/technical-reference/#broadphase-lifecycle">​</a></h2>
+<p>The collision world stores actors in broadphase structures, but it does not own the timing of actor movement or shape updates.</p>
+<p>That means broadphase state is not automatically rebuilt on every frame step. Synchronization is explicit.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="why-collisionworld2d-has-no-update">Why <code>CollisionWorld2D</code> Has No <code>Update()</code><a class="hash-link" aria-label="Direct link to why-collisionworld2d-has-no-update" title="Direct link to why-collisionworld2d-has-no-update" href="/docs/features/collision/technical-reference/#why-collisionworld2d-has-no-update">​</a></h3>
+<p><code>CollisionWorld2D</code> is intentionally a query oriented service, not a simulation driver.</p>
+<p>Its responsibilities are:</p>
+<ul>
+<li>storing actors in named layers</li>
+<li>applying layer pair rules</li>
+<li>querying broadphase structures</li>
+<li>producing narrowphase collision results</li>
+</ul>
+<p>It does not own:</p>
+<ul>
+<li>when gameplay objects move</li>
+<li>when shapes are updated</li>
+<li>whether one frame contains one movement pass or several</li>
+<li>when the caller intends to run collision queries</li>
+</ul>
+<p>If the world owned a generic <code>Update()</code> method, it would need to guess when actor movement for the current step was &quot;finished.&quot; That guess would be wrong for many real game loops, especially those that:</p>
+<ul>
+<li>move actors in multiple phases</li>
+<li>run multiple collision passes in one frame</li>
+<li>update only a subset of actors before querying</li>
+<li>use different timing for gameplay, AI, and editor/sandbox queries</li>
+</ul>
+<p>The 6.0 design keeps that decision with the caller instead.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="rebuilddynamiclayers"><code>RebuildDynamicLayers()</code><a class="hash-link" aria-label="Direct link to rebuilddynamiclayers" title="Direct link to rebuilddynamiclayers" href="/docs/features/collision/technical-reference/#rebuilddynamiclayers">​</a></h3>
+<p><code>CollisionWorld2D.RebuildDynamicLayers()</code> is the explicit world level synchronization point.</p>
+<p>Its job is simple:</p>
+<ul>
+<li>iterate every registered layer</li>
+<li>call <code>Layer.Reset()</code> on each one</li>
+</ul>
+<p>This convenience API exists so callers do not need to write the per layer loop themselves, while still keeping the world query oriented rather than frame driven.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="layerreset"><code>Layer.Reset()</code><a class="hash-link" aria-label="Direct link to layerreset" title="Direct link to layerreset" href="/docs/features/collision/technical-reference/#layerreset">​</a></h3>
+<p><code>Layer.Reset()</code> is intentionally small.</p>
+<p>Its behavior is:</p>
+<ul>
+<li>if <code>Layer.IsDynamic</code> is <code>true</code>, call <code>Space.Reset()</code></li>
+<li>if <code>Layer.IsDynamic</code> is <code>false</code>, do nothing</li>
+</ul>
+<p>That means <code>RebuildDynamicLayers()</code> is really a world level dispatch over layer local reset rules.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="why-rebuild-timing-is-explicit">Why Rebuild Timing Is Explicit<a class="hash-link" aria-label="Direct link to Why Rebuild Timing Is Explicit" title="Direct link to Why Rebuild Timing Is Explicit" href="/docs/features/collision/technical-reference/#why-rebuild-timing-is-explicit">​</a></h3>
+<p>Broadphase rebuilds are driven by state changes and query timing, not by the mere existence of a game loop tick.</p>
+<p>The intended flow is:</p>
+<ol>
+<li>move or otherwise update relevant actors</li>
+<li>update those actors&#x27; <code>CollisionShape2D</code> values</li>
+<li>call <code>RebuildDynamicLayers()</code></li>
+<li>run the queries that need updated broadphase state</li>
+</ol>
+<p>This explicit timing has two important benefits:</p>
+<ul>
+<li>no hidden rebuild work happens at an unexpected time</li>
+<li>the caller decides exactly which queries should see the post movement state</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="when-rebuilds-are-needed">When Rebuilds Are Needed<a class="hash-link" aria-label="Direct link to When Rebuilds Are Needed" title="Direct link to When Rebuilds Are Needed" href="/docs/features/collision/technical-reference/#when-rebuilds-are-needed">​</a></h3>
+<p>You do not rebuild because &quot;a frame happened.&quot; You rebuild because the broadphase state for one or more dynamic layers may now be stale relative to the actors stored in them.</p>
+<p>Typical reasons to rebuild are:</p>
+<ul>
+<li>actors in dynamic layers moved</li>
+<li>actors in dynamic layers changed shape</li>
+<li>queries are about to run and should see those changes</li>
+</ul>
+<p>Typical reasons to skip a rebuild are:</p>
+<ul>
+<li>nothing in any dynamic layer moved or changed shape</li>
+<li>no collision queries are about to run that depend on updated broadphase state</li>
+<li>only static layers are involved and their contents have not changed</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="what-can-go-stale">What Can Go Stale<a class="hash-link" aria-label="Direct link to What Can Go Stale" title="Direct link to What Can Go Stale" href="/docs/features/collision/technical-reference/#what-can-go-stale">​</a></h3>
+<p><code>CollisionShape2D</code> itself is actor owned data. When an actor updates its shape, that new shape value exists immediately on the actor.</p>
+<p>What can become stale is the broadphase index stored inside the layer&#x27;s <code>ICollisionBroadphase2D</code>.</p>
+<p>If the actor moved after insertion and the broadphase has not been rebuilt yet:</p>
+<ul>
+<li>the actor&#x27;s current <code>Shape</code> may be correct</li>
+<li>but the broadphase may still be indexing it under old bounds</li>
+</ul>
+<p>That can affect:</p>
+<ul>
+<li>candidate discovery</li>
+<li>collision queries that depend on broadphase pruning</li>
+<li>pair queries that rely on layer broadphase state</li>
+</ul>
+<p>The explicit rebuild step is what resynchronizes the broadphase with the actors&#x27; current shapes for dynamic layers.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="dynamic-vs-static-layers">Dynamic vs Static Layers<a class="hash-link" aria-label="Direct link to Dynamic vs Static Layers" title="Direct link to Dynamic vs Static Layers" href="/docs/features/collision/technical-reference/#dynamic-vs-static-layers">​</a></h2>
+<p><code>Layer.IsDynamic</code> controls whether a layer participates in broadphase rebuilds during <code>Layer.Reset()</code> and therefore during <code>CollisionWorld2D.RebuildDynamicLayers()</code>.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="dynamic-layers">Dynamic Layers<a class="hash-link" aria-label="Direct link to Dynamic Layers" title="Direct link to Dynamic Layers" href="/docs/features/collision/technical-reference/#dynamic-layers">​</a></h3>
+<p>A dynamic layer is a layer with:</p>
+<div class="language-cs codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-cs codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">IsDynamic </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token boolean" style="color:#36acaa">true</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>This is the default.</p>
+<p>Use dynamic layers when actors in that layer can move or change shape after insertion.</p>
+<p>Typical dynamic examples:</p>
+<ul>
+<li>players</li>
+<li>enemies</li>
+<li>projectiles</li>
+<li>moving triggers</li>
+<li>moving hazards</li>
+</ul>
+<p>The tradeoff is:</p>
+<ul>
+<li>higher rebuild cost</li>
+<li>correct broadphase synchronization for moving contents</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="static-or-non-dynamic-layers">Static or Non Dynamic Layers<a class="hash-link" aria-label="Direct link to Static or Non Dynamic Layers" title="Direct link to Static or Non Dynamic Layers" href="/docs/features/collision/technical-reference/#static-or-non-dynamic-layers">​</a></h3>
+<p>A non dynamic layer is a layer with:</p>
+<div class="language-cs codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-cs codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">IsDynamic </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token boolean" style="color:#36acaa">false</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Use non dynamic layers when the contents are effectively fixed after insertion.</p>
+<p>Typical static examples:</p>
+<ul>
+<li>wall layers</li>
+<li>tile collision layers</li>
+<li>fixed obstacle layers</li>
+<li>other map geometry that does not move during gameplay</li>
+</ul>
+<p>The tradeoff is:</p>
+<ul>
+<li>lower rebuild cost because <code>Reset()</code> does no broadphase rebuild work</li>
+<li>correctness depends on the actors in that layer truly staying fixed</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="why-this-matters-for-performance">Why This Matters for Performance<a class="hash-link" aria-label="Direct link to Why This Matters for Performance" title="Direct link to Why This Matters for Performance" href="/docs/features/collision/technical-reference/#why-this-matters-for-performance">​</a></h3>
+<p>Broadphase rebuild work is not free. The more often a layer changes, the more often its broadphase may need to be reconstructed or reindexed.</p>
+<p>Separating moving and fixed contents into different layers lets the caller avoid rebuild work for the layers that do not need it.</p>
+<p>That is why a common pattern is:</p>
+<ul>
+<li>dynamic gameplay actors in one or more dynamic layers</li>
+<li>walls and map geometry in one or more non dynamic layers</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="stale-query-risk">Stale Query Risk<a class="hash-link" aria-label="Direct link to Stale Query Risk" title="Direct link to Stale Query Risk" href="/docs/features/collision/technical-reference/#stale-query-risk">​</a></h3>
+<p>The main risk with <code>IsDynamic = false</code> is not that the layer becomes slower. The risk is that the broadphase becomes wrong for the actual actor positions if something in that layer moves anyway.</p>
+<p>If an actor in a non-dynamic layer changes position or shape after insertion:</p>
+<ul>
+<li>its actor owned <code>CollisionShape2D</code> can still be updated</li>
+<li>but the layer broadphase will not be rebuilt during <code>RebuildDynamicLayers()</code></li>
+</ul>
+<p>That means future queries can use stale broadphase placement for that actor.</p>
+<p>So the rule is simple:</p>
+<ul>
+<li>use <code>IsDynamic = false</code> only when the layer contents really stay fixed after insertion</li>
+<li>if the contents can move, keep the layer dynamic</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="shape-support-and-result-limitations">Shape Support and Result Limitations<a class="hash-link" aria-label="Direct link to Shape Support and Result Limitations" title="Direct link to Shape Support and Result Limitations" href="/docs/features/collision/technical-reference/#shape-support-and-result-limitations">​</a></h2>
+<p>One of the most important current preview boundaries is that overlap detection support is broader than result producing collision support.</p>
+<p>In practice:</p>
+<ul>
+<li><code>CollisionShape2D.Intersects(...)</code> answers &quot;do these shapes overlap?&quot;</li>
+<li><code>CollisionShape2D.TryGetCollision(...)</code> answers that question only for shape pairs that also have a current <code>CollisionResult2D</code> implementation</li>
+</ul>
+<p><code>CollisionWorld2D.QueryCollisions(...)</code> and <code>CollisionWorld2D.QueryCollisionPairs(...)</code> depend on <code>TryGetCollision(...)</code>, not on <code>Intersects(...)</code>.</p>
+<p>That means a shape pair can:</p>
+<ul>
+<li>be valid for broadphase candidate discovery</li>
+<li>return <code>true</code> from <code>Intersects(...)</code></li>
+<li>still produce no world collision event or pair result because the pair does not yet support <code>CollisionResult2D</code></li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="why-the-support-boundary-exists">Why the Support Boundary Exists<a class="hash-link" aria-label="Direct link to Why the Support Boundary Exists" title="Direct link to Why the Support Boundary Exists" href="/docs/features/collision/technical-reference/#why-the-support-boundary-exists">​</a></h3>
+<p><code>CollisionShape2D</code> does not invent new narrowphase or resolution algorithms on its own.</p>
+<p>Its <code>TryGetCollision(...)</code> implementation is only a dispatcher over shape pair routines that already exist in the low level geometry layer and already know how to produce:</p>
+<ul>
+<li>overlap state</li>
+<li>contact normal</li>
+<li>penetration depth</li>
+<li>minimum translation vector</li>
+</ul>
+<p>So the current support boundary reflects the lower level <code>TryGetCollision(...)</code> coverage that exists today, not an arbitrary restriction imposed by the world API.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="current-intersects-coverage">Current <code>Intersects(...)</code> Coverage<a class="hash-link" aria-label="Direct link to current-intersects-coverage" title="Direct link to current-intersects-coverage" href="/docs/features/collision/technical-reference/#current-intersects-coverage">​</a></h3>
+<p>At the time of writing, <code>Intersects(...)</code> supports overlap checks for these shape families:</p>
+<ul>
+<li>box with box, circle, oriented box, capsule, and polygon</li>
+<li>circle with box, circle, oriented box, capsule, and polygon</li>
+<li>oriented box with box, circle, oriented box, capsule, and polygon</li>
+<li>capsule with box, circle, oriented box, capsule, and polygon</li>
+<li>polygon with box, circle, oriented box, capsule, and polygon</li>
+</ul>
+<p>This means the overlap only surface is close to a full matrix across the currently supported shape kinds.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="current-trygetcollision-coverage">Current <code>TryGetCollision(...)</code> Coverage<a class="hash-link" aria-label="Direct link to current-trygetcollision-coverage" title="Direct link to current-trygetcollision-coverage" href="/docs/features/collision/technical-reference/#current-trygetcollision-coverage">​</a></h3>
+<p>At the time of writing, result producing support is narrower:</p>
+<ul>
+<li>box with box, circle, oriented box, and polygon</li>
+<li>circle with box, circle, capsule, and oriented box</li>
+<li>oriented box with box, circle, oriented box, and polygon</li>
+<li>capsule with circle only</li>
+<li>polygon with box, oriented box, and polygon</li>
+</ul>
+<p>Some important implications are:</p>
+<ul>
+<li>capsule overlap checks are broader than capsule result producing checks</li>
+<li>polygon overlap checks include circle and capsule, but polygon result producing queries currently do not</li>
+<li>world query APIs will only emit results for the supported subset above</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="choosing-shapes-for-world-collision-response">Choosing Shapes for World Collision Response<a class="hash-link" aria-label="Direct link to Choosing Shapes for World Collision Response" title="Direct link to Choosing Shapes for World Collision Response" href="/docs/features/collision/technical-reference/#choosing-shapes-for-world-collision-response">​</a></h3>
+<p>If you only need overlap detection, <code>Intersects(...)</code> may be enough even when <code>TryGetCollision(...)</code> is unsupported.</p>
+<p>If you need response oriented data such as:</p>
+<ul>
+<li>a minimum translation vector</li>
+<li>penetration depth</li>
+<li>a separating normal</li>
+</ul>
+<p>then choose shape pairs that are currently supported by <code>TryGetCollision(...)</code>.</p>
+<p>This matters most when designing gameplay actors that will use:</p>
+<ul>
+<li><code>CollisionWorld2D.QueryCollisions(...)</code></li>
+<li><code>CollisionWorld2D.QueryCollisionPairs(...)</code></li>
+</ul>
+<p>Those world APIs are best thought of as &quot;result producing collision queries,&quot; not as generic overlap queries for every supported <code>Intersects(...)</code> pair.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="none-and-invalid-gameplay-assumptions"><code>None</code> and Invalid Gameplay Assumptions<a class="hash-link" aria-label="Direct link to none-and-invalid-gameplay-assumptions" title="Direct link to none-and-invalid-gameplay-assumptions" href="/docs/features/collision/technical-reference/#none-and-invalid-gameplay-assumptions">​</a></h3>
+<p>The default <code>CollisionShape2D</code> value represents a <code>None</code> shape.</p>
+<p>For both <code>Intersects(...)</code> and <code>TryGetCollision(...)</code>:</p>
+<ul>
+<li><code>None</code> never collides</li>
+<li>result queries return <code>CollisionResult2D.None</code></li>
+</ul>
+<p>This is useful as a safe default, but gameplay code should not rely on it as a substitute for explicit shape setup.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="practical-guidance">Practical Guidance<a class="hash-link" aria-label="Direct link to Practical Guidance" title="Direct link to Practical Guidance" href="/docs/features/collision/technical-reference/#practical-guidance">​</a></h3>
+<p>For the current preview, a good rule of thumb is:</p>
+<ul>
+<li>use <code>Intersects(...)</code> when you need overlap only probes</li>
+<li>use supported box, circle, oriented box, and polygon pairings when you need world level response data</li>
+<li>treat capsule heavy response workflows as a narrower supported path for now</li>
+</ul>
+<p>If you are designing a collision heavy feature and need both broad shape flexibility and consistent <code>CollisionResult2D</code> output, check the actual <code>TryGetCollision(...)</code> support matrix first instead of assuming it matches <code>Intersects(...)</code>.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="performance-notes">Performance Notes<a class="hash-link" aria-label="Direct link to Performance Notes" title="Direct link to Performance Notes" href="/docs/features/collision/technical-reference/#performance-notes">​</a></h2>
+<p>The collision system is designed to keep narrowphase work behind broadphase pruning and explicit layer filtering. In practice, performance usually depends more on candidate quality and rebuild frequency than on raw actor count.</p>
+<p>The main performance levers are:</p>
+<ul>
+<li>how many false positives broadphase returns</li>
+<li>how often dynamic layers are rebuilt</li>
+<li>how well layers partition unrelated actors and queries</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="spatialhash-cell-size-tradeoffs"><code>SpatialHash</code> Cell Size Tradeoffs<a class="hash-link" aria-label="Direct link to spatialhash-cell-size-tradeoffs" title="Direct link to spatialhash-cell-size-tradeoffs" href="/docs/features/collision/technical-reference/#spatialhash-cell-size-tradeoffs">​</a></h3>
+<p><code>SpatialHash</code> is sensitive to cell size.</p>
+<p>If the cells are too large:</p>
+<ul>
+<li>many unrelated actors fall into the same buckets</li>
+<li>candidate queries return more false positives</li>
+<li>narrowphase work increases</li>
+</ul>
+<p>If the cells are too small:</p>
+<ul>
+<li>large actors span many buckets</li>
+<li>insertion and reset work touches more cells</li>
+<li>duplicate candidate relationships become more common</li>
+</ul>
+<p>There is no single universally correct cell size, but a practical default is to choose a size near the typical footprint of the moving actors you expect to query most often.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="when-different-per-layer-settings-make-sense">When Different Per Layer Settings Make Sense<a class="hash-link" aria-label="Direct link to When Different Per Layer Settings Make Sense" title="Direct link to When Different Per Layer Settings Make Sense" href="/docs/features/collision/technical-reference/#when-different-per-layer-settings-make-sense">​</a></h3>
+<p>Each <code>Layer</code> owns its own broadphase, so different layers can use different <code>SpatialHash</code> sizes or even different broadphase implementations.</p>
+<p>Start with the same or similar <code>SpatialHash</code> sizes across one world, then diverge only when layers have genuinely different workloads, for example:</p>
+<ul>
+<li>small, dense projectiles in one layer</li>
+<li>large, sparse hazards in another</li>
+<li>static map geometry using a non dynamic layer with a different broadphase layout</li>
+</ul>
+<p>This should be a measured choice, not the default story.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="rebuild-cost-is-a-real-cost">Rebuild Cost Is a Real Cost<a class="hash-link" aria-label="Direct link to Rebuild Cost Is a Real Cost" title="Direct link to Rebuild Cost Is a Real Cost" href="/docs/features/collision/technical-reference/#rebuild-cost-is-a-real-cost">​</a></h3>
+<p><code>RebuildDynamicLayers()</code> is convenient, but it still performs real work.</p>
+<p>For dynamic layers, rebuild cost depends on:</p>
+<ul>
+<li>how many actors the layer contains</li>
+<li>how many buckets or tree nodes those actors occupy</li>
+<li>which broadphase implementation the layer uses</li>
+</ul>
+<p>That is why the recommended lifecycle is:</p>
+<ul>
+<li>rebuild after relevant movement or shape changes</li>
+<li>rebuild before queries that need fresh broadphase state</li>
+<li>skip rebuilds when nothing changed or when no relevant queries will run</li>
+</ul>
+<p>You do not gain anything by rebuilding merely because a frame advanced.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="candidate-count-matters-more-than-actor-count">Candidate Count Matters More Than Actor Count<a class="hash-link" aria-label="Direct link to Candidate Count Matters More Than Actor Count" title="Direct link to Candidate Count Matters More Than Actor Count" href="/docs/features/collision/technical-reference/#candidate-count-matters-more-than-actor-count">​</a></h3>
+<p>A world with many actors can still perform well if:</p>
+<ul>
+<li>spatial partitioning keeps candidate sets small</li>
+<li>layers prevent irrelevant cross group queries</li>
+<li>rebuilds happen only when needed</li>
+</ul>
+<p>A much smaller world can perform worse if:</p>
+<ul>
+<li>all actors share oversized broadphase regions</li>
+<li>dynamic layers rebuild constantly without need</li>
+<li>broadphase returns large candidate sets that all fall through to narrowphase</li>
+</ul>
+<p>So the most useful performance question is usually not &quot;how many actors do I have?&quot; but &quot;how many candidates am I making the system test per query?&quot;</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="extension-points-and-current-boundaries">Extension Points and Current Boundaries<a class="hash-link" aria-label="Direct link to Extension Points and Current Boundaries" title="Direct link to Extension Points and Current Boundaries" href="/docs/features/collision/technical-reference/#extension-points-and-current-boundaries">​</a></h2>
+<p>The 6.0 preview collision system is intentionally narrow in scope, but it leaves a few important extension points open.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="main-extension-points">Main Extension Points<a class="hash-link" aria-label="Direct link to Main Extension Points" title="Direct link to Main Extension Points" href="/docs/features/collision/technical-reference/#main-extension-points">​</a></h3>
+<ul>
+<li>Broadphase storage is swappable per layer through <code>ICollisionBroadphase2D</code>, so layers can use implementations such as <code>SpatialHash</code> or <code>QuadTreeSpace</code>.</li>
+<li>Result producing shape support can expand over time because <code>CollisionShape2D.TryGetCollision(...)</code> is a dispatcher over lower level shape pair implementations.</li>
+<li>The same actor can participate in multiple <code>CollisionWorld2D</code> instances, which makes separate gameplay, debug, editor, or sandbox worlds a valid composition tool.</li>
+</ul>
+<p>These extension points change storage, coverage, or composition without changing the query oriented actor/world model.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="current-boundaries">Current Boundaries<a class="hash-link" aria-label="Direct link to Current Boundaries" title="Direct link to Current Boundaries" href="/docs/features/collision/technical-reference/#current-boundaries">​</a></h3>
+<p><code>CollisionWorld2D</code> is not:</p>
+<ul>
+<li>a physics engine</li>
+<li>a rigid body solver</li>
+<li>a frame step orchestrator</li>
+<li>an automatic transform-to-shape synchronizer</li>
+</ul>
+<p>It also keeps a few behavioral boundaries intentionally strict:</p>
+<ul>
+<li>membership is one layer per actor per world</li>
+<li>relayering is done through <code>MoveToLayer(...)</code>, not a second insert</li>
+<li>collision work is query driven rather than callback driven</li>
+</ul>
+<p>Those boundaries are part of the design, not missing convenience features.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="whats-next">What&#x27;s Next<a class="hash-link" aria-label="Direct link to What&#x27;s Next" title="Direct link to What&#x27;s Next" href="/docs/features/collision/technical-reference/#whats-next">​</a></h2>
+<ul>
+<li><a href="/docs/features/collision/">Collision Overview</a> for the user facing architecture summary</li>
+<li><a href="/docs/features/collision/quick-start/">Collision Quick Start</a> for setup and rebuild usage</li>
+<li><a href="/docs/features/collision/migration/">Migration Guide</a> for 5.5.1 to 6.0 mappings</li>
+<li><a href="/docs/features/collision/2d-geometry/">2D Geometry</a> for low level shape APIs</li>
+</ul></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/monogame-extended/monogame-extended.github.io/tree/develop/docs/features/collision/technical-reference.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/features/collision/migration/"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Migration Guide</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/features/collision/2d-geometry/"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">2D Geometry</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#system-architecture-overview">System Architecture Overview</a><ul><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#low-level-geometry-layer">Low Level Geometry Layer</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#actorworld-layer">Actor/World Layer</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#type-responsibilities">Type Responsibilities</a></li></ul></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#query-pipeline">Query Pipeline</a><ul><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#broadphase-input-collisionshape2dboundingbox">Broadphase Input: <code>CollisionShape2D.BoundingBox</code></a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#candidate-queries-by-bounds">Candidate Queries by Bounds</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#candidate-queries-by-actor">Candidate Queries by Actor</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#narrowphase-intersects-vs-trygetcollision">Narrowphase: <code>Intersects(...)</code> vs <code>TryGetCollision(...)</code></a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#receiver-relative-actor-queries">Receiver Relative Actor Queries</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#pair-queries">Pair Queries</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#why-duplicate-suppression-exists">Why Duplicate Suppression Exists</a></li></ul></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#world-owned-layer-membership">World Owned Layer Membership</a><ul><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#why-membership-was-moved-into-the-world">Why Membership Was Moved Into the World</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#membership-is-per-world">Membership Is Per World</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#insert-remove-and-reassign">Insert, Remove, and Reassign</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#membership-inspection">Membership Inspection</a></li></ul></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#layer-rules-and-filtering">Layer Rules and Filtering</a><ul><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#named-layers">Named Layers</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#default-rule-behavior">Default Rule Behavior</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#explicit-rule-apis">Explicit Rule APIs</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#symmetric-rule-behavior">Symmetric Rule Behavior</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#filtering-happens-before-narrowphase">Filtering Happens Before Narrowphase</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#how-this-differs-from-the-older-model">How This Differs from the Older Model</a></li></ul></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#broadphase-lifecycle">Broadphase Lifecycle</a><ul><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#why-collisionworld2d-has-no-update">Why <code>CollisionWorld2D</code> Has No <code>Update()</code></a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#rebuilddynamiclayers"><code>RebuildDynamicLayers()</code></a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#layerreset"><code>Layer.Reset()</code></a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#why-rebuild-timing-is-explicit">Why Rebuild Timing Is Explicit</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#when-rebuilds-are-needed">When Rebuilds Are Needed</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#what-can-go-stale">What Can Go Stale</a></li></ul></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#dynamic-vs-static-layers">Dynamic vs Static Layers</a><ul><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#dynamic-layers">Dynamic Layers</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#static-or-non-dynamic-layers">Static or Non Dynamic Layers</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#why-this-matters-for-performance">Why This Matters for Performance</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#stale-query-risk">Stale Query Risk</a></li></ul></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#shape-support-and-result-limitations">Shape Support and Result Limitations</a><ul><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#why-the-support-boundary-exists">Why the Support Boundary Exists</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#current-intersects-coverage">Current <code>Intersects(...)</code> Coverage</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#current-trygetcollision-coverage">Current <code>TryGetCollision(...)</code> Coverage</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#choosing-shapes-for-world-collision-response">Choosing Shapes for World Collision Response</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#none-and-invalid-gameplay-assumptions"><code>None</code> and Invalid Gameplay Assumptions</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#practical-guidance">Practical Guidance</a></li></ul></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#performance-notes">Performance Notes</a><ul><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#spatialhash-cell-size-tradeoffs"><code>SpatialHash</code> Cell Size Tradeoffs</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#when-different-per-layer-settings-make-sense">When Different Per Layer Settings Make Sense</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#rebuild-cost-is-a-real-cost">Rebuild Cost Is a Real Cost</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#candidate-count-matters-more-than-actor-count">Candidate Count Matters More Than Actor Count</a></li></ul></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#extension-points-and-current-boundaries">Extension Points and Current Boundaries</a><ul><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#main-extension-points">Main Extension Points</a></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#current-boundaries">Current Boundaries</a></li></ul></li><li><a class="table-of-contents__link toc-highlight" href="/docs/features/collision/technical-reference/#whats-next">What&#39;s Next</a></li></ul></div></div></div></div></main></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Learn</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/about/introduction/">Tutorial</a></li></ul></div><div class="col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://discord.gg/FvZ8Z7EzPJ" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://twitter.com/MonoGameEx" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://bsky.app/profile/monogameextended.bsky.social" target="_blank" rel="noopener noreferrer" class="footer__link-item">Bluesky<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://mastodon.gamedev.place/@monogameextended" target="_blank" rel="noopener noreferrer" class="footer__link-item">Mastodon<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div><div class="col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/blog/">Blog</a></li><li class="footer__item"><a href="https://github.com/monogame-extended/monogame-extended" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 MonoGame Extended.</div></div></div></footer></div>
+</body>
+</html>
