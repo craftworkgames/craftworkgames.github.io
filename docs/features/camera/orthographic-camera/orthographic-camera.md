@@ -72,7 +72,7 @@ Creating a camera instance alone does not affect your rendering. You must apply 
 
 ### Using the View Matrix
 
-Pass the camera's transformation matrix to `SpriteBatch.Begin()` using the `transformationMatrix` parameter:
+Pass the camera's transformation matrix to `SpriteBatch.Begin()` using the `transformMatrix` parameter:
 
 ```cs
 protected override void Draw(GameTime gameTime)
@@ -83,7 +83,7 @@ protected override void Draw(GameTime gameTime)
     Matrix transformMatrix = _camera.GetViewMatrix();
 
     // Apply the transformation to the sprite batch
-    _spriteBatch.Begin(transformationMatrix: transformMatrix);
+    _spriteBatch.Begin(transformMatrix: transformMatrix);
 
     // Draw your game objects using world coordinates
     _spriteBatch.DrawRectangle(new RectangleF(250, 250, 50, 50), Color.Black, 1.0f);
@@ -422,7 +422,7 @@ _camera.Origin = new Vector2(100, 100);
 
 ## Constraining Camera Movement with World Bounds
 
-In many game,s you want to prevent the camera from showing areas outside your playable world.  The `OrthographicCamera` provides world bounds constraints that automatically clamp the camera position and zoom to keep the view within a defined rectangular area.
+In many games you want to prevent the camera from showing areas outside your playable world.  The `OrthographicCamera` provides world bounds constraints that automatically clamp the camera position and zoom to keep the view within a defined rectangular area.
 
 ### Enabling World Bounds Constraints
 
